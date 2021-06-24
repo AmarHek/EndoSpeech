@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HtmlOutputService } from '../gastro-files/output/html-output.service';
+import { HtmlOutputService } from '../documentation/output/html-output.service';
 
 describe('ExportPackageGeneratorService', () => {
   let service: HtmlOutputService;

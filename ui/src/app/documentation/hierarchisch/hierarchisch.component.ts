@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import * as M from "../../../helper-classes/gastro_model";
 import { KeywordSelectable, KeywordDisease, TextDic } from "../../../helper-classes/keyword";
-import { TextOutputService } from "../text-output.service";
+import { TextOutputService } from "../../services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "../dict-manager.service";
-import { InputParserHierarchischService } from "../input-parser-hierarchisch.service";
-import { ParserBasisService } from "../parser-basis.service";
+import { DictManagerService } from "../../services/dict-manager.service";
+import { InputParserHierarchischService } from "../../services/input-parser-hierarchisch.service";
+import { ParserBasisService } from "../../services/parser-basis.service";
 
 
 declare const $: any;

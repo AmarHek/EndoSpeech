@@ -5,9 +5,9 @@ import * as N from "../../helper-classes/gastro_model";
 import { faAngleDown, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { NgForm } from "@angular/forms";
-import { DictManagerService } from "../gastro-files/dict-manager.service";
+import { DictManagerService } from "../services/dict-manager.service";
 import { Subscription } from "rxjs";
-import {DisplayService} from "../general-services/display.service";
+import {DisplayService} from "../services/display.service";
 
 @Component({
   selector: "app-edit-structure",

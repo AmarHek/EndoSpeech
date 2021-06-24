@@ -13,8 +13,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppComponent } from "./app.component";
-import { AdvancedComponent } from "./gastro-files/advanced/advanced.component";
-import { HierarchischComponent } from "./gastro-files/hierarchisch/hierarchisch.component";
+import { AdvancedComponent } from "./documentation/advanced/advanced.component";
+import { HierarchischComponent } from "./documentation/hierarchisch/hierarchisch.component";
 import { UploadComponent } from "./base-components/upload/upload.component";
 import { ListComponent } from "./base-components/list/list.component";
 import { SortCategoriesPipe } from "./pipes/sort-categories.pipe";
@@ -29,13 +29,13 @@ import { EditStructureComponent } from "./edit-structure/edit-structure.componen
 import { DiseaseComponent } from "./edit-structure/disease/disease.component";
 import { VariableComponent } from "./edit-structure/variable/variable.component";
 import { AttributeComponent } from "./edit-structure/attribute/attribute.component";
-import {DisplayService} from "./general-services/display.service";
-import {ParserBasisService} from "./gastro-files/parser-basis.service";
+import {DisplayService} from "./services/display.service";
+import {ParserBasisService} from "./services/parser-basis.service";
 import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
 import {APP_DATE_FORMATS, AppDateAdapter} from "../helper-classes/format-datepicker";
-import { DialogComponent } from "./gastro-files/output/dialog/dialog.component";
-import {InputParserService} from "./gastro-files/input-parser.service";
-import { DisplayComponent } from "./gastro-files/output/display/display.component";
+import { DialogComponent } from "./documentation/output/dialog/dialog.component";
+import {InputParserService} from "./services/input-parser.service";
+import { DisplayComponent } from "./documentation/output/display/display.component";
 
 @NgModule({
   declarations: [

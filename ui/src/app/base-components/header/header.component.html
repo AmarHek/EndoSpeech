@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light"  *ngIf="displayNavbar">
-  <a class="navbar-brand" href="#">{{title}}  <fa-icon class="ml-1" [icon]="faUser"></fa-icon></a>
+  <a class="navbar-brand" href="#">EndoSpeech  <fa-icon class="ml-1" [icon]="faUser"></fa-icon></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -19,11 +19,7 @@
       </li>-->
       <li class="nav-item">
         <label for="layout" class="col-form-label">Layout: </label>
-        <button id="layout" (click)="cycleUi()" class="btn btn-outline-secondary float-end">{{ui}}</button>
-      </li>
-      <li class="nav-item">
-        <label for="modus" class="col-form-label">Modus: </label>
-        <button id="modus" (click)="cycleMode()" class="btn btn-outline-primary float-end">{{mode}}</button>
+        <button id="layout" (click)="cycleUi()" class="btn btn-outline-secondary">{{ui}}</button>
       </li>
     </ul>
   </div>

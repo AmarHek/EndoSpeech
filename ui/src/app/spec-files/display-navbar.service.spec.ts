@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DisplayService } from '../general-services/display.service';
+import { DisplayService } from '../services/display.service';
 
 describe('DisplayNavbarService', () => {
   let service: DisplayService;
