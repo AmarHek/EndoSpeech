@@ -1,26 +1,3 @@
-export interface KeySelectable {
-  name: string;
-  synonym: string;
-  category: string;
-  group?: string;
-  position: number;
-  active: boolean;
-}
-
-export interface KeyVariable {
-  category?: string;
-  selectable: string;
-  id: string;
-  kind: string;
-  name?: string;
-  synonym?: string;
-  value?: string;
-  textBefore: string;
-  textAfter: string;
-  position: number;
-  active: boolean;
-}
-
 export class KeywordSelectable {
     name: string;
     synonym: string;

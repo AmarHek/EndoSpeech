@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnInit} from "@angular/core";
 import {HtmlOutputService} from "../html-output.service";
-import {getBase64Image} from "../../../../helper-classes/util";
+import {getBase64Image} from "../../../helper-classes/util";
 
 @Component({
   selector: "app-output-display",

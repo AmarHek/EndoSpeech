@@ -4,9 +4,6 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Subject } from "rxjs";
-import {DisplayService} from "./display.service";
-
-const url = environment.urlRootEndo;
 
 @Injectable({
   providedIn: "root",
@@ -17,46 +14,23 @@ const url = environment.urlRootEndo;
 // -----------------------------------
 
 export class DictManagerService {
-  myList: Array<N.MyDict> = [];
+  dictList: Array<N.MyDict> = [];
   private listUpdated = new Subject<N.MyDict[]>();
 
-  myUrl = url;
-  mode: string;
-  ui: string;
+  databaseUrl = environment.urlRootEndo;
 
-  constructor(private http: HttpClient,
-              private displayService: DisplayService) {
-    this.setMode();
-    this.setUI();
+  constructor(private http: HttpClient) {
     this.getList();
-  }
-
-  setUrl(mode: string) {
-    if (mode === "Radiologie") {
-      this.myUrl += "radio/";
-    }
-  }
-
-  setMode() {
-    this.displayService.getMode().subscribe((value) => {
-      this.mode = value;
-    });
-  }
-
-  setUI() {
-    this.displayService.getUi().subscribe((value) => {
-      this.ui = value;
-    });
   }
 
   getList() {
     this.http
-      .get<{ message: string; myDicts: any }>(
-       this.myUrl
+      .get<{ message: string; dictionaries: any }>(
+       this.databaseUrl
       )
       .pipe(
         map((getter) => {
-          return getter.myDicts.map((retDict) => {
+          return getter.dictionaries.map((retDict) => {
             return {
               id: retDict._id,
               dict: retDict.dict,
@@ -66,8 +40,8 @@ export class DictManagerService {
         })
       )
       .subscribe((transData) => {
-        this.myList = transData;
-        this.listUpdated.next([...this.myList]);
+        this.dictList = transData;
+        this.listUpdated.next([...this.dictList]);
       });
   }
 
@@ -77,10 +51,10 @@ export class DictManagerService {
 
   remove(id: string): void {
     this.http
-      .delete(this.myUrl + id)
+      .delete(this.databaseUrl + id)
       .subscribe(() => {
-        this.myList = this.myList.filter((dict) => dict.id !== id);
-        this.listUpdated.next([...this.myList]);
+        this.dictList = this.dictList.filter((dict) => dict.id !== id);
+        this.listUpdated.next([...this.dictList]);
         // this.myList = update;
       });
     // this.timesService.removeTimeStamp(index);
@@ -89,19 +63,19 @@ export class DictManagerService {
   addDict(myDict: N.MyDict) {
     this.http
       .post<{ message: string; dictId: string }>(
-        this.myUrl,
+        this.databaseUrl,
         myDict
       )
       .subscribe((response) => {
         myDict.id = response.dictId;
-        this.myList.push(myDict);
+        this.dictList.push(myDict);
       });
   }
 
   addExcel(postData: FormData) {
     this.http
       .post<{ message: string; dictId: string }>(
-        this.myUrl + "excel",
+        this.databaseUrl + "excel",
         postData
       )
       .subscribe((res) => {
@@ -116,13 +90,13 @@ export class DictManagerService {
 
   updateDict(myDict: N.MyDict) {
     this.http
-      .put(this.myUrl + myDict.id, {
+      .put(this.databaseUrl + myDict.id, {
         dict: myDict.dict,
         name: myDict.name,
       })
       .subscribe((response) => {
-        this.myList[this.myList.findIndex((d) => d.id === myDict.id)] = myDict;
-        this.listUpdated.next([...this.myList]);
+        this.dictList[this.dictList.findIndex((d) => d.id === myDict.id)] = myDict;
+        this.listUpdated.next([...this.dictList]);
       });
   }
 }

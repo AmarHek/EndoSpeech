@@ -11,9 +11,9 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
 import { DictManagerService } from "../../services/dict-manager.service";
 import { ParserBasisService } from "../../services/parser-basis.service";
-import {HtmlOutputService} from "../output/html-output.service";
+import {HtmlOutputService} from "../../output/html-output.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {DialogComponent} from "../output/dialog/dialog.component";
+import {DialogComponent} from "../../output/dialog/dialog.component";
 
 
 declare const $: any;

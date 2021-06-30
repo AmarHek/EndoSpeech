@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import {InputParserService} from "../../services/input-parser.service";
-import {getAllIndexOf, splitStringFromIndexes} from "../../../helper-classes/util";
+import {InputParserService} from "../services/input-parser.service";
+import {getAllIndexOf, splitStringFromIndexes} from "../../helper-classes/util";
 import {Observable} from "rxjs";
 
 @Injectable({

@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable, BehaviorSubject} from "rxjs";
 
-const LAST_MODE_STORED = "last_mode_stored";
 const LAST_UI_STORED = "last_ui_stored";
 
 @Injectable({
@@ -44,14 +43,13 @@ export class DisplayService {
   }
 
   public cycleUI() {
-    const UIs: string[] = this.possibleUIs[this.mode.value];
-    const pos = UIs.indexOf(this.ui.value);
-    const next = (pos + 1) % UIs.length;
-    this.setUi(UIs[next]);
+    const pos = this.possibleUIs.indexOf(this.ui.value);
+    const next = (pos + 1) % this.possibleUIs.length;
+    this.setUi(this.possibleUIs[next]);
   }
 
   public updateDisplay() {
-    this.displayHeader = !(this.router.url.includes(this.mode.value));
+    this.displayHeader = !(this.router.url.includes("main"));
   }
 
 }
