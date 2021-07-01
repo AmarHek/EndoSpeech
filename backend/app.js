@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const dictsRoutes = require('./routes/dicts');
+const dictsRoutes = require('./routes/routes');
 
 
 

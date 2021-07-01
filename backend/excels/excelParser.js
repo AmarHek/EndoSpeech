@@ -7,7 +7,7 @@ const {
   Category,
   Disease,
   myDict
-} = require('../models/dict')
+} = require('../models/dictModel')
 
 //var xldata = require('./dd70dc66af0d5800e754d3c0496e1082.json');
 
@@ -24,7 +24,7 @@ xlsx.writeFile(newWB,"Try1958.xlsx"); */
 
 module.exports.parser = function parser(json) {
 
-  var customDict = new myDict("random", [], "leo");
+  let customDict = new myDict("random", [], "leo");
   try {
 
 
