@@ -31,7 +31,7 @@ router.delete("/:id", DictController.deleteDict);
 
 router.post("/record", RecordController.addRecord);
 
-router.get('', RecordController.getRecords);
+router.get('/record', RecordController.getRecords);
 
 
 module.exports = router;

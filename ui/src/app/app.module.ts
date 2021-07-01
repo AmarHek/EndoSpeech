@@ -32,7 +32,7 @@ import {APP_DATE_FORMATS, AppDateAdapter} from "../helper-classes/format-datepic
 import { DialogComponent } from "./output/dialog/dialog.component";
 import {InputParserService} from "./services/input-parser.service";
 import { DisplayComponent } from "./output/display/display.component";
-import { RecordComponent } from './record/record.component';
+import { RecordComponent } from "./record/record.component";
 
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import { RecordComponent } from './record/record.component';
         {path: "upload", component: UploadComponent},
         {path: "list", component: ListComponent},
         {path: "edit/:name", component: EditStructureComponent},
-        {path: "Gastroenterologie/output", component: DisplayComponent},
+        {path: "output", component: DisplayComponent},
         {path: "**", redirectTo: "/upload"},
       ],
       {useHash: true, relativeLinkResolution: "legacy"}

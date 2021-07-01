@@ -3,14 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const dictsRoutes = require('./routes/routes');
-
-
+const routes = require('./routes/routes');
 
 const app = express();
 
+const url = "mongodb://127.0.0.1:27017/endo"
+
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect('mongodb+srv://EndoSpeech:' + "VGmzqChCTqcGd4N" + '@cluster0.acvuh.mongodb.net/endo?retryWrites=true&w=majority', {useNewUrlParser: true})
+mongoose.connect(url, {useNewUrlParser: true})
   .then(() => {
     console.log("Connected to db");
   })
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/endo/upload", dictsRoutes);
+app.use("/endo/database", routes);
 
 //app.get("/*", (req,res)=> res.sendFile(path.join(__dirname)));
 

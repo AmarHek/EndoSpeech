@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import * as N from "../../helper-classes/gastro_model";
+import * as N from "../../helper-classes/model";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
@@ -14,10 +14,10 @@ import { Subject } from "rxjs";
 // -----------------------------------
 
 export class DictManagerService {
-  dictList: Array<N.MyDict> = [];
-  private listUpdated = new Subject<N.MyDict[]>();
+  dictList: Array<N.Dict> = [];
+  private listUpdated = new Subject<N.Dict[]>();
 
-  databaseUrl = environment.urlRootEndo;
+  databaseUrl = environment.urlRootMongo;
 
   constructor(private http: HttpClient) {
     this.getList();
@@ -25,15 +25,16 @@ export class DictManagerService {
 
   getList() {
     this.http
-      .get<{ message: string; dictionaries: any }>(
-       this.databaseUrl
+      .get<{ message: string; dicts: any }>(
+        this.databaseUrl
       )
       .pipe(
         map((getter) => {
-          return getter.dictionaries.map((retDict) => {
+          console.log(getter.dicts);
+          return getter.dicts.map((retDict) => {
             return {
               id: retDict._id,
-              dict: retDict.dict,
+              parts: retDict.parts,
               name: retDict.name,
             };
           });
@@ -60,7 +61,7 @@ export class DictManagerService {
     // this.timesService.removeTimeStamp(index);
   }
 
-  addDict(myDict: N.MyDict) {
+  addDict(myDict: N.Dict) {
     this.http
       .post<{ message: string; dictId: string }>(
         this.databaseUrl,
@@ -88,10 +89,10 @@ export class DictManagerService {
       });
   }
 
-  updateDict(myDict: N.MyDict) {
+  updateDict(myDict: N.Dict) {
     this.http
       .put(this.databaseUrl + myDict.id, {
-        dict: myDict.dict,
+        parts: myDict.parts,
         name: myDict.name,
       })
       .subscribe((response) => {

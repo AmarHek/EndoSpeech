@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, Router } from "@angular/router";
-import * as N from "../../helper-classes/gastro_model";
+import * as N from "../../helper-classes/model";
 import { faAngleDown, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { NgForm } from "@angular/forms";
 import { DictManagerService } from "../services/dict-manager.service";
 import { Subscription } from "rxjs";
-import {DisplayService} from "../services/display.service";
 
 @Component({
   selector: "app-edit-structure",
@@ -48,7 +47,6 @@ export class EditStructureComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dictManager: DictManagerService,
     private router: Router,
-    private displayService: DisplayService
   ) { }
   @ViewChildren("myParts") myParts;
 
@@ -60,7 +58,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   kindVar: Array<string> = [];
   @ViewChild("f") signupForm: NgForm;
   // parts: M.TopLevel[] = [];
-  myEdit: N.MyDict = { name: "", dict: [], id: "" };
+  myEdit: N.Dict = { name: "", parts: [], id: "" };
   new_parts: N.TopLevel[] = [];
   disTyp = "";
 
@@ -122,7 +120,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   uploaded: Array<N.TopLevel> = [this.startDis, this.topCat];
   errorMsg = "";
   isLoading = false;
-  mode: string;
+  mode = "Gastroenterologie";
 
   // this function manages the initiation process when anything is added to an
   // existing dictionary. One case for variables, attributes and categories
@@ -132,9 +130,6 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   addKat = false;
 
   ngOnInit() {
-    this.setMode();
-    console.log("Edit");
-    console.log(this.mode);
     // gets chosen dict from dictManager service
     this.route.paramMap.subscribe((ps) => {
       if (ps.has("name")) {
@@ -143,7 +138,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
         this.dictManager.getList();
         this.editSub = this.dictManager
           .getListUpdateListener()
-          .subscribe((list: N.MyDict[]) => {
+          .subscribe((list: N.Dict[]) => {
             this.isLoading = false;
             this.myEdit = list.find((d) => d.name === this.routeName);
             if (this.myEdit === undefined) {
@@ -171,12 +166,6 @@ export class EditStructureComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.editSub.unsubscribe();
-  }
-
-  setMode(): void {
-    this.displayService.getMode().subscribe((value) => {
-      this.mode = value;
-    });
   }
 
   // not used, check if something breaks when removing
@@ -276,7 +265,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
       selectables: sels,
     };
     const positions = this.addPosition.split("").map(Number);
-    const myVar: N.TopLevel = this.myEdit.dict[positions[0]];
+    const myVar: N.TopLevel = this.myEdit.parts[positions[0]];
     if (myVar.kind === "disease") {
       myVar.categories.push(myCat);
     }
@@ -370,7 +359,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
       choiceGroup: attZuGroup === "" ? null : attZuGroup
     };
     const positions = this.addPosition.split("").map(Number);
-    const myVar: N.TopLevel = this.myEdit.dict[positions[0]];
+    const myVar: N.TopLevel = this.myEdit.parts[positions[0]];
     if (myVar.kind === "category") {
       myVar.selectables.push(myAtt);
     } else if (myVar.kind === "disease") {
@@ -426,7 +415,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
       vari = { kind: "oc", values: varOptions };
     }
     const positions = this.addPosition.split("").map(Number);
-    const myVar: N.TopLevel = this.myEdit.dict[positions[0]];
+    const myVar: N.TopLevel = this.myEdit.parts[positions[0]];
     if (myVar.kind === "category") {
       myVar.selectables[positions[1]].variables.push(vari);
     } else if (myVar.kind === "disease") {
@@ -553,7 +542,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
         name: this.signupForm.value.allgData.disName,
         categories: cats,
       };
-      this.myEdit.dict.push(dis);
+      this.myEdit.parts.push(dis);
       // this.dictionaryService.addDisease(dis);
     } else if (this.signupForm.value.allgData.typ === "Kategorie") {
       const catName = (<HTMLInputElement>document.getElementById("disName"))
@@ -646,7 +635,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
         condition: KCon === "" ? null : KCon,
         selectables: sels,
       };
-      this.myEdit.dict.push(myCat);
+      this.myEdit.parts.push(myCat);
       // this.dictionaryService.addDisease(myCat);
     }
     // console.log(this.dictionaryService.uploaded);
@@ -663,10 +652,10 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   // this is for deleting anything, from variables to attributes, category and diseases. Therefore the different cases for each level
   deleteDisease(index: Array<number>) {
     // this.myDict.dict.splice()
-    const myVar: N.TopLevel = this.myEdit.dict[index[0]];
+    const myVar: N.TopLevel = this.myEdit.parts[index[0]];
     switch (index.length) {
       case 1:
-        this.myEdit.dict.splice(index[0], 1);
+        this.myEdit.parts.splice(index[0], 1);
         break;
       case 2:
         if (myVar.kind === "disease") {
@@ -837,10 +826,10 @@ export class EditStructureComponent implements OnInit, OnDestroy {
     }
   }
   renameTop(ind: Array<number>, c, option: string) {
-    const myVar: N.TopLevel = this.myEdit.dict[ind[0]];
+    const myVar: N.TopLevel = this.myEdit.parts[ind[0]];
     switch (ind.length) {
       case 1:
-        this.myEdit.dict[ind[0]].name = c.value;
+        this.myEdit.parts[ind[0]].name = c.value;
         break;
       case 2:
         if (myVar.kind === "disease") {
@@ -906,7 +895,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
 
     /* this.myDict.dict[ind].name = c.value;
     console.log(this.myDict.dict[ind]); */
-    console.log(this.myEdit.dict);
+    console.log(this.myEdit.parts);
   }
   addToDict(kind: string, position: Array<number>) {
     this.addPosition = position.join("");

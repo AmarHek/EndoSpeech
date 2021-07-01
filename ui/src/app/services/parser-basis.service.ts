@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import * as M from "../../helper-classes/gastro_model";
+import * as M from "../../helper-classes/model";
 import { KeywordSelectable, KeywordCategory, KeywordDisease, KeywordVariable, TextDic } from "../../helper-classes/keyword";
 import { TextOutputService } from "./text-output.service";
 

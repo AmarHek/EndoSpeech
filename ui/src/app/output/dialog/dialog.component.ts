@@ -48,7 +48,7 @@ export class DialogComponent implements OnInit {
 
   submit() {
     this.htmlOutputService.parseText();
-    this.router.navigateByUrl("Gastroenterologie/output").then(() => {
+    this.router.navigateByUrl("output").then(() => {
       console.log("Promise fulfilled!");
     });
     this.close();

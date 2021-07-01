@@ -47,9 +47,9 @@ export interface Option {
   data:           Data;
 }
 
-export class MyDict {
+export class Dict {
   id: string;
-  dict: TopLevel[];
+  parts: TopLevel[];
   name: string;
 }
 

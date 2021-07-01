@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "../../../helper-classes/gastro_model";
+import * as M from "../../../helper-classes/model";
 import { KeywordSelectable, KeywordDisease, TextDic } from "../../../helper-classes/keyword";
 import { InputParserService } from "../../services/input-parser.service";
 import { TextOutputService } from "../../services/text-output.service";
@@ -29,7 +29,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   isLoading = false;
   routeName: string;
   private textSub: Subscription;
-  parts: M.MyDict = { name: "", dict: [], id: "" };
+  parts: M.Dict = { name: "", parts: [], id: "" };
   keywordsService: Array<KeywordSelectable> = [];
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
@@ -79,7 +79,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
         this.dictManager.getList();
         this.textSub = this.dictManager
           .getListUpdateListener()
-          .subscribe((list: M.MyDict[]) => {
+          .subscribe((list: M.Dict[]) => {
             this.isLoading = false;
             this.parts = list.find((d) => d.name === this.routeName);
             if (this.parts === undefined) {
@@ -87,7 +87,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
                 "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren und eines der dort aufgeführten Dictionaries auswählen.";
             } else {
               if (!this.inputParser.start) {
-                this.inputParser.createStartDict(this.parts.dict);
+                this.inputParser.createStartDict(this.parts.parts);
                 this.inputParser.start = true;
               }
             }

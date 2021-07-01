@@ -1,5 +1,5 @@
 const Dict = require('../models/dictSchema');
-const fs = require('file-system');
+const fs = require('fs');
 const {
     VariableOC,
     VariableText,
@@ -15,14 +15,12 @@ const {
 exports.createExcelDict =  (req, res, next) => {
   let xlsx = require('xlsx');
   let workbook = xlsx.readFile('backend/excels/' + req.file.filename);
-  console.log("Filename:");
-  console.log(req.file.filename);
   let sheet_name_list = workbook.SheetNames;
   let data = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-  /* fs.writeFile('backend/excels/' + req.file.filename +".json", JSON.stringify(data), function (err) {
+  fs.writeFile('backend/excels/' + req.file.filename +".json", JSON.stringify(data), function (err) {
   if (err) {
       return console.log(err);
-  }}); */
+  }});
   fs.unlinkSync('backend/excels/' + req.file.filename);
   let parsed = parser(data);
   if (typeof (parsed) == "string") {
@@ -31,18 +29,18 @@ exports.createExcelDict =  (req, res, next) => {
       dictId: "false"
     });
   } else {
-    var fName = req.file.filename.split(".")[0];
+    let fName = req.file.filename.split(".")[0];
     Dict.findOne({
       name: fName
     }).then(res => {
       if (res !== null) {
         fName += "_cpy";
       }
-      const endo = new Dict({
+      const dict = new Dict({
         parts: parsed.parts,
         name: fName
       });
-      endo.save().then(result => {
+      dict.save().then(result => {
         console.log(result._id);
         res.status(201).json({
           message: 'Excel successfully uploaded',
@@ -119,9 +117,9 @@ exports.deleteDict = (req, res, next) => {
 };
 
 exports.getDicts = (req, res, next) => {
-  //console.log(Endo.findOne());
   Dict.find()
     .then(dicts => {
+      console.log("This is it!");
       console.log(dicts);
       res.status(200).json({
         message: "Dicts fetched",

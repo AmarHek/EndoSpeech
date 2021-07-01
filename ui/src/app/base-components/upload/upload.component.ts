@@ -40,7 +40,7 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  uploadNew() {
+  upload() {
     const file = (document.getElementById("uploadFile") as HTMLInputElement).files[0];
     this.form.patchValue({image: file});
     this.form.get("image").updateValueAndValidity();
@@ -51,31 +51,6 @@ export class UploadComponent implements OnInit {
     console.log(this.form.value.image);
     console.log(postData);
     this.dictManager.addExcel(postData);
-  }
-
-  upload(): void {
-    this.timesService.addTimeStamp(new Date());
-    const reader = new FileReader();
-    reader.readAsDataURL((document.getElementById("uploadFile") as HTMLInputElement).files[0]);
-    reader.onload = () => {
-      const dat = new Date();
-      const base64 = (reader.result as string).replace(/^.*?base64,/, "");
-      const data = { name: this.name + " " + dat.getDate() + " " + this.months[dat.getMonth()] + " " + dat.getFullYear() , data: base64 };
-      this.http.post(environment.urlRootRadio + "upload", data, { "observe": "response" } ).subscribe((result) => {
-        window.alert("Upload Erfolgreich");
-        this.router.navigate(["list"]);
-
-      }, (error) => {
-        if (error instanceof ErrorEvent) {
-          window.alert("an unknown error has occurred");
-        } else {
-          window.alert("parsing failure: " + (error as any).error);
-        }
-      });
-    };
-    reader.onerror = (error) => {
-      window.alert("The following error occurred:\n" + error);
-    };
   }
 
 }

@@ -8,7 +8,7 @@
       <tr *ngFor="let dict of dicts; let i = index" class="list-row">
         <td>
           <ul>
-            <li><a [routerLink]="['/', this.ui, dict.name]">{{dict.name}}</a></li>
+            <li><a [routerLink]="['/main', this.ui, dict.name]">{{dict.name}}</a></li>
             <!-- <span> hochgeladen am {{myArr[i]}}</span> -->
           </ul>
         </td>

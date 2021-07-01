@@ -24,21 +24,16 @@ xlsx.writeFile(newWB,"Try1958.xlsx"); */
 
 module.exports.parser = function parser(json) {
 
-  let customDict = new myDict("random", [], "leo");
-  try {
-
-
+let customDict = new myDict("random", [], "leo");
+try {
     json.forEach(element => {
-
       // case new disease is specified
       if (element.hasOwnProperty("Element") ? element.Krankheit !== "-" : false) {
         console.log("KrankheitsLoop");
-
         //Inline Variable
         let vari;
         if (element.hasOwnProperty("Variablenart")) {
           if (element.Variablenart.includes("Text")) {
-
             let varText = element.Variablendefinition.split("-").map(res => res.trim());
             console.log(varText);
             // need to implement unit vor variable
@@ -47,7 +42,6 @@ module.exports.parser = function parser(json) {
             vari = new VariableOC(element.Variablendefinition.split("/").map(res => res.trim()));
           }
         }
-
         let att = new CheckBox(element.Attribute.split(",").map(res => res.trim()), element.Text, element.hasOwnProperty("Normal") ? true : false,
           vari === undefined ? [] : [vari], element.hasOwnProperty("ChoiceGruppe") ? element.ChoiceGruppe : undefined,
           element.hasOwnProperty("Enumeration") ? element.Enumeration : undefined, element.hasOwnProperty("Beurteilungstext") ? element.Beurteilungstext : undefined);
