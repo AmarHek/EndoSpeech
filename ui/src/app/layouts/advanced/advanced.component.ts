@@ -289,6 +289,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
     window.location.reload();
   }
 
+  /*
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
@@ -296,7 +297,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
     dialogConfig.hasBackdrop = true;
 
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-  }
+  }*/
 
 }
 

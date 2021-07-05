@@ -1,13 +1,19 @@
 <div class="headline">
-  <div id="listening" class="btn btn-sm btn-danger" style="margin-right: 15px">Aus
+  <div class="btn btn-sm"
+       [ngClass]="{
+          'btn-danger' : state === 'Aus',
+          'btn-success': state === 'An',
+          'btn-warning'  : state === 'Pause'
+       }"
+       style="margin-right: 15px">{{state}}
   </div>
   <div id="output-gen" (click)=openModal() class="btn btn-outline-primary"
   style="margin-right: 15px">
     Dokument generieren
   </div>
   <label for="input">Input:
-    <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"  (input)="onInput($event)"
-           (focusout)="changeButton()" (focusin)="inputClick()" placeholder="Aufnahme...">
+    <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"
+           (input)="onInput($event)" placeholder="Aufnahme...">
     <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
   </label>
 </div>
@@ -21,5 +27,11 @@
   </div>
   <div class="files">
     <h2>Aufgenommene Dateien:</h2>
+    <span *ngIf="files.length === 0">Es sind noch keine Aufnahmen vorhanden</span>
+    <ng-container *ngIf="files.length > 0">
+      <ul *ngFor="let file of files">
+        <li>{{file.content.substr(0, 50)}}... vom {{formatDate(file.timestamp)}}</li>
+      </ul>
+    </ng-container>
   </div>
 </div>
