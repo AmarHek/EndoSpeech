@@ -8,6 +8,8 @@ const routes = require('./routes/routes');
 const app = express();
 
 const url = "mongodb://127.0.0.1:27017/endo"
+const url2 = 'mongodb+srv://EndoSpeech:' + "VGmzqChCTqcGd4N" +
+    '@cluster0.acvuh.mongodb.net/endo?retryWrites=true&w=majority'
 
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(url, {useNewUrlParser: true})

@@ -29,7 +29,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   isLoading = false;
   routeName: string;
   private textSub: Subscription;
-  parts: M.Dict = { name: "", parts: [], id: "" };
+  dict: M.Dict = { name: "", parts: [], id: "" };
   keywordsService: Array<KeywordSelectable> = [];
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
@@ -45,7 +45,6 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   jsDown: SafeUrl;
   jsDown2: SafeUrl;
   inner = "hey";
-  faCheck = faCheckCircle;
   getReady = false;
   // recogWords : {Array<string>} = [];
 
@@ -81,13 +80,14 @@ export class AdvancedComponent implements OnInit, OnDestroy {
           .getListUpdateListener()
           .subscribe((list: M.Dict[]) => {
             this.isLoading = false;
-            this.parts = list.find((d) => d.name === this.routeName);
-            if (this.parts === undefined) {
+            this.dict = list.find((d) => d.name === this.routeName);
+            if (this.dict === undefined) {
               this.errorMsg =
                 "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren und eines der dort aufgeführten Dictionaries auswählen.";
             } else {
               if (!this.inputParser.start) {
-                this.inputParser.createStartDict(this.parts.parts);
+                console.log(this.dict.parts);
+                this.inputParser.createStartDict(this.dict.parts);
                 this.inputParser.start = true;
               }
             }
@@ -252,8 +252,6 @@ export class AdvancedComponent implements OnInit, OnDestroy {
     // console.log(ev.clipboardData.getData('text'));
     // this.myInput.twInput += ev.data;
     this.myText.report = this.inputParser.parseInput(this.myInput.twInput.toLowerCase());
-    console.log("HIER");
-    console.log(this.myText.report);
     const inpArr: Array<string> = JSON.parse(JSON.stringify(this.myInput.twInput.toLowerCase())).split(" ");
     this.end = this.base.end;
     this.textOut.finalOut(this.end, inpArr);

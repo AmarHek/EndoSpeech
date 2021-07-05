@@ -8,6 +8,7 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from "../confirm-dialog/co
 import * as N from "../../../helper-classes/model";
 import { Subscription } from "rxjs";
 import { DictManagerService } from "../../services/dict-manager.service";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ListComponent implements OnInit, OnDestroy {
   dicts: N.Dict[] = [];
   dictSub: Subscription;
   isLoading: boolean;
+  downJson;
 
   ui: string;
 
@@ -27,7 +29,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private timesService: TimeStampsService,
     private displayService: DisplayService,
     private dialog: MatDialog,
-    private dictManagerService: DictManagerService) { }
+    private dictManagerService: DictManagerService,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.isLoading = false;
@@ -35,11 +38,11 @@ export class ListComponent implements OnInit, OnDestroy {
     this.updateList();
   }
 
-  removeAlert(genOrId: string) {
+  removeAlert(_id: string) {
     const dialogData = new ConfirmDialogModel(
       "warning",
       "Entfernen bestätigen",
-      "Möchten Sie die Schablone '" + genOrId + "' wirklich entfernen?");
+      "Möchten Sie die Schablone '" + _id + "' wirklich entfernen?");
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
@@ -52,9 +55,14 @@ export class ListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.remove(genOrId);
+        this.remove(_id);
       }
     });
+  }
+
+  generateDownloadJson(jsonData) {
+    const json = JSON.stringify(jsonData);
+    this.downJson = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(json));
   }
 
   updateList(): void {
@@ -62,8 +70,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.dictSub = this.dictManagerService.getListUpdateListener().subscribe((list: N.Dict[]) => {
       this.dicts = list;
       this.isLoading = false;
-      console.log("onInit");
-      console.log(this.dicts);
     });
   }
 

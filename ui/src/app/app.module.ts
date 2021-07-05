@@ -72,6 +72,7 @@ import { RecordComponent } from "./record/record.component";
         {path: "main/Hierarchisch/:name", component: HierarchischComponent},
         {path: "upload", component: UploadComponent},
         {path: "list", component: ListComponent},
+        {path: "record", component: RecordComponent},
         {path: "edit/:name", component: EditStructureComponent},
         {path: "output", component: DisplayComponent},
         {path: "**", redirectTo: "/upload"},

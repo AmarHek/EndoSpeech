@@ -1,0 +1,25 @@
+<div class="headline">
+  <div id="listening" class="btn btn-sm btn-danger" style="margin-right: 15px">Aus
+  </div>
+  <div id="output-gen" (click)=openModal() class="btn btn-outline-primary"
+  style="margin-right: 15px">
+    Dokument generieren
+  </div>
+  <label for="input">Input:
+    <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"  (input)="onInput($event)"
+           (focusout)="changeButton()" (focusin)="inputClick()" placeholder="Aufnahme...">
+    <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
+  </label>
+</div>
+<div class="main">
+  <div class="recording">
+    <h2>Aufnahmetext:</h2>
+    <span>
+      {{recordedText}}
+    </span>
+    <span *ngIf="recordedText.length === 0">Es wurde noch nichts aufgenommen.</span>
+  </div>
+  <div class="files">
+    <h2>Aufgenommene Dateien:</h2>
+  </div>
+</div>

@@ -30,7 +30,6 @@ export class DictManagerService {
       )
       .pipe(
         map((getter) => {
-          console.log(getter.dicts);
           return getter.dicts.map((retDict) => {
             return {
               id: retDict._id,
@@ -61,15 +60,15 @@ export class DictManagerService {
     // this.timesService.removeTimeStamp(index);
   }
 
-  addDict(myDict: N.Dict) {
+  addDict(newDict: N.Dict) {
     this.http
       .post<{ message: string; dictId: string }>(
         this.databaseUrl,
-        myDict
+        newDict
       )
       .subscribe((response) => {
-        myDict.id = response.dictId;
-        this.dictList.push(myDict);
+        newDict.id = response.dictId;
+        this.dictList.push(newDict);
       });
   }
 
@@ -89,14 +88,14 @@ export class DictManagerService {
       });
   }
 
-  updateDict(myDict: N.Dict) {
+  updateDict(changeDict: N.Dict) {
     this.http
-      .put(this.databaseUrl + myDict.id, {
-        parts: myDict.parts,
-        name: myDict.name,
+      .put(this.databaseUrl + changeDict.id, {
+        parts: changeDict.parts,
+        name: changeDict.name,
       })
       .subscribe((response) => {
-        this.dictList[this.dictList.findIndex((d) => d.id === myDict.id)] = myDict;
+        this.dictList[this.dictList.findIndex((d) => d.id === changeDict.id)] = changeDict;
         this.listUpdated.next([...this.dictList]);
       });
   }

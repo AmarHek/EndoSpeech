@@ -13,7 +13,7 @@
       <li class="nav-item" routerLinkActive='active'>
         <a class="nav-link" routerLink='/list'>Schablonen</a>
       </li>
-      <li class="nav-item" routeLinkActive="active">
+      <li class="nav-item" routerLinkActive='active'>
         <a class="nav-link" routerLink='/record'>Aufnahme</a>
       </li>
       <!--
@@ -21,8 +21,8 @@
         <a class="nav-link" routerLink='/edit'>Edit Structure</a>
       </li>-->
       <li class="nav-item">
-        <label for="layout" class="col-form-label">Layout: </label>
-        <button id="layout" (click)="cycleUi()" class="btn btn-outline-secondary">{{ui}}</button>
+        <button id="layout" (click)="cycleUi()" class="btn btn-outline-secondary"
+                style="float: right;">Layout: {{ui}}</button>
       </li>
     </ul>
   </div>

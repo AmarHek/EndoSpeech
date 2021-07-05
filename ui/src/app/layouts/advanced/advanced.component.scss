@@ -1,4 +1,4 @@
-$border-color: hsl(200, 70%, 80);
+$border-color: hsl(200, 70%, 80%);
 .main {
   height: 100%;
   width: 100%;
@@ -18,24 +18,24 @@ $border-color: hsl(200, 70%, 80);
 
 }
 .row{
-  margin-left: 0px;
+  margin-left: 0;
   margin-bottom: 10px;
   border: solid rgba($color: lightgrey, $alpha: 0.4);
 }
 
 
-table { 
-  width: 100%; 
+table {
+  width: 100%;
 }
 .col-3{
   flex: 0 0 19%;
   max-width: 25%;
 }
-table td { 
-  width: 1px; 
+table td {
+  width: 1px;
   white-space: nowrap;
 } /* min width, actually: this causes the width to fit the content */
-table td:last-child { 
+table td:last-child {
   width: 100%;
   box-sizing: content-box;
 } /* well, it's less than 100% in the end, but this still works for me */
@@ -168,7 +168,7 @@ a.info:hover span {
   border: 1px;
   background-color: #e2df1e;
   color: #000;
-  text-align: top;
+  // text-align: top;
 }
 
 textarea {
@@ -256,7 +256,7 @@ img {
   position: absolute;
 }
 input[type="file"] {
-  padding: 0px;
+  padding: 0;
   background: none;
 }
 

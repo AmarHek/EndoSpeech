@@ -99,7 +99,7 @@ exports.changeDict = (req, res, next) => {
     .then(result => {
       console.log(result);
       res.status(200).json({
-        message: "Update succ"
+        message: "Update successful"
       });
     });
 };
@@ -119,7 +119,6 @@ exports.deleteDict = (req, res, next) => {
 exports.getDicts = (req, res, next) => {
   Dict.find()
     .then(dicts => {
-      console.log("This is it!");
       console.log(dicts);
       res.status(200).json({
         message: "Dicts fetched",

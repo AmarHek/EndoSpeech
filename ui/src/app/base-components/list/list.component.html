@@ -18,6 +18,10 @@
         <td>
           <button class="btn btn-secondary ml-3" [routerLink]="['/', 'edit', dict.name]">Edit</button>
         </td>
+        <td>
+          <a class="btn btn-secondary ml-3" (click)="generateDownloadJson(dict)"
+             title="Download JSON" [href]="downJson" download="{{dict.name}}.json">Download</a>
+        </td>
       </tr>
     </table>
   </ng-container>

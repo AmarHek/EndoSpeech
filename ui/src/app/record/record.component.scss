@@ -1,0 +1,41 @@
+$border-color: hsl(200, 70%, 80%);
+$background-color: hsl(202, 73%, 96%);
+
+.headline {
+  height: 5%;
+  padding-top: 3px;
+  padding-left: 20px;
+  font-size: 50%;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  background-color: $background-color;
+}
+
+
+.main {
+  height: 90%;
+  width: 100%;
+  display: inline-grid;
+  grid-gap: 1px;
+  border-left: 1px solid $border-color;
+  //grid-template-columns: 500px 1fr;
+  grid-template-columns: 2fr 1.5fr;
+  grid-template-areas:
+    "recording files";
+
+  grid-template-rows: auto 1fr;
+  overflow-y: scroll;
+  background-color: $background-color;
+}
+
+.recording {
+  height: 100%;
+  grid-area: recording;
+  padding: 5px 20px 5px;
+}
+
+.files {
+  height: 100%;
+  grid-area: files;
+  padding: 5px 20px 5px;
+}
