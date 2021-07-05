@@ -2,15 +2,16 @@ import { Injectable } from "@angular/core";
 import {InputParserService} from "../services/input-parser.service";
 import {getAllIndexOf, splitStringFromIndexes} from "../../helper-classes/util";
 import {Observable} from "rxjs";
+import {Recording} from "../../helper-classes/recording";
 
 @Injectable({
   providedIn: "root"
 })
 export class HtmlOutputService {
 
-  public images: Array<string> = [];
-  public texts: Array<string> = [];
-  public reports: Array<string> = [];
+  public images: string[] = [];
+  public texts: string[] = [];
+  public reports: string[] = [];
   public date = "";
 
   constructor(private inputParser: InputParserService) {
@@ -27,6 +28,13 @@ export class HtmlOutputService {
     }
   }
 
+  extractText(files: Recording[]) {
+    for (const file of files) {
+      this.texts.push(file.content);
+    }
+  }
+
+  /*
   async readText(textfiles: Array<File>) {
     this.texts = [];
     for (const file of textfiles) {
@@ -34,7 +42,7 @@ export class HtmlOutputService {
       this.texts.push(text);
     }
     this.splitDiseases();
-  }
+  }*/
 
   splitDiseases() {
     let splitTexts: string[] = [];
@@ -73,14 +81,4 @@ export class HtmlOutputService {
     }
   }
 
-  submitAndDownload(): void {
-  }
-
-  generateHtml() {
-    if (this.texts.length > 0 && this.images.length > 0) {
-      let element;
-    } else {
-      alert("Keine Bilder oder keine Texte hochgeladen");
-    }
-  }
 }

@@ -1,3 +1,8 @@
+export interface InputDiff {
+  diff: string;
+  toDelete: number;
+}
+
 export function assertNever(n: never): never {
   throw new Error(JSON.stringify(n) + " should never be a value");
 }

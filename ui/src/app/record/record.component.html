@@ -7,10 +7,12 @@
        }"
        style="margin-right: 15px">{{state}}
   </div>
-  <div id="output-gen" (click)=openModal() class="btn btn-outline-primary"
+  <button id="output-gen" (click)=openModal() class="btn btn-outline-primary"
   style="margin-right: 15px">
     Dokument generieren
-  </div>
+  </button>
+  <button (click)="fetchRecords()" class="btn btn-outline-primary"
+          style="margin-right: 15px">Aufnahmen laden</button>
   <label for="input">Input:
     <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"
            (input)="onInput($event)" placeholder="Aufnahme...">
@@ -20,18 +22,22 @@
 <div class="main">
   <div class="recording">
     <h2>Aufnahmetext:</h2>
-    <span>
-      {{recordedText}}
-    </span>
-    <span *ngIf="recordedText.length === 0">Es wurde noch nichts aufgenommen.</span>
+    <div class="output">
+      <span>
+        {{recordedText}}
+      </span>
+      <span *ngIf="recordedText.length === 0">Es wurde noch nichts aufgenommen.</span>
+    </div>
   </div>
   <div class="files">
     <h2>Aufgenommene Dateien:</h2>
-    <span *ngIf="files.length === 0">Es sind noch keine Aufnahmen vorhanden</span>
-    <ng-container *ngIf="files.length > 0">
-      <ul *ngFor="let file of files">
-        <li>{{file.content.substr(0, 50)}}... vom {{formatDate(file.timestamp)}}</li>
-      </ul>
-    </ng-container>
+    <div class="output">
+      <span *ngIf="files.length === 0">Es sind noch keine Aufnahmen vorhanden</span>
+      <ng-container *ngIf="files.length > 0">
+        <ul *ngFor="let file of files">
+          <li>"{{file.content.substr(0, 100)}}..." vom {{formatDate(file.timestamp)}}</li>
+        </ul>
+      </ng-container>
+    </div>
   </div>
 </div>

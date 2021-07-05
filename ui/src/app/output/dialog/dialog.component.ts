@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
+import {Component, Inject, OnInit, ViewChild} from "@angular/core";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HtmlOutputService} from "../html-output.service";
 import {Router} from "@angular/router";
 
@@ -11,20 +11,19 @@ import {Router} from "@angular/router";
 export class DialogComponent implements OnInit {
 
   @ViewChild("imagefile") imagefile;
-  public imagefiles: Array<File>;
-  public textfiles: Array<File>;
+  public imagefiles: File[];
+  public texts: string[];
 
   public imgURL: string;
   public message: string;
 
-  private imagesUploaded = false;
-  private textsUploaded = false;
-
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data,
               private htmlOutputService: HtmlOutputService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.htmlOutputService.extractText(this.data.files);
   }
 
   onFilesAdded(files, type: string) {
@@ -32,14 +31,13 @@ export class DialogComponent implements OnInit {
       this.imagefiles = files;
       this.htmlOutputService.readImages(this.imagefiles);
       this.preview(this.imagefiles);
-      this.imagesUploaded = true;
-    } else if (type === "text") {
+    } /*else if (type === "text") {
       this.textfiles = files;
       this.htmlOutputService.readText(this.textfiles).then(() => {
         console.log("Text reading successful!");
       });
       this.textsUploaded = true;
-    }
+    } */
   }
 
   close() {
@@ -47,7 +45,7 @@ export class DialogComponent implements OnInit {
   }
 
   submit() {
-    this.htmlOutputService.parseText();
+    // this.htmlOutputService.parseText();
     this.router.navigateByUrl("output").then(() => {
       console.log("Promise fulfilled!");
     });

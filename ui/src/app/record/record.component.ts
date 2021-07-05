@@ -1,19 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {DialogComponent} from "../output/dialog/dialog.component";
-import {getDateFormatted} from "../../helper-classes/util";
+import {getDateFormatted, InputDiff} from "../../helper-classes/util";
+import {Recording} from "../../helper-classes/recording"
+import {RecordManagerService} from "../services/record-manager.service";
 
 type States = "An" | "Aus" | "Pause";
-
-export interface Recording {
-  content: string;
-  timestamp: Date;
-}
-
-export interface InputDiff {
-  diff: string;
-  toDelete: number;
-}
 
 @Component({
   selector: "app-record",
@@ -23,7 +15,8 @@ export interface InputDiff {
 
 export class RecordComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private recordManager: RecordManagerService) { }
 
   recordedText = "";
   inputText = "";
@@ -42,6 +35,7 @@ export class RecordComponent implements OnInit {
   }
 
   onInput(event) {
+    console.log(event);
     const diff = this.getInputDiff();
 
     if (this.state === "An") {
@@ -67,6 +61,7 @@ export class RecordComponent implements OnInit {
         this.changeState("An");
 
       } else if (this.inputText.toLowerCase().includes("aufnahme stop")) {
+        this.cleanseRecording();
         this.generateRecording();
         this.changeState("Aus");
       }
@@ -82,7 +77,6 @@ export class RecordComponent implements OnInit {
     this.inputText = "";
     this.oldInput = "";
     this.state = newState;
-
   }
 
   cleanseRecording() {
@@ -97,10 +91,11 @@ export class RecordComponent implements OnInit {
       timestamp: new Date()
     };
     this.files.push(newRec);
+    this.recordManager.addRecord(newRec);
+    this.recordedText = "";
   }
 
   getInputDiff(): InputDiff {
-    // Check for better implementation
     if (this.inputText.length > this.oldInput.length) {
       const diff = this.inputText.replace(this.oldInput, "");
       return {
@@ -129,12 +124,19 @@ export class RecordComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.hasBackdrop = true;
+    dialogConfig.data = {
+      files: this.files
+    };
 
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
   }
 
   formatDate(date: Date) {
     return getDateFormatted(date, true);
+  }
+
+  fetchRecords() {
+    this.recordManager.getRecords();
   }
 
 }

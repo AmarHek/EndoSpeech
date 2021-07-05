@@ -39,3 +39,11 @@ $background-color: hsl(202, 73%, 96%);
   grid-area: files;
   padding: 5px 20px 5px;
 }
+
+.output {
+  padding: 5px;
+  background-color: white;
+  height: 100%;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+}
