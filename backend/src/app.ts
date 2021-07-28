@@ -1,31 +1,32 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+import * as dictRoutes from "./routes/dictRoutes"
+import * as recordRoutes from "./routes/recordRoutes"
 
-const routes = require('./routes/routes');
-
-const app = express();
+export const app = express();
 
 const url = "mongodb://127.0.0.1:27017/endo"
-const url2 = 'mongodb+srv://EndoSpeech:' + "VGmzqChCTqcGd4N" +
-    '@cluster0.acvuh.mongodb.net/endo?retryWrites=true&w=majority'
 
-mongoose.set('useUnifiedTopology', true);
-mongoose.connect(url, {useNewUrlParser: true})
-  .then(() => {
-    console.log("Connected to db");
-  })
-  .catch(() => {
-    console.log("Connection lost");
-  });
+/*const url2 = 'mongodb+srv://EndoSpeech:' + "VGmzqChCTqcGd4N" +
+    '@cluster0.acvuh.mongodb.net/endo?retryWrites=true&w=majority'*/
+
+mongoose.connect(url,
+    {useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then(() => {
+      console.log("Connected to db");
+    })
+    .catch(() => {
+      console.log("Connection lost");
+    });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-
-
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,14 +34,10 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept');
   res.setHeader('Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-
-
   next();
 });
 
-app.use("/endo/database", routes);
+app.use("/endo/database", dictRoutes.router);
+app.use("/endo/database", recordRoutes.router);
 
 //app.get("/*", (req,res)=> res.sendFile(path.join(__dirname)));
-
-
-module.exports = app;

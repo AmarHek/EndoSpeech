@@ -1,9 +1,16 @@
-const mongoose = require('mongoose');
+import mongoose, {Schema, Document} from 'mongoose';
+import * as M from './dictModel';
 
+export interface DictDB extends Document {
+    parts:      M.TopLevel[];
+    name:       string;
+    timestamp:  Date;
+}
 
-const dictSchema = new mongoose.Schema({
+const dictSchema = new Schema({
     parts: { type: mongoose.Schema.Types.Mixed, required: true},
-    name: { type: String}
+    name: { type: String},
+    timestamp: { type: Date }
 });
 
-module.exports = mongoose.model('Dict', dictSchema);
+export default mongoose.model<DictDB>('Dict', dictSchema, 'Dicts')

@@ -1,6 +1,7 @@
-const Record = require('../models/recordSchema');
+import Record from '../models/recordSchema';
+import { Request, Response, NextFunction } from 'express';
 
-exports.addRecord = (req, res, next) => {
+export function addRecord(req: Request, res: Response, next: NextFunction): void {
     const record = new Record( {
         timestamp: req.body.timestamp,
         content: req.body.content
@@ -11,9 +12,9 @@ exports.addRecord = (req, res, next) => {
             postId: result._id
         });
     });
-};
+}
 
-exports.getRecords = (req, res, next) => {
+export function getRecords(req: Request, res: Response, next: NextFunction): void {
     Record.find().then(records => {
         console.log(records);
         res.status(200).json({
@@ -21,4 +22,4 @@ exports.getRecords = (req, res, next) => {
             records: records
         });
     });
-};
+}

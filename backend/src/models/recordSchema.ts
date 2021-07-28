@@ -1,9 +1,16 @@
-const mongoose = require('mongoose');
+import mongoose, {Schema, Document} from 'mongoose';
+
+export interface Record extends Document {
+    sessionID:  string;
+    timestamp:  Date;
+    content:    string;
+}
 
 
-const recordSchema = new mongoose.Schema({
-    timeStamp: { type: Date },
+const recordSchema = new Schema({
+    sessionID: { type: String },
+    timestamp: { type: Date },
     content: { type: String }
 });
 
-module.exports = mongoose.model('Record', recordSchema);
+export default mongoose.model<Record>('Record', recordSchema, "records");

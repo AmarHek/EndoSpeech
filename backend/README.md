@@ -9,7 +9,7 @@ Folder models:
 
 Folder Routes:
     - Defines Routes for API, the options are "get all dicts", "modify one dict", "delete one dict", "upload an ui generated dict" and "upload an excel generated dict"
-    - call the functions from ../controllers/routes.ts
+    - call the functions from ../controllers/recordRoutes.ts
 
 Folder controllers:
     - createDict, changeDict, deleteDict and getDicts all operate fairly simple. Just one call to the database and either fetch, update or change data. Afterwards return the result

@@ -1,17 +1,9 @@
-const Dict = require('../models/dictSchema');
-const fs = require('fs');
-const {
-    VariableOC,
-    VariableText,
-    CheckBox,
-    Category,
-    Disease,
-    myDict
-  } = require('../models/dictModel');
-const {
-  parser,
-} = require('../excels/excelParser');
+import Dict from '../models/dictSchema';
+import fs from 'fs';
+import {Request, NextFunction, Response} from "express";
+import { Document } from "mongoose";
 
+/*
 exports.createExcelDict =  (req, res, next) => {
   let xlsx = require('xlsx');
   let workbook = xlsx.readFile('backend/excels/' + req.file.filename);
@@ -51,7 +43,7 @@ exports.createExcelDict =  (req, res, next) => {
 
 
   }
-  /* try {
+  try {
 
     var parsed = parser(data);
     var fName = req.file.filename.split(".")[0];
@@ -71,13 +63,14 @@ exports.createExcelDict =  (req, res, next) => {
     res.status(201).json({
       message: error.message
     });
-  } */
-};
+  }
+}*/
 
-exports.createDict = (req, res, next) => {
+export function createDict(req: Request, res: Response, next: NextFunction): void {
   const endo = new Dict({
     parts: req.body.parts,
-    name: req.body.name
+    name: req.body.name,
+    timestamp: req.body.timestamp
   });
   endo.save().then(result => {
     res.status(201).json({
@@ -85,9 +78,30 @@ exports.createDict = (req, res, next) => {
       postId: result._id
     });
   });
-};
+}
 
-exports.changeDict = (req, res, next) => {
+export function createJSONDict(req: any, res: Response, next: NextFunction): void {
+  try {
+    const rawData = fs.readFileSync(req.file.path);
+    const parts = JSON.parse(rawData.toString());
+    const timestamp = new Date();
+    const dict = new Dict({
+      parts: parts,
+      name: req.body.name,
+      timestamp: timestamp
+    });
+    dict.save().then((result: Document) => {
+      res.status(201).json({
+        message: "TemplateModel added successfully",
+        postId: result._id
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function changeDict(req: Request, res: Response, next: NextFunction): void {
   const newDict = new Dict({
     _id: req.params.id,
     dict: req.body.dict,
@@ -102,9 +116,9 @@ exports.changeDict = (req, res, next) => {
         message: "Update successful"
       });
     });
-};
+}
 
-exports.deleteDict = (req, res, next) => {
+export function deleteDict(req: Request, res: Response, next: NextFunction): void {
   Dict.deleteOne({
     _id: req.params.id
   }).then(
@@ -114,9 +128,9 @@ exports.deleteDict = (req, res, next) => {
         message: "Post deleted"
       });
     });
-};
+}
 
-exports.getDicts = (req, res, next) => {
+export function getDicts(req: Request, res: Response, next: NextFunction): void {
   Dict.find()
     .then(dicts => {
       console.log(dicts);
@@ -125,4 +139,4 @@ exports.getDicts = (req, res, next) => {
         dicts: dicts
       });
     });
-};
+}

@@ -1,41 +1,51 @@
+export interface Dict {
+    id:     string;
+    parts:  TopLevel[];
+    name:   string;
+}
+
+export type Variable = VariableOC  | VariableText;
+
 export interface VariableOC {
     kind: "oc";
     values: string[];
 }
 
-module.exports.VariableText = function VariableText(textBefore, textAfter, unit) {
-    this.kind = "text";
-    this.textBefore = textBefore;
-    this.textAfter = textAfter;
-    this.unit = unit;
+export interface VariableCommon {
+    textBefore: string;
+    textAfter:  string;
 }
 
-module.exports.CheckBox = function CheckBox(name, text, normal, variables, choiceGroup, listGroup, judgementText){
-    this.kind = "box";
-    this.name = name;
-    this.text = text;
-    this.normal = normal;
-    this.variables = variables;
-    this.choiceGroup = choiceGroup;
-    this.listGroup = listGroup;
-    this.judgementText = judgementText;
+export interface VariableText extends VariableCommon {
+    kind:  "text";
+    unit:  string;
 }
 
-module.exports.Category = function Category(name, condition = undefined, selectables){
-    this.kind = "category";
-    this.name = name;
-    this.condition = condition;
-    this.selectables = selectables;
+export type Selectable = CheckBox;
+
+export interface CheckBox {
+    kind:           "box";
+    name:           string[];
+    text:           string;
+    judgementText?: string;
+    normal:         boolean;
+    variables:      Variable[];
+    choiceGroup:    string;
+    listGroup:      string;
+    predictable?:   boolean;
 }
 
-module.exports.Disease = function Disease(name, categories){
-    this.kind = "disease";
-    this.name = name;
-    this.categories = categories;
+export type TopLevel = Category | Disease;
+
+export interface Disease {
+    kind:         "disease";
+    name:         string;
+    categories:   Category[];
 }
 
-module.exports.myDict = function (id, dict, name){
-    this.id = id;
-    this.dict = dict;
-    this.name = name;
+export interface Category {
+    kind:         "category";
+    name:         string;
+    condition:    string;
+    selectables:  Selectable[];
 }
