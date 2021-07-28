@@ -1,7 +1,6 @@
-
-module.exports.VariableOC = function VariableOC(values){
-    this.kind = "oc";
-    this.values = values;
+export interface VariableOC {
+    kind: "oc";
+    values: string[];
 }
 
 module.exports.VariableText = function VariableText(textBefore, textAfter, unit) {
