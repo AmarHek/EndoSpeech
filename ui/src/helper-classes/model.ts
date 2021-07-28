@@ -1,39 +1,23 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
+export interface Dict {
+  id:       string;
+  parts:    TopLevel[];
+  name:     string;
+}
+
 export type Selectable = CheckBox;
-
-export interface Data {
-[name: string]: string[];
-}
-
-export interface TextExtractor {
-  ofCheckbox(c: CheckBox): string | undefined;
-  ofOption(o: Option): string | undefined;
-  ofEnumeration(e: Enumeration): string | undefined;
-  ofBlock(e: Block): string | undefined;
-  ofConditional(c: Conditional): string | undefined;
-}
 
 export interface CheckBox {
   kind:           "box";
   name:           string[];
-  value?:         boolean;
   text:           string;
   judgementText?: string;
   normal:         boolean;
   variables:      Variable[];
-  enumeration?:   string;
   choiceGroup:    string;
   listGroup:      string;
   predictable?:   boolean;
-}
-
-export interface Group {
-  kind:    "group";
-  name:    string;
-  options: Option[];
-  value?:  string;
-  data:    Data;
 }
 
 export interface Option {
@@ -44,70 +28,34 @@ export interface Option {
   judgementText?: string;
   normal:         boolean;
   variables:      Variable[];
-  data:           Data;
-}
-
-export class Dict {
-  id: string;
-  parts: TopLevel[];
-  name: string;
 }
 
 export type TopLevel = Category | Disease;
 
 export interface Disease {
-  kind: "disease";
-  name: string;
-  categories: Category[];
+  kind:         "disease";
+  name:         string;
+  categories:   Category[];
 }
 
 export interface Category {
-  kind: "category";
-  name: string;
-  condition: string;
-  selectables: Selectable[];
+  kind:         "category";
+  name:         string;
+  condition:    string;
+  selectables:  Selectable[];
 }
 
-export interface Block {
-  kind: "block";
-  text?: string;
-  judgementText?: string;
-  data: Data;
-}
-
-export interface Enumeration {
-  kind:           "enumeration";
-  text:           string;
-  judgementText?: string;
-  id:             string;
-  data:           Data;
-}
-
-export interface Conditional {
-  kind:           "conditional";
-  precondition:   Literal[][];
-  normalText?:    string;
-  judgementText?: string;
-  data:           Data;
-}
-
-export interface Literal {
-  id:      string;
-  negated: boolean;
-}
-
-export type Variable = VariableOC | VariableMC | VariableText | VariableNumber | VariableDate | VariableRatio;
-
-export interface VariableCommon {
-  textBefore: string;
-  textAfter:  string;
-  data:       Data;
-}
+export type Variable = VariableOC | VariableText | VariableMC | VariableNumber | VariableDate | VariableRatio;
 
 export interface VariableOC {
   kind:   "oc";
   value?: string;
   values: string[];
+}
+
+export interface VariableCommon {
+  textBefore: string;
+  textAfter:  string;
 }
 
 export interface VariableMC extends VariableCommon {
