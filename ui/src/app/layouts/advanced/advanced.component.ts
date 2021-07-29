@@ -11,9 +11,9 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
 import { DictManagerService } from "../../services/dict-manager.service";
 import { ParserBasisService } from "../../services/parser-basis.service";
-import {HtmlOutputService} from "../../output/html-output.service";
+import {TableOutputService} from "../../live/table-output.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {DialogComponent} from "../../output/dialog/dialog.component";
+import {DialogComponent} from "../../live/dialog/dialog.component";
 
 
 declare const $: any;
@@ -61,7 +61,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
               private router: Router,
               private base: ParserBasisService,
               private dialog: MatDialog,
-              private htmlOut: HtmlOutputService) {
+              private htmlOut: TableOutputService) {
   }
 
   ngOnDestroy(): void {

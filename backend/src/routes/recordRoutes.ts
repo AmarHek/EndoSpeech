@@ -1,10 +1,11 @@
 import express from "express";
+import bodyParser from "body-parser";
 
 import * as RecordController from "../controllers/recordController";
 
 export const router = express.Router();
 
-router.post("/record", RecordController.addRecord);
-router.get('/record', RecordController.getRecords);
+router.post("/addRecord", RecordController.addRecord);
+router.post('/getRecord', RecordController.getRecordsByID);
 
 

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, ViewChild} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {HtmlOutputService} from "../html-output.service";
+import {TableOutputService} from "../table-output.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,24 +12,23 @@ export class DialogComponent implements OnInit {
 
   @ViewChild("imagefile") imagefile;
   public imagefiles: File[];
-  public texts: string[];
+  public images: string[];
 
   public imgURL: string;
   public message: string;
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private htmlOutputService: HtmlOutputService,
+              private tableOutputService: TableOutputService,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.htmlOutputService.extractText(this.data.files);
   }
 
   onFilesAdded(files, type: string) {
     if (type === "image") {
       this.imagefiles = files;
-      this.htmlOutputService.readImages(this.imagefiles);
+      this.readImages(this.imagefiles);
       this.preview(this.imagefiles);
     } /*else if (type === "text") {
       this.textfiles = files;
@@ -41,15 +40,11 @@ export class DialogComponent implements OnInit {
   }
 
   close() {
-    return this.dialogRef.close();
+    return this.dialogRef.close(null);
   }
 
   submit() {
-    // this.htmlOutputService.parseText();
-    this.router.navigateByUrl("output").then(() => {
-      console.log("Promise fulfilled!");
-    });
-    this.close();
+    return this.dialogRef.close(this.images);
   }
 
   preview(files) {
@@ -65,6 +60,18 @@ export class DialogComponent implements OnInit {
           this.imgURL = reader.result as string;
         };
       }
+    }
+  }
+
+  readImages(imagefiles: File[]) {
+    console.log(imagefiles);
+    this.images = [];
+    for (const file of imagefiles) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = (_event) => {
+        this.images.push(reader.result as string);
+      };
     }
   }
 

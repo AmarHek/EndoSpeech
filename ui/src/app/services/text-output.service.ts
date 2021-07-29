@@ -22,7 +22,7 @@ export class TextOutputService {
   downJson: SafeUrl;
   // url for report file download
   downJson2: SafeUrl;
-  // final output text, contains all the text from rep Array
+  // final live text, contains all the text from rep Array
   // TODO: Separate report, date and codes
   finalText = "";
 
@@ -36,7 +36,7 @@ export class TextOutputService {
     this.downJson2 = uri2;
   }
 
-  // produces the text output
+  // produces the text live
   makeReport(activeCat: KeywordCategory, activeDis: KeywordDisease, startingTime: Date) {
     // this.report.text="";
     // gets active Category
@@ -96,7 +96,7 @@ export class TextOutputService {
     return finalText;
   }
 
-  // shows which keywords were detected and are written into the text output
+  // shows which keywords were detected and are written into the text live
   colorTextInput(diseases: Array<KeywordDisease>, input: string) {
     const inByWord: string[] = [];
     for (const dis of diseases) {
@@ -143,7 +143,7 @@ export class TextOutputService {
     // assigns text to element on html
     document.getElementById("inputText").innerHTML = inByWord.join(" ");
   }
-  // adds an entry at the output array for all different diseases (at beginning)
+  // adds an entry at the live array for all different diseases (at beginning)
   initDiseaseText(diseases: Array<KeywordDisease>) {
     for (const dis of diseases) {
       const tempReports: { text: string, category: string, key: string, code: string, condition: string }[] = [];
@@ -153,7 +153,7 @@ export class TextOutputService {
       this.rep.push({ disName: dis.name, reports: tempReports });
     }
   }
-  // adds an entry at the output array for all new instances (dynamic)
+  // adds an entry at the live array for all new instances (dynamic)
   addDisease(disease: KeywordDisease, index: number) {
     const tempReports: { text: string, category: string, key: string, code: string, condition: string }[] = [];
     for (const cat of disease.categories) {
@@ -161,7 +161,7 @@ export class TextOutputService {
     }
     this.rep.splice(index, 0, { disName: disease.name, reports: tempReports });
   }
-  // currently not working: output for correction mode, uses recogWords array.
+  // currently not working: live for correction mode, uses recogWords array.
   // Also automatically downloads the json and text after some milliseconds
   // only shows pure transcription with no colors and downloads both files
   finalOut(end: boolean, inpAr: Array<string>) {

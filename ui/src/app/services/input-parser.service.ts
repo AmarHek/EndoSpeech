@@ -109,7 +109,7 @@ export class InputParserService {
             // if a category is addressed by different keywords, the keyword with the lastest appearance has to be used
             // Also check which keywords have variables and if the occur in the input2
             this.twInput.again = this.base.getActivesAndVariables(false, activeCat.keys, input2, activeDis, activeCat, this.twInput);
-            // produces text output
+            // produces text live
             text = this.textOut.makeReport(activeCat, activeDis, this.startingTime);
           }
           activeCat.active = false;

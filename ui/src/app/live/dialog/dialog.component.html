@@ -1,5 +1,5 @@
 <div mat-dialog-title>
-  <h5>Dokument aus Bildern und Freitext generieren</h5>
+  <h5>Bilder hochladen</h5>
 </div>
 <mat-divider></mat-divider>
 <mat-dialog-content>
@@ -13,17 +13,6 @@
   <span style="color:red;" *ngIf="message">{{message}}</span>
   <img [src]="imgURL" height="200" *ngIf="imgURL">
 </mat-dialog-content>
-<!--
-<mat-dialog-content>
-  <label for="textfile">Texte hochladen:</label><br>
-  <input type="file"
-         #textfile
-         (change)="onFilesAdded(textfile.files,'text')"
-         multiple
-         id="textfile"
-  />
-</mat-dialog-content>
--->
 
 <mat-divider></mat-divider>
 <mat-dialog-actions class="float-right">

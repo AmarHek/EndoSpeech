@@ -140,3 +140,14 @@ export function getDicts(req: Request, res: Response, next: NextFunction): void 
       });
     });
 }
+
+export function getDictByName(req: Request, res: Response, next: NextFunction): void {
+  Dict.find({name: req.body.name}).then(
+      dict => {
+        res.status(200).json({
+          message: "Dict found",
+          dict: dict
+        });
+      }
+  )
+}

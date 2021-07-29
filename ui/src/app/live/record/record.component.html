@@ -1,24 +1,35 @@
 <div class="headline">
   <div class="btn btn-sm"
        [ngClass]="{
-          'btn-danger' : state === 'Aus',
-          'btn-success': state === 'An',
-          'btn-warning'  : state === 'Pause'
+          'btn-danger' : sessionState === 'Inaktiv',
+          'btn-success': sessionState === 'Aktiv'
        }"
-       style="margin-right: 15px">{{state}}
+       style="margin-right: 15px">Untersuchung {{sessionState}}
   </div>
+  <div class="btn btn-sm"
+       [ngClass]="{
+          'btn-danger' : recordState === 'Aus',
+          'btn-success': recordState === 'An',
+          'btn-warning'  : recordState === 'Pause'
+       }"
+       style="margin-right: 15px">Aufnahme {{recordState}}
+  </div>
+  <!--
   <button id="output-gen" (click)=openModal() class="btn btn-outline-primary"
   style="margin-right: 15px">
     Dokument generieren
-  </button>
+  </button>-->
   <button (click)="fetchRecords()" class="btn btn-outline-primary"
           style="margin-right: 15px">Aufnahmen laden</button>
+  <button (click)="resetSession()" class="btn btn-outline-primary"
+          style="margin-right: 15px">Untersuchung zurücksetzen</button>
   <label for="input">Input:
     <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"
            (input)="onInput($event)" placeholder="Aufnahme...">
     <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
   </label>
 </div>
+
 <div class="main">
   <div class="recording">
     <h2>Aufnahmetext:</h2>
@@ -32,9 +43,9 @@
   <div class="files">
     <h2>Aufgenommene Dateien:</h2>
     <div class="output">
-      <span *ngIf="files.length === 0">Es sind noch keine Aufnahmen vorhanden</span>
-      <ng-container *ngIf="files.length > 0">
-        <ul *ngFor="let file of files">
+      <span *ngIf="records.length === 0">Es sind noch keine Aufnahmen vorhanden</span>
+      <ng-container *ngIf="records.length > 0">
+        <ul *ngFor="let file of records">
           <li>"{{file.content.substr(0, 100)}}..." vom {{formatDate(file.timestamp)}}</li>
         </ul>
       </ng-container>

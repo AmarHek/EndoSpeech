@@ -41,6 +41,7 @@ router.post("/json", multer({
 router.post("", DictController.createDict);
 router.put("/:id", DictController.changeDict );
 router.get('', DictController.getDicts);
+router.post("/single", DictController.getDictByName);
 router.delete("/:id", DictController.deleteDict);
 
 

@@ -29,10 +29,10 @@ import {DisplayService} from "./services/display.service";
 import {ParserBasisService} from "./services/parser-basis.service";
 import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
 import {APP_DATE_FORMATS, AppDateAdapter} from "../helper-classes/format-datepicker";
-import { DialogComponent } from "./output/dialog/dialog.component";
+import { DialogComponent } from "./live/dialog/dialog.component";
 import {InputParserService} from "./services/input-parser.service";
-import { DisplayComponent } from "./output/display/display.component";
-import { RecordComponent } from "./record/record.component";
+import { TableOutputComponent } from "./live/table-output/table-output.component";
+import { RecordComponent } from "./live/record/record.component";
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import { RecordComponent } from "./record/record.component";
     VariableComponent,
     AttributeComponent,
     DialogComponent,
-    DisplayComponent,
+    TableOutputComponent,
     RecordComponent
   ],
   imports: [
@@ -74,7 +74,7 @@ import { RecordComponent } from "./record/record.component";
         {path: "list", component: ListComponent},
         {path: "record", component: RecordComponent},
         {path: "edit/:name", component: EditStructureComponent},
-        {path: "output", component: DisplayComponent},
+        {path: "output", component: TableOutputComponent},
         {path: "**", redirectTo: "/upload"},
       ],
       {useHash: true, relativeLinkResolution: "legacy"}

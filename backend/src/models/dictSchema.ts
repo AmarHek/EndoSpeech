@@ -13,4 +13,4 @@ const dictSchema = new Schema({
     timestamp: { type: Date }
 });
 
-export default mongoose.model<DictDB>('Dict', dictSchema, 'Dicts')
+export default mongoose.model<DictDB>('Dict', dictSchema, 'dicts')

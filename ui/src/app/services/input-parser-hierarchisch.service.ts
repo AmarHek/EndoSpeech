@@ -103,14 +103,14 @@ export class InputParserHierarchischService {
           // if a category is addressed by different keywords, the keyword with the lastest appearance has to be used
           // Also check which keywords have variables and if the occur in the input2
           this.twInput.again = this.base.getActivesAndVariables(true, activeCat.keys, input2, activeDis, activeCat, this.twInput);
-          // produces text output
+          // produces text live
           const text = this.textOut.makeReport(activeCat, activeDis, this.startingTime);
           // Test log
           const index = activeDis.categories.findIndex(cat => cat.name === activeCat.name);
           console.log("IndexTest");
           console.log(this.diseases);
           console.log(index);
-          // return output text
+          // return live text
           return text;
           // if no category is active yet and a new disease was just created
         } else if (activeDis.firstTime) {

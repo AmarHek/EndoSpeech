@@ -65,7 +65,7 @@ export class ParserBasisService {
         }
       }
     }
-    // makes an entry for this disease in output data structure
+    // makes an entry for this disease in live data structure
     this.textOut.initDiseaseText(this.diseases);
     return this.diseases;
   }

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Recording} from "../../helper-classes/recording";
+import {Record} from "../../helper-classes/record";
 import { environment } from "../../environments/environment";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -12,12 +13,12 @@ export class RecordManagerService {
 
   constructor(private http: HttpClient) { }
 
-  addRecord(newRecord: Recording) {
+  addRecord(newRecord: Record) {
     if (newRecord.timestamp === undefined) {
       newRecord.timestamp = new Date();
     }
 
-    this.http.post<{message: string; recordId: string}>(this.databaseUrl + "record", newRecord)
+    this.http.post<{message: string; recordId: string}>(this.databaseUrl + "addRecord", newRecord)
       .subscribe((response) => {
         console.log(response.message);
         console.log("ID: " + response.recordId);
@@ -25,11 +26,27 @@ export class RecordManagerService {
     );
   }
 
-  getRecords() {
+  getRecords(sessionID: string) {
     // TODO: Add query options
-    this.http.get(this.databaseUrl + "record").subscribe((fetchedRecords) => {
-      console.log(fetchedRecords);
-    });
+    // TODO: test
+    const query = {
+      sessionID
+    };
+
+    const subjectRecord = new Subject<Record[]>();
+
+    this.http.post<{message: string; records: any }>(
+      this.databaseUrl + "getRecord", query)
+      .subscribe((res) => {
+        const records = res.records.map(record => ({
+            sessionID: record.sessionID,
+            content: record.content,
+            timestamp: new Date(record.timestamp)
+          }));
+        subjectRecord.next(records);
+        }
+    );
+    return subjectRecord;
   }
 
 }

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HtmlOutputService } from '../output/html-output.service';
+import { TableOutputService } from '../live/table-output.service';
 
 describe('ExportPackageGeneratorService', () => {
-  let service: HtmlOutputService;
+  let service: TableOutputService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HtmlOutputService);
+    service = TestBed.inject(TableOutputService);
   });
 
   it('should be created', () => {

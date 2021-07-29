@@ -1,7 +1,7 @@
 button.btn-primary{
     margin-left: 15px;
     margin-right: 15px;
-    
+
 }
 
 h5{
@@ -39,7 +39,7 @@ input.mytext{
 .myRotIn {
     animation: rotate1 1s ease-in-out 0s;
   }
-  
+
   @keyframes rotate1 {
       from { transform: rotate(0deg); }
       to { transform: rotate(180deg); }
@@ -55,18 +55,18 @@ input.mytext{
 }
 
 .disease{
-   
+
     background-color: rgba(255, 0, 0, 0.3);
 }
 
 .category{
-   
+
     background-color: rgba(0, 255, 0, 0.3);
 }
 
 .box{
     background-color: rgba(0, 0, 255, 0.3);
-    
+
 }
 
 .oc{
@@ -79,7 +79,7 @@ input.mytext{
 
 .diseaseFont{
     font-size: 1.75rem;
-   
+
 }
 
 .categoryFont{
@@ -121,7 +121,7 @@ input.mytext{
 }
 
 .mySpinner{
-    /* display: flex !important;
+    /* table-output: flex !important;
     justify-content: center !important;
     align-items: center !important; */
     height: 3rem !important;

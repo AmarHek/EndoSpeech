@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Subject } from "rxjs";
+import {Dict} from "../../helper-classes/model";
 
 @Injectable({
   providedIn: "root",
@@ -47,6 +48,15 @@ export class DictManagerService {
 
   getListUpdateListener() {
     return this.listUpdated.asObservable();
+  }
+
+  getDictByName(name: string) {
+    const query = {
+      name
+    };
+    return this.http.post<{ message: string, dict: any }>(
+      this.databaseUrl + "single", query)
+      .subscribe((res) => res.dict as Dict);
   }
 
   remove(id: string): void {
