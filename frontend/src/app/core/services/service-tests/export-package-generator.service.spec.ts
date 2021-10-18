@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TableOutputService } from '../live/table-output.service';
+import { TableOutputService } from '../../../live/table-output.service';
 
 describe('ExportPackageGeneratorService', () => {
   let service: TableOutputService;

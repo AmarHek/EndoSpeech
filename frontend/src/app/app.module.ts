@@ -25,12 +25,12 @@ import { EditStructureComponent } from "./edit-structure/edit-structure.componen
 import { DiseaseComponent } from "./edit-structure/disease/disease.component";
 import { VariableComponent } from "./edit-structure/variable/variable.component";
 import { AttributeComponent } from "./edit-structure/attribute/attribute.component";
-import {DisplayService} from "./services/display.service";
-import {ParserBasisService} from "./services/parser-basis.service";
+import {DisplayService} from "./core/services/display.service";
+import {ParserBasisService} from "./core/services/parser-basis.service";
 import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
 import {APP_DATE_FORMATS, AppDateAdapter} from "./helpers/format-datepicker";
 import { DialogComponent } from "./live/dialog/dialog.component";
-import {InputParserService} from "./services/input-parser.service";
+import {InputParserService} from "./core/services/input-parser.service";
 import { TableOutputComponent } from "./live/table-output/table-output.component";
 import { RecordComponent } from "./live/record/record.component";
 

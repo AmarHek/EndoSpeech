@@ -5,7 +5,7 @@ import * as N from "../models/model";
 import { faAngleDown, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { NgForm } from "@angular/forms";
-import { DictManagerService } from "../services/dict-manager.service";
+import { DictManagerService } from "../core/services/dict-manager.service";
 import { Subscription } from "rxjs";
 
 @Component({

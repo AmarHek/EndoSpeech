@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RecordManagerService } from '../services/record-manager.service';
+import { RecordManagerService } from '../record-manager.service';
 
 describe('RecordManagerService', () => {
   let service: RecordManagerService;

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import * as M from "../models/model";
-import { KeywordSelectable, KeywordCategory, KeywordDisease, KeywordVariable, TextDic } from "../models/keyword";
-import { TextOutputService } from "./text-output.service";
+import * as M from "@app/models/model";
+import { KeywordSelectable, KeywordCategory, KeywordDisease, KeywordVariable, TextDic } from "@app/models";
+import { TextOutputService } from "@app/core";
 
 @Injectable({
   providedIn: "root"

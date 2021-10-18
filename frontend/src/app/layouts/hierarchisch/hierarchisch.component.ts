@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import * as M from "../../models/model";
 import { KeywordSelectable, KeywordDisease, TextDic } from "../../models/keyword";
-import { TextOutputService } from "../../services/text-output.service";
+import { TextOutputService } from "../../core/services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "../../services/dict-manager.service";
-import { InputParserHierarchischService } from "../../services/input-parser-hierarchisch.service";
-import { ParserBasisService } from "../../services/parser-basis.service";
+import { DictManagerService } from "../../core/services/dict-manager.service";
+import { InputParserHierarchischService } from "../../core/services/input-parser-hierarchisch.service";
+import { ParserBasisService } from "../../core/services/parser-basis.service";
 
 
 declare const $: any;

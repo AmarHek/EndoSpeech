@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import * as M from "../models/model";
-import { KeywordDisease, TextDic } from "../models/keyword";
-import { ParserBasisService } from "./parser-basis.service";
-import { TextOutputService } from "./text-output.service";
+import * as M from "@app/models/model";
+import { KeywordDisease, TextDic } from "@app/models";
+import { ParserBasisService, TextOutputService } from "@app/core";
 
 
 @Injectable({

@@ -1,7 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
+	"paths": {
+		"@app/*": ["app/*"],
+		"@app/core/*": ["app/core/*"],
+		"@app/shared/*": ["app/shared/*"],
+		"@app/models/*": ["app/models/*"],
+		"@app/helpers/*": ["app/helpers/*"],
+		"@env/*": ["environments/*"]
+	},
     "downlevelIteration": true,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
@@ -11,6 +19,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2015",
+	"types": ["node"],
     "typeRoots": [
       "node_modules/@types"
     ],

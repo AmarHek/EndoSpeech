@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 import {getDateFormatted, InputDiff} from "../../helpers/util";
 import {Record} from "../../models/record";
-import {RecordManagerService} from "../../services/record-manager.service";
+import {RecordManagerService} from "../../core/services/record-manager.service";
 import {nanoid} from "nanoid";
 import {TableOutputService} from "../table-output.service";
 
