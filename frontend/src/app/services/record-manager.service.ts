@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Record} from "../../helper-classes/record";
+import {Record} from "../models/record";
 import { environment } from "../../environments/environment";
 import {Subject} from "rxjs";
 

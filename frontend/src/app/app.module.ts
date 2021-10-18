@@ -28,7 +28,7 @@ import { AttributeComponent } from "./edit-structure/attribute/attribute.compone
 import {DisplayService} from "./services/display.service";
 import {ParserBasisService} from "./services/parser-basis.service";
 import {DateAdapter, MAT_DATE_FORMATS} from "@angular/material/core";
-import {APP_DATE_FORMATS, AppDateAdapter} from "../helper-classes/format-datepicker";
+import {APP_DATE_FORMATS, AppDateAdapter} from "./helpers/format-datepicker";
 import { DialogComponent } from "./live/dialog/dialog.component";
 import {InputParserService} from "./services/input-parser.service";
 import { TableOutputComponent } from "./live/table-output/table-output.component";

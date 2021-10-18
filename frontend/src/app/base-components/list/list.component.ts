@@ -5,7 +5,7 @@ import { TimeStampsService } from "../../services/time-stamps.service";
 import { DisplayService } from "../../services/display.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "../confirm-dialog/confirm-dialog.component";
-import * as N from "../../../helper-classes/model";
+import * as N from "../../models/model";
 import { Subscription } from "rxjs";
 import { DictManagerService } from "../../services/dict-manager.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import * as M from "../../helper-classes/model";
-import { KeywordSelectable, KeywordCategory, KeywordDisease, KeywordVariable, TextDic } from "../../helper-classes/keyword";
+import * as M from "../models/model";
+import { KeywordSelectable, KeywordCategory, KeywordDisease, KeywordVariable, TextDic } from "../models/keyword";
 import { TextOutputService } from "./text-output.service";
 
 @Injectable({

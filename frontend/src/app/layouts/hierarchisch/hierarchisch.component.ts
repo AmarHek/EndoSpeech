@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "../../../helper-classes/model";
-import { KeywordSelectable, KeywordDisease, TextDic } from "../../../helper-classes/keyword";
+import * as M from "../../models/model";
+import { KeywordSelectable, KeywordDisease, TextDic } from "../../models/keyword";
 import { TextOutputService } from "../../services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";

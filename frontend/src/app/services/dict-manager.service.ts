@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import * as N from "../../helper-classes/model";
+import * as N from "../models/model";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Subject } from "rxjs";
-import {Dict} from "../../helper-classes/model";
+import {Dict} from "../models/model";
 
 @Injectable({
   providedIn: "root",

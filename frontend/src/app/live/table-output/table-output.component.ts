@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnInit} from "@angular/core";
 import {TableOutputService} from "../table-output.service";
-import {getBase64Image} from "../../../helper-classes/util";
+import {getBase64Image} from "../../helpers/util";
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
