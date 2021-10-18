@@ -2,14 +2,14 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "../../models/model";
-import { KeywordSelectable, KeywordDisease, TextDic } from "../../models/keyword";
-import { TextOutputService } from "../../core/services/text-output.service";
+import * as M from "@app/models/model";
+import { KeywordSelectable, KeywordDisease, TextDic } from "@app/models/keyword";
+import { TextOutputService } from "@app/core/services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "../../core/services/dict-manager.service";
-import { InputParserHierarchischService } from "../../core/services/input-parser-hierarchisch.service";
-import { ParserBasisService } from "../../core/services/parser-basis.service";
+import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { InputParserHierarchischService } from "@app/core/services/input-parser-hierarchisch.service";
+import { ParserBasisService } from "@app/core/services/parser-basis.service";
 
 
 declare const $: any;

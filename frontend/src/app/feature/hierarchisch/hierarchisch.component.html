@@ -2,17 +2,17 @@
 
 	<div class="headline">
 
-	
+
 
 		<!-- refreshes Page -->
 		<button id="refresh" title="seite neu laden" (click)="refreshPage()"
 			class="btn btn-sm">Refresh</button>
 			<a #myReport class="btn btn-clear btn-sm" title="Download JSON" [href]="jsDown2" download="finaltext.txt">RepDown</a>
 			<a #myJson class="btn btn-clear btn-sm" title="Download JSON" [href]="jsDown" download="download.json">JSDown </a>
-			
+
 		<div id="listening" class="btn btn-sm btn-danger float-left">Aus
 		</div>
-		
+
 		<label for="input">Eingabefenster:
 			<input style="width: 3em;" id="input" name="Befund" type="text" (input)="onInput($event)" (focusout)="changeButton()" (focusin)="inputClick()" placeholder="Befund eingeben...">
 		</label>
@@ -20,15 +20,15 @@
 			<br>
 		</div>
 	</div>
-	
+
 	<div class="main-content" id = "main-content">
 		<div *ngIf="!end" class="m-1">
 			<div *ngFor="let dis of diseases | sortCategories">
-				<div class="disease" name="test" id="{{dis.name}}">{{dis.name}}</div>
+				<div class="disease" id="{{dis.name}}">{{dis.name}}</div>
 
 				<div  *ngFor="let cat of dis.categories | sortCategories">
 					<ng-container *ngIf="dis.active == true">
-						<div class="cat" name="test" id="{{cat.name}}">{{cat.name}}</div>
+						<div class="cat" id="{{cat.name}}">{{cat.name}}</div>
 						<div class="row">
 							<div class="col-3" *ngFor="let key of filterSyn(cat.keys)">
 								<ng-container *ngIf="cat.active == true">
@@ -38,7 +38,7 @@
 									</div> -->
 									<div class="option" id={{key.name}}> {{key.name}}
 										<!-- Adds the optional length Attribute  -->
-									
+
 										<span *ngFor="let vari of key.variables" class="link" id="{{key.category + key.name}}">
 											<ng-container *ngIf="vari.kind === 'text'">
 												{{vari.textBefore + '...'}}
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<div *ngIf="end">
-	<app-report [report]="myText.report" [parts]="parts"></app-report>
+	<app-report [report]="myText.report"></app-report>
 	</div>
 </div>
 

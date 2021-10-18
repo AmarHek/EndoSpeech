@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
-import {InputParserService} from "../core/services/input-parser.service";
-import {getAllIndexOf, getDateFormatted, splitStringFromIndexes} from "../helpers/util";
-import {Record} from "../models/record";
-import {Dict} from "../models/model";
-import {DictManagerService} from "../core/services/dict-manager.service";
-import * as M from "../models/model";
+import {InputParserService, DictManagerService} from "@app/core";
+import {getDateFormatted} from "@app/helpers";
+import {Record, Dict} from "@app/models";
+import * as M from "@app/models/model";
 
 @Injectable({
   providedIn: "root"

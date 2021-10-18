@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
-import {getDateFormatted, InputDiff} from "../../helpers/util";
-import {Record} from "../../models/record";
-import {RecordManagerService} from "../../core/services/record-manager.service";
+import {getDateFormatted, InputDiff} from "@app/helpers/util";
+import {Record} from "@app/models/record";
+import {RecordManagerService} from "@app/core/services/record-manager.service";
 import {nanoid} from "nanoid";
-import {TableOutputService} from "../table-output.service";
+import {TableOutputService} from "@app/core/services/table-output.service";
 
 type RecordState = "An" | "Aus" | "Pause";
 type SessionState = "Aktiv" | "Inaktiv";

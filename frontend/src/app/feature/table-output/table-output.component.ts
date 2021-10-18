@@ -1,7 +1,6 @@
-import {Component, DoCheck, OnInit} from "@angular/core";
-import {TableOutputService} from "../table-output.service";
-import {getBase64Image} from "../../helpers/util";
-import {DialogComponent} from "../dialog/dialog.component";
+import {Component, OnInit} from "@angular/core";
+import {TableOutputService} from "@app/core/services/table-output.service";
+import {DialogComponent} from "@app/shared/dialog/dialog.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 @Component({

@@ -35,7 +35,7 @@
     </div>-->
 
     <label for="input">Eingabefenster:
-      <input style="width: 3em;" id="input" name="Befund" type="text" (input)="onInput($event)"
+      <input style="width: 3em;" id="input" name="Befund" type="text" (input)="onInput()"
         (focusout)="changeButton()" (focusin)="inputClick()" placeholder="Befund eingeben...">
       <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
     </label>

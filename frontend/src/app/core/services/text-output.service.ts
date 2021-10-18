@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { KeywordCategory, KeywordDisease, TextDic } from "../../models/keyword";
+import { KeywordCategory, KeywordDisease, TextDic } from "@app/models";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import {getDateFormatted} from "@app/helpers";
 

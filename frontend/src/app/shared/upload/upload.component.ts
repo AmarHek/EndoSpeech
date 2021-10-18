@@ -1,11 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "@env/environment";
 import { Router } from "@angular/router";
-import { TimeStampsService } from "../../core/services/time-stamps.service";
+import { TimeStampsService } from "@app/core/services/time-stamps.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import { DictManagerService } from "../../core/services/dict-manager.service";
-import {DisplayService} from "../../core/services/display.service";
+import { DictManagerService } from "@app/core/services/dict-manager.service";
+import {DisplayService} from "@app/core/services/display.service";
 
 @Component({
   selector: "app-upload",

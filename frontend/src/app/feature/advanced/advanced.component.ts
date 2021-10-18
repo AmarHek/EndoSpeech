@@ -2,21 +2,15 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "../../models/model";
-import { KeywordSelectable, KeywordDisease, TextDic } from "../../models/keyword";
-import { InputParserService } from "../../core/services/input-parser.service";
-import { TextOutputService } from "../../core/services/text-output.service";
+import * as M from "@app/models/model";
+import { KeywordSelectable, KeywordDisease, TextDic } from "@app/models/keyword";
+import { InputParserService } from "@app/core/services/input-parser.service";
+import { TextOutputService } from "@app/core/services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "../../core/services/dict-manager.service";
-import { ParserBasisService } from "../../core/services/parser-basis.service";
-import {TableOutputService} from "../../live/table-output.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {DialogComponent} from "../../live/dialog/dialog.component";
+import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { ParserBasisService } from "@app/core/services/parser-basis.service";
 
-
-declare const $: any;
 
 @Component({
   selector: "app-text",
@@ -30,14 +24,12 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   routeName: string;
   private textSub: Subscription;
   dict: M.Dict = { name: "", parts: [], id: "" };
-  keywordsService: Array<KeywordSelectable> = [];
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
   firstTime = false;
   myInput: { twInput: string, again: boolean } = { twInput: "", again: false };
   end = false;
   end0 = false;
-  resetTexts = new Map<M.CheckBox | M.Option, string>();
   oldInput = "";
   missing: Array<TextDic> = [];
   filledCats: Array<TextDic> = [];
@@ -59,9 +51,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
               private sanitizer: DomSanitizer,
               private dictManager: DictManagerService,
               private router: Router,
-              private base: ParserBasisService,
-              private dialog: MatDialog,
-              private htmlOut: TableOutputService) {
+              private base: ParserBasisService) {
   }
 
   ngOnDestroy(): void {
@@ -206,7 +196,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   }
 
 
-  onInput(ev) {
+  onInput() {
     /* if(!this.firstTime){
       this.inputParser.createStartDict(this.parts);
       this.readConfig();

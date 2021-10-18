@@ -1,7 +1,5 @@
 import {Component, Inject, OnInit, ViewChild} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TableOutputService} from "../table-output.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: "app-upload-modal",
@@ -18,9 +16,7 @@ export class DialogComponent implements OnInit {
   public message: string;
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
-              private tableOutputService: TableOutputService,
-              private router: Router) { }
+              @Inject(MAT_DIALOG_DATA) public datar) { }
 
   ngOnInit(): void {
   }

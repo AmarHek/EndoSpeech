@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
-import { TimeStampsService } from "../../core/services/time-stamps.service";
-import { DisplayService } from "../../core/services/display.service";
+import { environment } from "@env/environment";
+import { TimeStampsService } from "@app/core/services/time-stamps.service";
+import { DisplayService } from "@app/core/services/display.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { ConfirmDialogComponent, ConfirmDialogModel } from "../confirm-dialog/confirm-dialog.component";
-import * as N from "../../models/model";
+import { ConfirmDialogComponent, ConfirmDialogModel } from "../../shared/confirm-dialog/confirm-dialog.component";
+import * as N from "@app/models/model";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "../../core/services/dict-manager.service";
+import { DictManagerService } from "@app/core/services/dict-manager.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
 

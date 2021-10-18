@@ -6,3 +6,4 @@ export * from "./services/parser-basis.service";
 export * from "./services/record-manager.service";
 export * from "./services/time-stamps.service";
 export * from "./services/text-output.service";
+export * from "./services/table-output.service";

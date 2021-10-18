@@ -8,9 +8,9 @@ import {
   ParserBasisService,
   RecordManagerService,
   TextOutputService,
-  TimeStampsService
+  TimeStampsService,
+  TableOutputService
 } from "@app/core";
-
 
 @NgModule({
   declarations: [],
@@ -25,7 +25,8 @@ import {
     ParserBasisService,
     RecordManagerService,
     TextOutputService,
-    TimeStampsService
+    TimeStampsService,
+    TableOutputService
   ]
 })
 export class CoreModule {

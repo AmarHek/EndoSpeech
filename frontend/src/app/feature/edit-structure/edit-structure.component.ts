@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, Router } from "@angular/router";
-import * as N from "../models/model";
+import * as N from "@app/models/model";
 import { faAngleDown, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { NgForm } from "@angular/forms";
-import { DictManagerService } from "../core/services/dict-manager.service";
+import { DictManagerService } from "@app/core/services/dict-manager.service";
 import { Subscription } from "rxjs";
 
 @Component({
