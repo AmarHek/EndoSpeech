@@ -17,7 +17,6 @@ export class RecordManagerService {
     if (newRecord.timestamp === undefined) {
       newRecord.timestamp = new Date();
     }
-
     this.http.post<{message: string; recordId: string}>(this.databaseUrl + "addRecord", newRecord)
       .subscribe((response) => {
         console.log(response.message);
