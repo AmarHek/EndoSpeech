@@ -1,23 +1,30 @@
-Backend Working Structure
+Backend Working Structure:
 
-- server.ts sets up Server on Port 3000 and is the file that has to be executed
+- server.ts sets up Server on Port 8000 and is the file that has to be executed
 - app.ts connects to MongoDB, sets CORSE Headers and defines basic API Path
+- MongoDB must be installed locally, port and database names can be set in config/db.config.ts
+
+Folder config:
+- cors origins in cors.config.ts
+- mongo config in db.config.ts
 
 Folder models:
-    dictSchema.ts defines how a dict looks like in the database (a dict and its name), have in mind that an id is automatically added as well
-    dictModel.ts defines how a dict and its substructures look like when an excel file is converted
 
-Folder Routes:
-    - Defines Routes for API, the options are "get all dicts", "modify one dict", "delete one dict", "upload an ui generated dict" and "upload an excel generated dict"
-    - call the functions from ../controllers/recordRoutes.ts
+- dict.schema.ts defines how a template looks like in the database (a template and its name),
+  have in mind that an id is automatically added as well
+- dict.model.ts defines how a template and its substructures look like in json / from excel
+- record.schema.ts defines records
 
 Folder controllers:
-    - createDict, changeDict, deleteDict and getDicts all operate fairly simple. Just one call to the database and either fetch, update or change data. Afterwards return the result
-    - createExcelDict saves the Excel in the ../excels folder. Afterwards it is converted to json by an external library function. The function from ../excels/excelParser.ts is called on that json and converts the plain json to a nested json
-    - Before returning success, the excel and json are deleted from server storage, the name is checked for duplicates in the db (if so, add _cpy to its name) and finally the new dict is added
-    to the db
+- all functions for HTTP requests are defined here
 
-Folder excels:
-    - excelParser.ts takes a plain json that was made from an excel. It iterates through all elements of that json and looks for toplevel elements. Everything else is nested into those toplevel elements
+Folder Routes:
+- defines proper routing for all HTTP requests
+- implements multer for dict excels/jsons
 
+Folder middleware:
+- contains excelParser middleware for parsing xlsx files into jsons
 
+Public folders:
+- dist for angular output
+- data for excels and jsons (records are saved as plain text in mongodb)

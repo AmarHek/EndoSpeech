@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document} from 'mongoose';
-import * as M from './dictModel';
+import * as M from './dict.model';
 
 export interface DictDB extends Document {
     parts:      M.TopLevel[];

@@ -1,4 +1,4 @@
-import Dict from '../models/dictSchema';
+import Dict from '../models/dict.schema';
 import fs from 'fs';
 import {Request, NextFunction, Response} from "express";
 import { Document } from "mongoose";
@@ -6,14 +6,14 @@ import { Document } from "mongoose";
 /*
 exports.createExcelDict =  (req, res, next) => {
   let xlsx = require('xlsx');
-  let workbook = xlsx.readFile('backend/excels/' + req.file.filename);
+  let workbook = xlsx.readFile('backend/middleware/' + req.file.filename);
   let sheet_name_list = workbook.SheetNames;
   let data = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-  fs.writeFile('backend/excels/' + req.file.filename +".json", JSON.stringify(data), function (err) {
+  fs.writeFile('backend/middleware/' + req.file.filename +".json", JSON.stringify(data), function (err) {
   if (err) {
       return console.log(err);
   }});
-  fs.unlinkSync('backend/excels/' + req.file.filename);
+  fs.unlinkSync('backend/middleware/' + req.file.filename);
   let parsed = parser(data);
   if (typeof (parsed) == "string") {
     res.status(201).json({
@@ -101,7 +101,7 @@ export function createJSONDict(req: any, res: Response, next: NextFunction): voi
   }
 }
 
-export function changeDict(req: Request, res: Response, next: NextFunction): void {
+export function updateDict(req: Request, res: Response, next: NextFunction): void {
   const newDict = new Dict({
     _id: req.params.id,
     dict: req.body.dict,
@@ -130,22 +130,27 @@ export function deleteDict(req: Request, res: Response, next: NextFunction): voi
     });
 }
 
-export function getDicts(req: Request, res: Response, next: NextFunction): void {
+export function getDictList(req: Request, res: Response, next: NextFunction): void {
   Dict.find()
-    .then(dicts => {
-      console.log(dicts);
+    .exec((err, dicts) => {
+      if (err) {
+        res.status(500).send({message: err});
+      }
       res.status(200).json({
-        message: "Dicts fetched",
+        message: "Dictionaries fetched",
         dicts: dicts
       });
     });
 }
 
 export function getDictByName(req: Request, res: Response, next: NextFunction): void {
-  Dict.find({name: req.body.name}).then(
-      dict => {
+  Dict.find({name: req.body.name}).exec(
+      (err, dict) => {
+        if (err) {
+          res.status(500).send({message: err});
+        }
         res.status(200).json({
-          message: "Dict found",
+          message: "Dictionary found",
           dict: dict
         });
       }

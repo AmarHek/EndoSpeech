@@ -2,15 +2,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
-import * as dictRoutes from "./routes/dictRoutes"
-import * as recordRoutes from "./routes/recordRoutes"
+import * as C from "./config/db.config";
+import * as dictRoutes from "./routes/dict.routes"
+import * as recordRoutes from "./routes/record.routes"
+import path from "path";
 
 export const app = express();
 
-const url = "mongodb://127.0.0.1:27017/endo"
-
-/*const url2 = 'mongodb+srv://EndoSpeech:' + "VGmzqChCTqcGd4N" +
-    '@cluster0.acvuh.mongodb.net/endo?retryWrites=true&w=majority'*/
+const url = "mongodb://" + C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
 
 mongoose.connect(url,
     {useNewUrlParser: true,
@@ -25,8 +24,11 @@ mongoose.connect(url,
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: true
 }));
+
+app.use("/", express.static(path.join(__dirname, "../dist/endoassist")));
+app.set("view engine", "ejs");
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,7 +39,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/endo/database", dictRoutes.router);
-app.use("/endo/database", recordRoutes.router);
+app.use("/endo/dict", dictRoutes.router);
+app.use("/endo/record", recordRoutes.router);
 
-//app.get("/*", (req,res)=> res.sendFile(path.join(__dirname)));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
+});

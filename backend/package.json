@@ -2,8 +2,8 @@
   "name": "endoassist-server",
   "version": "1.0.0",
   "scripts": {
-    "start": "node --inspect=5858 -r ts-node/register ./src/server.ts",
-    "start:watch": "nodemon",
+    "start": "node -r ts-node/register ./src/server.ts",
+    "start:watch": "nodemon --delay 500ms",
     "build": "tsc",
     "eslint": "eslint src/**"
   },
@@ -13,8 +13,8 @@
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "mongoose": "^5.10.14",
-    "multer": "^1.4.2",
-    "tslib": "^2.0.0",
+    "multer": "^1.4.3",
+    "tslib": "^2.3.1",
     "xlsx": "^0.17.0"
   },
   "devDependencies": {

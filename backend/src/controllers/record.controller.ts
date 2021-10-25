@@ -1,4 +1,4 @@
-import Record from '../models/recordSchema';
+import Record from '../models/record.schema';
 import { Request, Response, NextFunction } from 'express';
 
 export function addRecord(req: Request, res: Response, next: NextFunction): void {
@@ -16,10 +16,14 @@ export function addRecord(req: Request, res: Response, next: NextFunction): void
 }
 
 export function getRecordsByID(req: Request, res: Response, next: NextFunction): void {
-    Record.find({ sessionID: req.body.sessionID }).then(records => {
-        res.status(200).json({
-            message: "Records fetched",
-            records: records
-        });
+    Record.find({ sessionID: req.body.sessionID }).exec(
+        (err, records) => {
+            if (err) {
+                res.status(500).send({message: err});
+            }
+            res.status(200).json({
+                message: "Records fetched",
+                records: records
+            });
     });
 }

@@ -1,7 +1,6 @@
 import express from "express";
-import bodyParser from "body-parser";
 
-import * as RecordController from "../controllers/recordController";
+import * as RecordController from "../controllers/record.controller";
 
 export const router = express.Router();
 

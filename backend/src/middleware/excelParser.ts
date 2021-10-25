@@ -1,5 +1,5 @@
 import xlsx from 'xlsx';
-import { VariableOC, VariableText, CheckBox, Category, Disease, Dict } from '../models/dictModel'
+import { VariableOC, VariableText, CheckBox, Category, Disease, Dict } from '../models/dict.model'
 
 //var xldata = require('./dd70dc66af0d5800e754d3c0496e1082.json');
 

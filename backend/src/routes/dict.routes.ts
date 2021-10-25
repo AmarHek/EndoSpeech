@@ -2,7 +2,7 @@ import express from "express";
 import fs from 'fs';
 import multer from 'multer';
 
-import * as DictController from "../controllers/dictController";
+import * as DictController from "../controllers/dict.controller";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -32,15 +32,15 @@ const storageJSON = multer.diskStorage({
 export const router = express.Router();
 
 /*
-router.post("/excels", multer({
+router.post("/middleware", multer({
   storage: storage
 }).single("file"), DictController.createExcelDict );*/
 router.post("/json", multer({
   storage: storageJSON
 }).single("file"), DictController.createJSONDict);
 router.post("", DictController.createDict);
-router.put("/:id", DictController.changeDict );
-router.get('', DictController.getDicts);
+router.put("/:id", DictController.updateDict );
+router.get('', DictController.getDictList);
 router.post("/single", DictController.getDictByName);
 router.delete("/:id", DictController.deleteDict);
 
