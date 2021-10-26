@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "name": "endoassist",
+			"cwd": "./backend/",
+            "script": "npm",
+            "args" : "start",
+			"env": {
+				"NODE_ENV": "production"
+			},
+			"version": "1.0.0"
+        }
+    ]
+}

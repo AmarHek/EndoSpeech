@@ -1,28 +1,18 @@
-# Radiologie Befundung
+# EndoAssist Befundung
 
 ## Build for production
 
 ```bash
-# build client (Angular) app and insert into server
-cd ui/
-ng build --prod --output-path ../server/src/main/resources/org/felher/server/
-
-# build server
-cd ../server
-sbt packageZipTarball
-
-# copy to server
-scp target/universal/server-0.1.0-SNAPSHOT.tar.gz <username>@132.187.15.156:server-0.1.0-SNAPSHOT.tar.gz
 
 # login on server
-ssh <username>@132.187.15.156
+ssh <username>@endovm
 
-# unpack
-tar -xzf server-0.1.0-SNAPSHOT.tar.gz
+# build client (Angular) app and insert into server
+cd frontend/
+ng build:prod
 
-# start server
-cd server-0.1.0-SNAPSHOT
-bin/server &
+# host server 
+pm2 start pm2config.json
 
 logout
 ```
