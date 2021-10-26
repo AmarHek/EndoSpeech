@@ -1,33 +1,21 @@
 <div class="headline">
   <div class="btn btn-sm"
        [ngClass]="{
-          'btn-danger' : sessionState === 'Inaktiv',
-          'btn-success': sessionState === 'Aktiv'
+          'btn-danger' : !recording,
+          'btn-success': recording
        }"
-       style="margin-right: 15px">Untersuchung {{sessionState}}
+       style="margin-right: 15px">Aufnahme {{recording ? "An" : "Aus"}}
   </div>
-  <div class="btn btn-sm"
-       [ngClass]="{
-          'btn-danger' : recordState === 'Aus',
-          'btn-success': recordState === 'An',
-          'btn-warning'  : recordState === 'Pause'
-       }"
-       style="margin-right: 15px">Aufnahme {{recordState}}
-  </div>
-  <!--
-  <button _id="output-gen" (click)=openModal() class="btn btn-outline-primary"
-  style="margin-right: 15px">
-    Dokument generieren
-  </button>-->
+  <button (click)="initSession()" class="btn btn-outline-primary"
+          style="margin-right: 15px">Neue Session starten</button>
   <button (click)="fetchRecords()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Aufnahmen laden</button>
-  <button (click)="resetSession()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Untersuchung zurücksetzen</button>
+          style="margin-right: 15px">Aufnahmen von vorheriger Session laden</button>
   <label for="input">Input:
-    <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"
-           (input)="onInput($event)" placeholder="Aufnahme...">
+    <input #inputField style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="recordedText"
+           [disabled]="!recording" (input)="onInput()" placeholder="Aufnahme...">
     <!-- <input [(ngModel)]="myInput.twInput" _id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
   </label>
+  <span style="margin-left:10px;">Session ID: {{sessionID}}</span>
 </div>
 
 <div class="main">
