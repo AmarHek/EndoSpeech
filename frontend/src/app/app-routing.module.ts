@@ -11,11 +11,11 @@ const routes: Routes = [
     component: ListComponent
   },
   {
-    path: "main/Fortgeschritten/:name",
+    path: "main/Fortgeschritten/:id",
     component: AdvancedComponent
   },
   {
-    path: "main/Hierarchisch/:name",
+    path: "main/Hierarchisch/:id",
     component: HierarchischComponent
   },
   {

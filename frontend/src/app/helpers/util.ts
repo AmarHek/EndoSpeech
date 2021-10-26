@@ -121,3 +121,7 @@ export function getBase64Image(img) {
 
   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
+
+export function getFileExtension(filename: string) {
+  return filename.split(".").pop().toLowerCase();
+}

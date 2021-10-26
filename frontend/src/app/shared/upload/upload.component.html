@@ -1,13 +1,39 @@
-<form [formGroup]="form">
-  <div class="settings">
-    <div>
-      <label class="mr-3" for="uploadFile">Datei: </label>
-      <input class="mr-3" type="file" id="uploadFile"/>
-    </div>
-    <div>
-      <label class="mr-3" for="NameOfFile">Name: </label>
-      <input class="mr-3" type="text" name="name" id="NameOfFile" formControlName="name">
-      <button class="btn btn-info ml-3" (click)="upload()">Upload</button>
-    </div>
+<div mat-dialog-title class="header">
+  <h5>Schablone hochladen</h5>
+</div>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content [formGroup]="uploadForm">
+  <div>
+    <table class="files">
+      <tr>
+        <td><label class="mr-3" for="NameOfFile">Name: </label></td>
+        <td><input class="mr-3 inputField" type="text" name="name" id="NameOfFile" formControlName="name"></td>
+      </tr>
+      <tr>
+        <td><label class="mr-3" for="filename">Datei: </label></td>
+        <td><input readonly
+                   [value]="(currentFile === null || currentFile === undefined) ? null : currentFile.name"
+                   class="mr-3 inputField" type="text" id="filename"></td>
+        <td>
+          <button class="btn btn-outline-primary" (click)="inputField.click()" id="UploadButton">Durchsuchen...</button>
+          <input hidden #inputField class="mr-3"
+                 type="file" id="uploadFile" formControlName="filename"
+                 (change)="onFileSelect($event)">
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><span *ngIf="this.showWarning" class="alert-warning">Dateityp nicht unterstützt.</span></td>
+      </tr>
+    </table>
   </div>
-</form>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-actions class="buttons">
+  <button id="submitButton" class="btn btn-primary" (click)="upload()">Hochladen</button>
+  <button id="cancelButton" class="btn btn-outline-secondary" (click)="close()">Abbrechen</button>
+</mat-dialog-actions>

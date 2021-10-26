@@ -8,8 +8,8 @@ import {
   ParserBasisService,
   RecordRequestsService,
   TextOutputService,
-  TimeStampsService,
-  TableOutputService
+  TableOutputService,
+  MatDialogService
 } from "@app/core";
 
 @NgModule({
@@ -25,8 +25,8 @@ import {
     ParserBasisService,
     RecordRequestsService,
     TextOutputService,
-    TimeStampsService,
-    TableOutputService
+    TableOutputService,
+    MatDialogService
   ]
 })
 export class CoreModule {

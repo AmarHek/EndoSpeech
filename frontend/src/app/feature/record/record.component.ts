@@ -217,11 +217,11 @@ export class RecordComponent implements OnInit {
     if (res === true) {
       if (this.sessionID === undefined) {
         const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
-        this.recordManager.getRecords(idTemp).subscribe((records) => {
-          console.log(records);
-          this.records = records;
-          this.tableOutputService.records = records;
-          if (records.length > 0) {
+        this.recordManager.getRecordsBySessionID(idTemp).subscribe((res) => {
+          console.log(res.records);
+          this.records = res.records;
+          this.tableOutputService.records = res.records;
+          if (res.records.length > 0) {
             this.sessionID = idTemp;
           }
         });

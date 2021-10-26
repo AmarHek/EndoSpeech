@@ -35,8 +35,15 @@ export class DictRequestsService {
       );
   }
 
+  addDictFromJSON(jsonData: FormData) {
+    return this.http.post<{message: string; dictID: string }>(
+      this.databaseUrl + "json/",
+      jsonData
+    );
+  }
+
   deleteDict(id: string) {
-    this.http.delete(this.databaseUrl + id);
+    return this.http.delete(this.databaseUrl + id);
   }
 
   getList() {

@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "@env/environment";
-import { TimeStampsService } from "@app/core/services/time-stamps.service";
 import { DisplayService } from "@app/core/services/display.service";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "../../shared/confirm-dialog/confirm-dialog.component";
 import * as N from "@app/models/dictModel";
 import { Subscription } from "rxjs";
 import { DictRequestsService } from "@app/core/services/dict-requests.service";
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { DomSanitizer } from "@angular/platform-browser";
+import {MatDialogService} from "@app/core";
+import {UploadComponent} from "@app/shared";
 
 
 @Component({
@@ -16,62 +16,63 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
   templateUrl: "./list.component.html",
   styleUrls: ["./list.component.scss"]
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
 
   dicts: N.Dict[] = [];
   dictSub: Subscription;
   isLoading: boolean;
-  downJson;
 
   ui: string;
 
   constructor(private http: HttpClient,
-    private timesService: TimeStampsService,
     private displayService: DisplayService,
     private dialog: MatDialog,
-    private dictManagerService: DictRequestsService,
+    private dialogService: MatDialogService,
+    private dictRequestService: DictRequestsService,
     private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.isLoading = false;
+    this.isLoading = true;
     this.setUi();
-    this.updateList();
+    this.update();
   }
 
-  removeAlert(_id: string) {
+  update(): void {
+    this.dictRequestService.getList().subscribe((dicts) => {
+      this.dicts = dicts;
+      this.isLoading = false;
+    })
+  }
+
+  removeAlert(id: string) {
     const dialogData = new ConfirmDialogModel(
       "warning",
       "Entfernen bestätigen",
-      "Möchten Sie die Schablone '" + _id + "' wirklich entfernen?");
+      "Möchten Sie die Schablone '" + id + "' wirklich entfernen?");
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.hasBackdrop = true;
-    dialogConfig.width = "400px";
-    dialogConfig.data = dialogData;
+    const dialogConfig = this.dialogService.defaultConfig("400px", dialogData);
     dialogConfig.position = { top: "50px" };
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.remove(_id);
+        this.remove(id);
       }
     });
   }
 
+  remove(id: string): void {
+    this.dictRequestService.deleteDict(id).subscribe(() => {
+      this.update()
+    });
+  }
+
+  /*
   generateDownloadJson(jsonData) {
     const json = JSON.stringify(jsonData);
     this.downJson = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(json));
-  }
-
-  updateList(): void {
-    this.dictManagerService.getList();
-    this.dictSub = this.dictManagerService.getListUpdateListener().subscribe((list: N.Dict[]) => {
-      this.dicts = list;
-      this.isLoading = false;
-    });
-  }
+  } */
 
   setUi() {
     this.displayService.getUi().subscribe((value) => {
@@ -79,12 +80,13 @@ export class ListComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
-    this.dictSub.unsubscribe();
-  }
+  openUploadDialog() {
+    const dialogConfig = this.dialogService.defaultConfig("470px");
+    const dialogRef = this.dialog.open(UploadComponent, dialogConfig);
 
-  remove(id: string): void {
-    this.dictManagerService.deleteDict(id);
+    dialogRef.afterClosed().subscribe(() => {
+      this.update();
+    });
   }
 
 }

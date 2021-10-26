@@ -5,6 +5,6 @@ import * as RecordController from "../controllers/record.controller";
 export const router = express.Router();
 
 router.post("/addRecord", RecordController.addRecord);
-router.post('/getRecord', RecordController.getRecordsByID);
+router.post('/getRecords', RecordController.getRecordsByID);
 
 

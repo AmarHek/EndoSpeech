@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { EditStructureComponent } from "@app/feature";
 
 import {AdvancedComponent, ListComponent, HierarchischComponent,
   RecordComponent, TableOutputComponent} from "@app/feature";
@@ -14,7 +15,8 @@ import {SharedModule} from "@app/shared/shared.module";
     ListComponent,
     HierarchischComponent,
     RecordComponent,
-    TableOutputComponent
+    TableOutputComponent,
+    EditStructureComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import {SharedModule} from "@app/shared/shared.module";
     ListComponent,
     HierarchischComponent,
     RecordComponent,
-    TableOutputComponent
+    TableOutputComponent,
+    EditStructureComponent
   ]
 })
 export class FeatureModule { }

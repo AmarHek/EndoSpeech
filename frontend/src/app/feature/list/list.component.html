@@ -1,27 +1,28 @@
+<div class="main">
   <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
     <div class="spinner-grow mySpinner" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </div>
   <ng-container *ngIf="!isLoading">
-    <table>
+    <table class="liste">
       <tr *ngFor="let dict of dicts; let i = index" class="list-row">
         <td>
           <ul>
-            <li><a [routerLink]="['/main', this.ui, dict.name]">{{dict.name}}</a></li>
-            <!-- <span> hochgeladen am {{myArr[i]}}</span> -->
+            <li><a [routerLink]="['/main', this.ui, dict._id]">{{dict.name}}</a></li>
           </ul>
         </td>
         <td>
           <button class="btn btn-danger ml-3" (click)="removeAlert(dict._id)">Entfernen</button>
         </td>
         <td>
-          <button class="btn btn-secondary ml-3" [routerLink]="['/', 'edit', dict.name]">Edit</button>
+          <button class="btn btn-secondary ml-3" [routerLink]="['/', 'edit', dict._id]">Edit</button>
         </td>
+        <!--
         <td>
           <a class="btn btn-secondary ml-3" (click)="generateDownloadJson(dict)"
              title="Download JSON" [href]="downJson" download="{{dict.name}}.json">Download</a>
-        </td>
+        </td>-->
       </tr>
     </table>
   </ng-container>
@@ -29,3 +30,9 @@
   <div *ngIf="dicts.length === 0 && !isLoading">
     Es wurde noch nichts hochgeladen
   </div>
+
+  <div class="buttons">
+    <button class="btn btn-outline-primary" (click)="openUploadDialog()">Schablone hochladen</button>
+    <button class="btn btn-outline-primary disabled">Neue Schablone erstellen</button>
+  </div>
+</div>

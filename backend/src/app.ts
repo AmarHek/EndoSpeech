@@ -31,17 +31,18 @@ app.use("/", express.static(path.join(__dirname, "../dist/endoassist")));
 app.set("view engine", "ejs");
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Methods',
-    'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-  next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token, Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE');
+    next();
 });
 
 app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
 
+/*
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
-});
+});*/

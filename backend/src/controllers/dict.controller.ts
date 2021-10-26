@@ -141,15 +141,12 @@ export function getDictList(req: Request, res: Response): void {
 }
 
 export function getDictById(req: Request, res: Response): void {
-  Dict.find({_id: req.params.id}).exec(
+  Dict.findOne({_id: req.params.id}).exec(
       (err, dict) => {
         if (err) {
           res.status(500).send({message: err});
         }
-        res.status(200).send({
-          message: "Dictionary found",
-          dict: dict
-        });
+        res.status(200).send(dict);
       }
   )
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -17,13 +17,12 @@ import { ParserBasisService } from "@app/core/services/parser-basis.service";
   templateUrl: "./advanced.component.html",
   styleUrls: ["./advanced.component.scss"]
 })
-export class AdvancedComponent implements OnInit, OnDestroy {
+export class AdvancedComponent implements OnInit {
 
   errorMsg = "";
   isLoading = false;
-  routeName: string;
   private textSub: Subscription;
-  dict: M.Dict = { name: "", parts: [], _id: "" };
+  dict: M.Dict;
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
   firstTime = false;
@@ -38,7 +37,6 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   jsDown2: SafeUrl;
   inner = "hey";
   getReady = false;
-  // recogWords : {Array<string>} = [];
 
   @ViewChild("myReport", { static: false }) myReport: ElementRef;
   @ViewChild("myJson", { static: false }) myJson: ElementRef;
@@ -54,40 +52,33 @@ export class AdvancedComponent implements OnInit, OnDestroy {
               private base: ParserBasisService) {
   }
 
-  ngOnDestroy(): void {
-    this.textSub.unsubscribe();
-  }
-
   ngOnInit(): void {
-    // assigns reference to polyp object
-    // this.polyp = this.inputParser.polyp;
     this.route.paramMap.subscribe((ps) => {
-      if (ps.has("name")) {
-        this.routeName = ps.get("name");
+      if (ps.has("id")) {
+        const dictID = ps.get("id");
         this.isLoading = true;
-        this.dictManager.getList();
-        this.textSub = this.dictManager.getList()
-          .subscribe((list: M.Dict[]) => {
-            this.isLoading = false;
-            this.dict = list.find((d) => d.name === this.routeName);
-            if (this.dict === undefined) {
-              this.errorMsg =
-                "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren und eines der dort aufgeführten Dictionaries auswählen.";
-            } else {
+        this.dictManager.getDictById(dictID)
+          .subscribe((dict: M.Dict) => {
+            if (dict === undefined) {
+              this.errorMsg = "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren " +
+                "und eines der dort aufgeführten Dictionaries auswählen.";
+            }
+            else {
+              this.isLoading = false;
+              this.dict = dict;
+              console.log(dict);
+              console.log(dict.parts);
               if (!this.inputParser.start) {
-                console.log(this.dict.parts);
+                console.log("hier", this.dict.parts);
                 this.inputParser.createStartDict(this.dict.parts);
                 this.inputParser.start = true;
               }
             }
-            /* this.dictionaryService.setDict(list.find(d => d.name === this.routeName));
-            this.new_parts = this.dictionaryService.myDict.dict; */
-            /* this.myList[1].name = "Leo2";
-            this.dictManager.updateDict(this.myList[1]); */
           });
       } else {
         this.errorMsg =
-          "Kein Dictionary zum Editieren ausgewählt! Bitte auf List Seite zurückkehren und das gewünschte Dictionary auswählen.";
+          "Kein Dictionary zum Editieren ausgewählt! " +
+          "Bitte auf List Seite zurückkehren und das gewünschte Dictionary auswählen.";
       }
     });
     this.diseases = this.base.diseases;
@@ -96,9 +87,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
     this.myInput = this.inputParser.twInput;
     this.jsDown = this.textOut.downJson;
     this.filledCats = this.textOut.rep;
-    // this.recogWords = this.textOut.recogWords;
   }
-
 
   // used that only one synonym for each keyword is shown on the interface
   filterSyn(arr: Array<KeywordSelectable>) {

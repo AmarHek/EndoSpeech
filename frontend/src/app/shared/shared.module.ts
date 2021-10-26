@@ -14,13 +14,20 @@ import {
   UploadComponent
 } from "@app/shared";
 
+import {VariableComponent} from "@app/shared/variable/variable.component";
+import {DiseaseComponent} from "@app/shared/disease/disease.component";
+import {AttributeComponent} from "@app/shared/attribute/attribute.component";
+
 @NgModule({
   declarations: [
     ReportComponent,
     UploadComponent,
     DialogComponent,
     ConfirmDialogComponent,
-    SortCategoriesPipe
+    SortCategoriesPipe,
+    VariableComponent,
+    DiseaseComponent,
+    AttributeComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +43,10 @@ import {
     UploadComponent,
     DialogComponent,
     ConfirmDialogComponent,
-    SortCategoriesPipe
+    SortCategoriesPipe,
+    VariableComponent,
+    DiseaseComponent,
+    AttributeComponent
   ]
 })
 export class SharedModule { }

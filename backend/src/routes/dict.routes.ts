@@ -35,13 +35,13 @@ export const router = express.Router();
 router.post("/middleware", multer({
   storage: storage
 }).single("file"), DictController.createExcelDict );*/
-router.post("/json", multer({
+router.post("/json/", multer({
   storage: storageJSON
 }).single("file"), DictController.createJSONDict);
-router.post("", DictController.createDict);
+router.post("/", DictController.createDict);
 router.put("/:id", DictController.updateDict );
 router.get('', DictController.getDictList);
-router.post("/single", DictController.getDictById);
+router.get("/:id", DictController.getDictById);
 router.delete("/:id", DictController.deleteDict);
 
 

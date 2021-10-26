@@ -30,9 +30,7 @@ export class TableOutputService {
 
 
   initInputparser(): void {
-    this.dictManager.getList();
-    this.dictManager
-      .getListUpdateListener()
+    this.dictManager.getList()
       .subscribe((list: M.Dict[]) => {
         this.dict = list.find((d) => d.name === "cond2");
         if (this.dict === undefined) {

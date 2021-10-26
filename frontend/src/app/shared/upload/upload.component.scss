@@ -1,11 +1,36 @@
-.settings {
-  display:grid;
-  grid-template-columns: max-content;
-  grid-gap:5px;
-  margin-top: 10px;
+files {
+  margin-top: 15px;
+  margin-bottom: 10px;
   margin-left: 20px;
+  border-collapse: separate;
+  border-spacing: 5px;
 }
 
-#uploadFile {
+.header {
+  margin-bottom: 10px;
+}
+
+.buttons {
+  float: right;
+  padding: 5px;
+}
+
+#cancelButton {
   margin-left: 5px;
+}
+
+#UploadButton {
+  padding: 3px 10px;
+}
+
+.inputField {
+  width: 170px;
+}
+
+td {
+  min-width: 70px;
+}
+
+tr {
+  padding: 10px;
 }

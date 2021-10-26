@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -11,27 +11,17 @@ import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import { InputParserHierarchischService } from "@app/core/services/input-parser-hierarchisch.service";
 import { ParserBasisService } from "@app/core/services/parser-basis.service";
 
-
-declare const $: any;
-
 @Component({
   selector: "app-text-hierarchisch",
   templateUrl: "./hierarchisch.component.html",
   styleUrls: ["./hierarchisch.component.scss"]
 })
-export class HierarchischComponent implements OnInit, OnDestroy {
-
-  constructor(private dateParser: NgbDateParserFormatter, private http: HttpClient,
-              private route: ActivatedRoute, private inputParser: InputParserHierarchischService,
-              private textOut: TextOutputService, private sanitizer: DomSanitizer,
-              private dictManager: DictRequestsService, private router: Router, private base: ParserBasisService) {
-  }
+export class HierarchischComponent implements OnInit {
 
   errorMsg = "";
   isLoading = false;
-  routeName: string;
   private textSub: Subscription;
-  parts: M.Dict = { name: "", parts: [], _id: "" };
+  dict: M.Dict;
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
   firstTime = false;
@@ -51,48 +41,41 @@ export class HierarchischComponent implements OnInit, OnDestroy {
   @ViewChild("myReport", { static: false }) myReport: ElementRef;
   @ViewChild("myJson", { static: false }) myJson: ElementRef;
 
+  constructor(private dateParser: NgbDateParserFormatter, private http: HttpClient,
+              private route: ActivatedRoute, private inputParser: InputParserHierarchischService,
+              private textOut: TextOutputService, private sanitizer: DomSanitizer,
+              private dictManager: DictRequestsService, private router: Router, private base: ParserBasisService) {
+  }
 
   ngOnInit(): void {
-
     // assigns reference to polyp object
     // this.polyp = this.inputParser.polyp;
     this.route.paramMap.subscribe((ps) => {
-      if (ps.has("name")) {
-        this.routeName = ps.get("name");
+      if (ps.has("id")) {
+        const dictID = ps.get("id");
         this.isLoading = true;
-        this.dictManager.getList();
-        this.textSub = this.dictManager
-          .getListUpdateListener()
-          .subscribe((list: M.Dict[]) => {
-            this.isLoading = false;
-            this.parts = list.find((d) => d.name === this.routeName);
-            if (this.parts === undefined) {
-              this.errorMsg =
-                "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren und eines der dort aufgeführten Dictionaries auswählen.";
-            } else {
-
-              // ###### needs change
+        this.dictManager.getDictById(dictID)
+          .subscribe((dict: M.Dict) => {
+            if (dict === undefined) {
+              this.errorMsg = "Dieses Dictionary existiert nicht! Bitte auf List Seite zurückkehren " +
+                "und eines der dort aufgeführten Dictionaries auswählen.";
+            }
+            else {
+              this.isLoading = false;
+              this.dict = dict;
               if (!this.inputParser.start) {
-                this.inputParser.createStartDict(this.parts.parts);
+                console.log(this.dict.parts);
+                this.inputParser.createStartDict(this.dict.parts);
                 this.inputParser.start = true;
               }
             }
-            /* this.dictionaryService.setDict(list.find(d => d.name === this.routeName));
-            this.new_parts = this.dictionaryService.myDict.dict; */
-            /* this.myList[1].name = "Leo2";
-            this.dictManager.updateDict(this.myList[1]); */
-            console.log("onInit");
-            console.log(this.parts);
-            console.log(this.diseases);
-            // console.log(this.new_parts);
           });
       } else {
         this.errorMsg =
-          "Kein Dictionary zum Editieren ausgewählt! Bitte auf List Seite zurückkehren und das gewünschte Dictionary auswählen.";
+          "Kein Dictionary zum Editieren ausgewählt! " +
+          "Bitte auf List Seite zurückkehren und das gewünschte Dictionary auswählen.";
       }
     });
-
-
     // ##### needs change
     this.diseases = this.base.diseases;
     this.missing = this.base.missing;
@@ -105,13 +88,6 @@ export class HierarchischComponent implements OnInit, OnDestroy {
     // this.recogWords = this.textOut.recogWords;
 
   }
-
-  ngOnDestroy(): void {
-    this.textSub.unsubscribe();
-
-  }
-
-
 
   // used that only one synonym for each keyword is shown on the interface
   filterSyn(arr: Array<KeywordSelectable>) {
@@ -127,7 +103,6 @@ export class HierarchischComponent implements OnInit, OnDestroy {
     }, 2000);
 
   }
-
 
   inputClick() {
     this.changeButton();

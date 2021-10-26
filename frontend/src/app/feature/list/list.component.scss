@@ -1,3 +1,30 @@
 .list-row {
   vertical-align: baseline;
 }
+
+.main {
+  min-height: 90%;
+  height: auto;
+  background-color: hsl(202, 73%, 96%);
+  border: 1px solid hsl(200, 70%, 80%);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+td.text {
+  min-width: 100px;
+  padding-right: 15px;
+}
+
+td.button {
+  min-width: 50px;
+  padding-right: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+  max-width: 400px;
+}

@@ -217,7 +217,7 @@ The second one is responsible for showing all the information contained by the d
     <!-- The structure of the list are multiple nested for loops, every loop going one level deeper into the dict structure -->
     <!-- This loop is for TopLevel elements (e.g. Diseases and Categories) -->
     <!-- Because TopLevel elements can be both, Diseases and Categories, any level differentiates if it originates from a TopLevel disease or TopLevel Category -->
-    <ng-container *ngFor="let part of myEdit.parts, let x = index" #myParts>
+    <ng-container *ngFor="let part of editDict.parts, let x = index" #myParts>
       <div class="accordion md-accordion accordion-blocks" id="accordionEx78" role="tablist"
         aria-multiselectable="true">
         <!-- Accordion card -->
@@ -845,7 +845,7 @@ The second one is responsible for showing all the information contained by the d
     <!-- The structure of the list are multiple nested for loops, every loop going one level deeper into the dict structure -->
     <!-- This loop is for TopLevel elements (e.g. Diseases and Categories) -->
     <!-- Because TopLevel elements can be both, Diseases and Categories, any level differentiates if it originates from a TopLevel disease or TopLevel Category -->
-    <ng-container *ngFor="let part of myEdit.parts, let x = index" #myParts>
+    <ng-container *ngFor="let part of editDict.parts, let x = index" #myParts>
       <div class="accordion md-accordion accordion-blocks" id="accordionEx78" role="tablist"
         aria-multiselectable="true">
         <!-- Accordion card -->
