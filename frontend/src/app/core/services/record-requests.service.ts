@@ -7,9 +7,9 @@ import {Subject} from "rxjs";
 @Injectable({
   providedIn: "root"
 })
-export class RecordManagerService {
+export class RecordRequestsService {
 
-  databaseUrl = environment.urlRootMongo;
+  databaseUrl = environment.backend + environment.recordDatabase;
 
   constructor(private http: HttpClient) { }
 

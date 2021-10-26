@@ -14,14 +14,17 @@ import {Dict} from "@app/models";
 // This class administrates the list of dicts and executes all api calls
 // -----------------------------------
 
-export class DictManagerService {
+export class DictRequestsService {
   dictList: Array<N.Dict> = [];
   private listUpdated = new Subject<N.Dict[]>();
 
-  databaseUrl = environment.urlRootMongo;
+  databaseUrl = environment.backend + environment.dictDatabase;
 
   constructor(private http: HttpClient) {
-    this.getList();
+  }
+
+  getDictById(id: string) {
+    return this.http.get<Dict>(this.databaseUrl + id);
   }
 
   getList() {
@@ -82,6 +85,7 @@ export class DictManagerService {
       });
   }
 
+  /*
   addExcel(postData: FormData) {
     this.http
       .post<{ message: string; dictId: string }>(
@@ -96,7 +100,7 @@ export class DictManagerService {
         }
         window.alert(str + res.message);
       });
-  }
+  } */
 
   updateDict(changeDict: N.Dict) {
     this.http

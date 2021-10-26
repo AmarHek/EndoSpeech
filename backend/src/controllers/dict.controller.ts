@@ -1,6 +1,6 @@
 import Dict from '../models/dict.schema';
 import fs from 'fs';
-import {Request, NextFunction, Response} from "express";
+import {Request, Response} from "express";
 import { Document } from "mongoose";
 
 /*
@@ -66,21 +66,21 @@ exports.createExcelDict =  (req, res, next) => {
   }
 }*/
 
-export function createDict(req: Request, res: Response, next: NextFunction): void {
+export function createDict(req: Request, res: Respons): void {
   const endo = new Dict({
     parts: req.body.parts,
     name: req.body.name,
     timestamp: req.body.timestamp
   });
   endo.save().then(result => {
-    res.status(201).json({
-      message: 'Disease/Category added successfully',
+    res.status(201).send({
+      message: 'Dictionary updated successfully',
       postId: result._id
     });
   });
 }
 
-export function createJSONDict(req: any, res: Response, next: NextFunction): void {
+export function createJSONDict(req: any, res: Response): void {
   try {
     const rawData = fs.readFileSync(req.file.path);
     const parts = JSON.parse(rawData.toString());
@@ -91,8 +91,8 @@ export function createJSONDict(req: any, res: Response, next: NextFunction): voi
       timestamp: timestamp
     });
     dict.save().then((result: Document) => {
-      res.status(201).json({
-        message: "TemplateModel added successfully",
+      res.status(201).send({
+        message: "Dictionary added successfully",
         postId: result._id
       });
     });
@@ -101,7 +101,7 @@ export function createJSONDict(req: any, res: Response, next: NextFunction): voi
   }
 }
 
-export function updateDict(req: Request, res: Response, next: NextFunction): void {
+export function updateDict(req: Request, res: Response): void {
   const newDict = new Dict({
     _id: req.params.id,
     dict: req.body.dict,
@@ -112,44 +112,41 @@ export function updateDict(req: Request, res: Response, next: NextFunction): voi
     }, newDict)
     .then(result => {
       console.log(result);
-      res.status(200).json({
+      res.status(200).send({
         message: "Update successful"
       });
     });
 }
 
-export function deleteDict(req: Request, res: Response, next: NextFunction): void {
+export function deleteDict(req: Request, res: Response): void {
   Dict.deleteOne({
     _id: req.params.id
   }).then(
     result => {
       console.log(result);
-      res.status(200).json({
-        message: "Post deleted"
+      res.status(200).send({
+        message: "Dictionary deleted"
       });
     });
 }
 
-export function getDictList(req: Request, res: Response, next: NextFunction): void {
+export function getDictList(req: Request, res: Response): void {
   Dict.find()
     .exec((err, dicts) => {
       if (err) {
         res.status(500).send({message: err});
       }
-      res.status(200).json({
-        message: "Dictionaries fetched",
-        dicts: dicts
-      });
+      res.status(200).send(dicts);
     });
 }
 
-export function getDictByName(req: Request, res: Response, next: NextFunction): void {
-  Dict.find({name: req.body.name}).exec(
+export function getDictById(req: Request, res: Response): void {
+  Dict.find({_id: req.params.id}).exec(
       (err, dict) => {
         if (err) {
           res.status(500).send({message: err});
         }
-        res.status(200).json({
+        res.status(200).send({
           message: "Dictionary found",
           dict: dict
         });
