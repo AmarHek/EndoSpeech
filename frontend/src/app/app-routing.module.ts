@@ -27,7 +27,7 @@ const routes: Routes = [
     component: RecordComponent
   },
   {
-    path: "edit/:name",
+    path: "edit/:id",
     component: EditStructureComponent
   },
   {

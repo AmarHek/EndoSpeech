@@ -68,6 +68,13 @@ export class ListComponent implements OnInit {
     });
   }
 
+  displayDate(date: string | Date): string {
+    if (typeof(date) === "string") {
+      date = new Date(date);
+    }
+    return date.getDate() + "." + date.getMonth() + "." + date.getFullYear();
+  }
+
   /*
   generateDownloadJson(jsonData) {
     const json = JSON.stringify(jsonData);

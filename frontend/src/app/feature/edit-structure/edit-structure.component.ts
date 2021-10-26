@@ -134,7 +134,6 @@ export class EditStructureComponent implements OnInit, OnDestroy {
       if (ps.has("id")) {
         const dictID = ps.get("id");
         this.isLoading = true;
-        this.dictManager.getList();
         this.dictManager
           .getDictById(dictID)
           .subscribe(dict => {

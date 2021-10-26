@@ -7,22 +7,16 @@
   <ng-container *ngIf="!isLoading">
     <table class="liste">
       <tr *ngFor="let dict of dicts; let i = index" class="list-row">
-        <td>
-          <ul>
-            <li><a [routerLink]="['/main', this.ui, dict._id]">{{dict.name}}</a></li>
-          </ul>
-        </td>
-        <td>
+        <td class="text"><ul><li>
+          <a style="text-decoration: none;" [routerLink]="['/main', this.ui, dict._id]">{{dict.name}}</a>
+        </li></ul></td>
+        <!--<td class="text">vom {{displayDate(dict.timestamp)}}</td>-->
+        <td class="button">
           <button class="btn btn-danger ml-3" (click)="removeAlert(dict._id)">Entfernen</button>
         </td>
         <td>
-          <button class="btn btn-secondary ml-3" [routerLink]="['/', 'edit', dict._id]">Edit</button>
+          <button class="btn btn-secondary ml-3 disabled" [routerLink]="['/', 'edit', dict._id]">Edit</button>
         </td>
-        <!--
-        <td>
-          <a class="btn btn-secondary ml-3" (click)="generateDownloadJson(dict)"
-             title="Download JSON" [href]="downJson" download="{{dict.name}}.json">Download</a>
-        </td>-->
       </tr>
     </table>
   </ng-container>
