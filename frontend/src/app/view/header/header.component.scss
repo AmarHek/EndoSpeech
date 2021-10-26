@@ -16,9 +16,13 @@ nav a:hover {
 }
 nav a.active {
   color: #039be5;
+  background-color: #cfd8dc;
 }
 
-button {
-  margin-left: 5px;
-  margin-right: 20px;
+.navbar-toggler {
+  margin-right: 10px;
+}
+
+.ms-auto {
+  margin-right: 5px;
 }

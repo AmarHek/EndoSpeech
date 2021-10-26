@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Record} from "@app/models";
+import {RecordModel} from "@app/models";
 import { environment } from "@env/environment";
 import {Subject} from "rxjs";
 
@@ -13,7 +13,7 @@ export class RecordRequestsService {
 
   constructor(private http: HttpClient) { }
 
-  addRecord(newRecord: Record) {
+  addRecord(newRecord: RecordModel) {
     if (newRecord.timestamp === undefined) {
       newRecord.timestamp = new Date();
     }
@@ -32,7 +32,7 @@ export class RecordRequestsService {
       sessionID
     };
 
-    const subjectRecord = new Subject<Record[]>();
+    const subjectRecord = new Subject<RecordModel[]>();
 
     this.http.post<{message: string; records: any }>(
       this.databaseUrl + "getRecord", query)

@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "@app/models/model";
+import * as M from "@app/models/dictModel";
 import { KeywordSelectable, KeywordDisease, TextDic } from "@app/models/keyword";
 import { TextOutputService } from "@app/core/services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import { InputParserHierarchischService } from "@app/core/services/input-parser-hierarchisch.service";
 import { ParserBasisService } from "@app/core/services/parser-basis.service";
 
@@ -22,16 +22,16 @@ declare const $: any;
 export class HierarchischComponent implements OnInit, OnDestroy {
 
   constructor(private dateParser: NgbDateParserFormatter, private http: HttpClient,
-    private route: ActivatedRoute, private inputParser: InputParserHierarchischService,
-    private textOut: TextOutputService, private sanitizer: DomSanitizer,
-    private dictManager: DictManagerService, private router: Router, private base: ParserBasisService) {
+              private route: ActivatedRoute, private inputParser: InputParserHierarchischService,
+              private textOut: TextOutputService, private sanitizer: DomSanitizer,
+              private dictManager: DictRequestsService, private router: Router, private base: ParserBasisService) {
   }
 
   errorMsg = "";
   isLoading = false;
   routeName: string;
   private textSub: Subscription;
-  parts: M.Dict = { name: "", parts: [], id: "" };
+  parts: M.Dict = { name: "", parts: [], _id: "" };
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
   firstTime = false;

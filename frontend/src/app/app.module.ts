@@ -9,6 +9,7 @@ import {SharedModule} from "@app/shared/shared.module";
 import {ViewModule} from "@app/view/view.module";
 import {AppRoutingModule} from "@app/app-routing.module";
 import {APP_DATE_FORMATS, AppDateAdapter} from "@app/helpers";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {APP_DATE_FORMATS, AppDateAdapter} from "@app/helpers";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     FeatureModule,
     SharedModule,

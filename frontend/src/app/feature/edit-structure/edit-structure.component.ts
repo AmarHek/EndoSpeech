@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, Router } from "@angular/router";
-import * as N from "@app/models/model";
+import * as N from "@app/models/dictModel";
 import { faAngleDown, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { trigger, state, style, animate, transition } from "@angular/animations";
 import { NgForm } from "@angular/forms";
-import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -45,7 +45,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private dictManager: DictManagerService,
+    private dictManager: DictRequestsService,
     private router: Router,
   ) { }
   @ViewChildren("myParts") myParts;
@@ -58,7 +58,7 @@ export class EditStructureComponent implements OnInit, OnDestroy {
   kindVar: Array<string> = [];
   @ViewChild("f") signupForm: NgForm;
   // parts: M.TopLevel[] = [];
-  myEdit: N.Dict = { name: "", parts: [], id: "" };
+  myEdit: N.Dict = { name: "", parts: [], _id: "" };
   new_parts: N.TopLevel[] = [];
   disTyp = "";
 

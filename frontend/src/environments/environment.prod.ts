@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  urlRoot: '../',
+  backend: "http://localhost:8000/",
+  dictDatabase: "endo/dict/",
+  recordDatabase: "endo/record/"
 };

@@ -4,7 +4,7 @@ import { environment } from "@env/environment";
 import { Router } from "@angular/router";
 import { TimeStampsService } from "@app/core/services/time-stamps.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import {DisplayService} from "@app/core/services/display.service";
 
 @Component({
@@ -22,7 +22,7 @@ export class UploadComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router,
               private timesService: TimeStampsService,
-              private dictManager: DictManagerService,
+              private dictManager: DictRequestsService,
               private displayService: DisplayService) { }
 
   ngOnInit() {

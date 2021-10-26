@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  urlRootMongo: "http://localhost:3000/endo/database/"
+  backend: "http://localhost:8000/",
+  dictDatabase: "endo/dict/",
+  recordDatabase: "endo/record/"
 };
 
 /*

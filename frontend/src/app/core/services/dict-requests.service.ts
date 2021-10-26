@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import * as N from "@app/models/model";
+import * as M from "@app/models/dictModel";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "@env/environment";
 import { map } from "rxjs/operators";
@@ -15,8 +15,8 @@ import {Dict} from "@app/models";
 // -----------------------------------
 
 export class DictRequestsService {
-  dictList: Array<N.Dict> = [];
-  private listUpdated = new Subject<N.Dict[]>();
+  dictList: Array<M.Dict> = [];
+  private listUpdated = new Subject<M.Dict[]>();
 
   databaseUrl = environment.backend + environment.dictDatabase;
 
@@ -27,61 +27,31 @@ export class DictRequestsService {
     return this.http.get<Dict>(this.databaseUrl + id);
   }
 
-  getList() {
-    this.http
-      .get<{ message: string; dicts: any }>(
-        this.databaseUrl
-      )
-      .pipe(
-        map((getter) => {
-          return getter.dicts.map((retDict) => {
-            return {
-              id: retDict._id,
-              parts: retDict.parts,
-              name: retDict.name,
-            };
-          });
-        })
-      )
-      .subscribe((transData) => {
-        this.dictList = transData;
-        this.listUpdated.next([...this.dictList]);
-      });
-  }
-
-  getListUpdateListener() {
-    return this.listUpdated.asObservable();
-  }
-
-  getDictByName(name: string) {
-    const query = {
-      name
-    };
-    return this.http.post<{ message: string, dict: any }>(
-      this.databaseUrl + "single", query)
-      .subscribe((res) => res.dict as Dict);
-  }
-
-  remove(id: string): void {
-    this.http
-      .delete(this.databaseUrl + id)
-      .subscribe(() => {
-        this.dictList = this.dictList.filter((dict) => dict.id !== id);
-        this.listUpdated.next([...this.dictList]);
-        // this.myList = update;
-      });
-    // this.timesService.removeTimeStamp(index);
-  }
-
-  addDict(newDict: N.Dict) {
-    this.http
+  addDict(newDict: M.Dict) {
+    return this.http
       .post<{ message: string; dictId: string }>(
         this.databaseUrl,
         newDict
-      )
+      );
+  }
+
+  deleteDict(id: string) {
+    this.http.delete(this.databaseUrl + id);
+  }
+
+  getList() {
+    return this.http.get<Dict[]>(this.databaseUrl);
+  }
+
+  updateDict(changeDict: M.Dict) {
+    this.http
+      .put(this.databaseUrl + changeDict._id, {
+        parts: changeDict.parts,
+        name: changeDict.name,
+      })
       .subscribe((response) => {
-        newDict.id = response.dictId;
-        this.dictList.push(newDict);
+        this.dictList[this.dictList.findIndex((d) => d._id === changeDict._id)] = changeDict;
+        this.listUpdated.next([...this.dictList]);
       });
   }
 
@@ -101,18 +71,6 @@ export class DictRequestsService {
         window.alert(str + res.message);
       });
   } */
-
-  updateDict(changeDict: N.Dict) {
-    this.http
-      .put(this.databaseUrl + changeDict.id, {
-        parts: changeDict.parts,
-        name: changeDict.name,
-      })
-      .subscribe((response) => {
-        this.dictList[this.dictList.findIndex((d) => d.id === changeDict.id)] = changeDict;
-        this.listUpdated.next([...this.dictList]);
-      });
-  }
 }
 
 // This is for Radiology

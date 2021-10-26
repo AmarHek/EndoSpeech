@@ -1,3 +1,3 @@
 export * from "./keyword";
-export * from "./model";
-export * from "./record";
+export * from "./dictModel";
+export * from "./recordModel";

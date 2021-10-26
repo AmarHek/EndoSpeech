@@ -9,7 +9,7 @@
 
   <div class="headline">
 
-    <!-- <button id="normal-button" (click)="makeNormal()" class="btn btn-outline-secondary float-right ">Rest
+    <!-- <button _id="normal-button" (click)="makeNormal()" class="btn btn-outline-secondary float-right ">Rest
 			normal</button> -->
 
     <!-- refreshes Page -->
@@ -18,18 +18,18 @@
       download="finaltext.txt">RepDown</a>
     <a #myJson class="btn btn-clear btn-sm" title="Download JSON" [href]="jsDown" download="download.json">JSDown </a>
     <!-- submits text in "Befund eingeben", if it is not automatically triggered by input -->
-    <!-- <button id="submit-button" title="eingabe absenden" (click)="submit()"
+    <!-- <button _id="submit-button" title="eingabe absenden" (click)="submit()"
 			class="btn btn-outline-secondary float-right ">Senden</button> -->
     <!-- enables inputting text -->
-    <!-- <button id="los" (click)="init()"
+    <!-- <button _id="los" (click)="init()"
 			class="btn btn-outline-secondary float-right ">los</button> -->
 
-    <!-- <button id="scroll" (click)="scroll()"
+    <!-- <button _id="scroll" (click)="scroll()"
 			class="btn btn-outline-secondary float-right ">scroll</button> -->
     <!-- input "Befund" text here and submits it automatically -->
     <div id="listening" class="btn btn-sm btn-danger float-left">Aus
     </div>
-    <!--<div id="live-gen" (click)=openModal()
+    <!--<div _id="live-gen" (click)=openModal()
          class="btn btn-outline-primary float-right">
       Dokument generieren
     </div>-->
@@ -37,10 +37,10 @@
     <label for="input">Eingabefenster:
       <input style="width: 3em;" id="input" name="Befund" type="text" (input)="onInput()"
         (focusout)="changeButton()" (focusin)="inputClick()" placeholder="Befund eingeben...">
-      <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
+      <!-- <input [(ngModel)]="myInput.twInput" _id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
     </label>
-    <!-- <input type='file' id="imgUpload" />
-		<img src="http://placehold.it/180" id="my_img" /> -->
+    <!-- <input type='file' _id="imgUpload" />
+		<img src="http://placehold.it/180" _id="my_img" /> -->
     <div id="inputText">
       <br>
     </div>
@@ -78,10 +78,10 @@
 
                   <!-- <div class="row">
 									<ng-container *ngFor="let key of filterSyn(cat.keys)">
-										<div class="col-3 option" id={{key.name}}> {{key.name}}
+										<div class="col-3 option" _id={{key.name}}> {{key.name}}
 
 
-											<span *ngFor="let vari of key.variables" class="link" id="{{key.category + key.name}}">
+											<span *ngFor="let vari of key.variables" class="link" _id="{{key.category + key.name}}">
 												<ng-container *ngIf="vari.kind === 'text'">
 													{{vari.textBefore + '...'}}
 												</ng-container>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 
 import {getDateFormatted, InputDiff} from "@app/helpers/util";
-import {Record} from "@app/models/record";
-import {RecordManagerService} from "@app/core/services/record-manager.service";
+import {RecordModel} from "@app/models/recordModel";
+import {RecordRequestsService} from "@app/core/services/record-requests.service";
 import {nanoid} from "nanoid";
 import {TableOutputService} from "@app/core/services/table-output.service";
 
@@ -34,7 +34,7 @@ export class RecordComponent implements OnInit {
   oldInput = "";
 
   // TODO: Make these records from observable and only add to table-output-service
-  records: Record[] = [];
+  records: RecordModel[] = [];
 
   // TODO: Possible the same for sessionState (but not recordingState)
   sessionState: SessionState = "Inaktiv";
@@ -46,7 +46,7 @@ export class RecordComponent implements OnInit {
   defaultKeywords: RecordKeywords;
   sessionID: string;
 
-  constructor(private recordManager: RecordManagerService,
+  constructor(private recordManager: RecordRequestsService,
               private tableOutputService: TableOutputService) { }
 
   ngOnInit(): void {
@@ -170,7 +170,7 @@ export class RecordComponent implements OnInit {
   }
 
   generateRecording() {
-    const newRec: Record = {
+    const newRec: RecordModel = {
       sessionID: this.sessionID,
       content: this.recordedText,
       timestamp: new Date()

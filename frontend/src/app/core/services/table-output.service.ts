@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import {InputParserService, DictManagerService} from "@app/core";
+import {InputParserService, DictRequestsService} from "@app/core";
 import {getDateFormatted} from "@app/helpers";
-import {Record, Dict} from "@app/models";
-import * as M from "@app/models/model";
+import {RecordModel, Dict} from "@app/models";
+import * as M from "@app/models/dictModel";
 
 @Injectable({
   providedIn: "root"
@@ -10,14 +10,14 @@ import * as M from "@app/models/model";
 export class TableOutputService {
 
   public images: string[] = [];
-  public records: Record[] = [];
+  public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
 
   private dict: Dict;
 
   constructor(private inputParser: InputParserService,
-              private dictManager: DictManagerService) {
+              private dictManager: DictRequestsService) {
     this.date = getDateFormatted(new Date(), true);
     this.initInputparser();
   }

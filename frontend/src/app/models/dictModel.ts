@@ -1,8 +1,9 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 export interface Dict {
-  id:       string;
+  _id:       string;
   parts:    TopLevel[];
+  timestamp: Date;
   name:     string;
 }
 

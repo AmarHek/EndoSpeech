@@ -5,9 +5,9 @@ import { TimeStampsService } from "@app/core/services/time-stamps.service";
 import { DisplayService } from "@app/core/services/display.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "../../shared/confirm-dialog/confirm-dialog.component";
-import * as N from "@app/models/model";
+import * as N from "@app/models/dictModel";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
 
@@ -29,7 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private timesService: TimeStampsService,
     private displayService: DisplayService,
     private dialog: MatDialog,
-    private dictManagerService: DictManagerService,
+    private dictManagerService: DictRequestsService,
     private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   remove(id: string): void {
-    this.dictManagerService.remove(id);
+    this.dictManagerService.deleteDict(id);
   }
 
 }

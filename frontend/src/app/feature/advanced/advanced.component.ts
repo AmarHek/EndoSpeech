@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/co
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import * as M from "@app/models/model";
+import * as M from "@app/models/dictModel";
 import { KeywordSelectable, KeywordDisease, TextDic } from "@app/models/keyword";
 import { InputParserService } from "@app/core/services/input-parser.service";
 import { TextOutputService } from "@app/core/services/text-output.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { DictManagerService } from "@app/core/services/dict-manager.service";
+import { DictRequestsService } from "@app/core/services/dict-requests.service";
 import { ParserBasisService } from "@app/core/services/parser-basis.service";
 
 
@@ -23,7 +23,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
   isLoading = false;
   routeName: string;
   private textSub: Subscription;
-  dict: M.Dict = { name: "", parts: [], id: "" };
+  dict: M.Dict = { name: "", parts: [], _id: "" };
   myText: { report: string } = { report: "" };
   diseases: Array<KeywordDisease> = [];
   firstTime = false;
@@ -49,7 +49,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
               private inputParser: InputParserService,
               private textOut: TextOutputService,
               private sanitizer: DomSanitizer,
-              private dictManager: DictManagerService,
+              private dictManager: DictRequestsService,
               private router: Router,
               private base: ParserBasisService) {
   }
@@ -66,8 +66,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
         this.routeName = ps.get("name");
         this.isLoading = true;
         this.dictManager.getList();
-        this.textSub = this.dictManager
-          .getListUpdateListener()
+        this.textSub = this.dictManager.getList()
           .subscribe((list: M.Dict[]) => {
             this.isLoading = false;
             this.dict = list.find((d) => d.name === this.routeName);

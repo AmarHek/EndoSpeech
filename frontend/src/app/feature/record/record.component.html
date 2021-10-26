@@ -15,7 +15,7 @@
        style="margin-right: 15px">Aufnahme {{recordState}}
   </div>
   <!--
-  <button id="output-gen" (click)=openModal() class="btn btn-outline-primary"
+  <button _id="output-gen" (click)=openModal() class="btn btn-outline-primary"
   style="margin-right: 15px">
     Dokument generieren
   </button>-->
@@ -26,7 +26,7 @@
   <label for="input">Input:
     <input style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="inputText"
            (input)="onInput($event)" placeholder="Aufnahme...">
-    <!-- <input [(ngModel)]="myInput.twInput" id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
+    <!-- <input [(ngModel)]="myInput.twInput" _id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
   </label>
 </div>
 

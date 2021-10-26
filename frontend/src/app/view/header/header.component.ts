@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   public displayNavbar: boolean;
   public mode: string;
   public ui: string;
-  public title: string;
+  public title = "EndoAssist";
 
   faUser: any;
   constructor(private displayService: DisplayService) {}
@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    // TODO: change, so the value is based on class
     this.displayService.updateDisplay();
     this.displayNavbar = this.displayService.displayHeader;
   }

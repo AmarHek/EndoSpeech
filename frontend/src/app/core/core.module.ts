@@ -1,12 +1,12 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  DictManagerService,
+  DictRequestsService,
   DisplayService,
   InputParserService,
   InputParserHierarchischService,
   ParserBasisService,
-  RecordManagerService,
+  RecordRequestsService,
   TextOutputService,
   TimeStampsService,
   TableOutputService
@@ -18,12 +18,12 @@ import {
     CommonModule
   ],
   providers: [
-    DictManagerService,
+    DictRequestsService,
     DisplayService,
     InputParserHierarchischService,
     InputParserService,
     ParserBasisService,
-    RecordManagerService,
+    RecordRequestsService,
     TextOutputService,
     TimeStampsService,
     TableOutputService
