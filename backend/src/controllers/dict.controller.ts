@@ -66,7 +66,7 @@ exports.createExcelDict =  (req, res, next) => {
   }
 }*/
 
-export function createDict(req: Request, res: Respons): void {
+export function createDict(req: Request, res: Response): void {
   const endo = new Dict({
     parts: req.body.parts,
     name: req.body.name,
