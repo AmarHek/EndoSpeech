@@ -51,7 +51,7 @@ app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
 app.use("/endo/freeze", freezeRoutes.router);
 
-/*
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
-});*/
+});
