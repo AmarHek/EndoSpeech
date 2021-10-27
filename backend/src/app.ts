@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 import * as C from "./config/db.config";
 import * as dictRoutes from "./routes/dict.routes"
 import * as recordRoutes from "./routes/record.routes"
+import * as freezeRoutes from "./routes/freeze.routes";
 import path from "path";
+import cors from "cors";
 
 export const app = express();
 
@@ -22,11 +24,17 @@ mongoose.connect(url,
       console.log("Connection lost");
     });
 
+
+app.use(cors({
+    origin: "*"
+}))
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use("/freezes", express.static(path.join(__dirname, "../data/freezes")));
 app.use("/", express.static(path.join(__dirname, "../dist/endoassist")));
 app.set("view engine", "ejs");
 
@@ -41,6 +49,7 @@ app.use((req, res, next) => {
 
 app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
+app.use("/endo/freeze", freezeRoutes.router);
 
 /*
 app.get('*', (req, res) => {

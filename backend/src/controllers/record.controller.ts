@@ -1,5 +1,5 @@
-import Record from '../models/record.schema';
-import { Request, Response } from 'express';
+import { Record } from '../models/';
+import {NextFunction, Request, Response} from 'express';
 
 export function addRecord(req: Request, res: Response): void {
     const record = new Record( {
@@ -7,6 +7,7 @@ export function addRecord(req: Request, res: Response): void {
         timestamp: req.body.timestamp,
         content: req.body.content
     });
+    console.log(record);
     record.save().then(result => {
         res.status(201).send({
             message: "Records file saved successfully",
@@ -26,4 +27,16 @@ export function getRecordsByID(req: Request, res: Response): void {
                 records: records
             });
     });
+}
+
+export function getRecordsByIDMiddleware(req: Request, res: Response, next: NextFunction) {
+    Record.find({sessionID: req.body.sessionID}).exec(
+        (err, records) => {
+            if (err) {
+                res.status(500).send({message: "Keine Textaufnahmen gefunden. Haben Sie eine Session gestartet?"});
+            } else {
+                req.body.records = records;
+                next();
+            }
+        })
 }

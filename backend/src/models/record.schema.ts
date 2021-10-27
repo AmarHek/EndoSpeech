@@ -1,16 +1,16 @@
-import mongoose, {Schema, Document} from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface Record extends Document {
+export interface RecordDoc extends mongoose.Document {
     sessionID:  string;
-    timestamp:  Date;
+    timestamp:  number;
     content:    string;
 }
 
 
-const recordSchema = new Schema({
+const recordSchema = new mongoose.Schema({
     sessionID: { type: String },
-    timestamp: { type: Date },
+    timestamp: { type: Number },
     content: { type: String }
 });
 
-export default mongoose.model<Record>('Record', recordSchema, "records");
+export const Record = mongoose.model<RecordDoc>('Record', recordSchema, "records");
