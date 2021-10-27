@@ -37,8 +37,9 @@ export class RecordRequestsService {
   }
 
   updateFreeze(freezeID: string, textID: string) {
-    return this.http.post<{message: string}>(this.freezeUrl + "update/" + freezeID,
+    return this.http.post<{message: string}>(this.freezeUrl + "update/",
       {
+        freezeID,
         textID
       });
   }

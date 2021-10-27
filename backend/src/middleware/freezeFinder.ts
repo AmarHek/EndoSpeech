@@ -1,4 +1,4 @@
-import { Freeze } from "../models";
+import {Freeze, FreezeDoc} from "../models";
 import {NextFunction, Request, Response} from "express";
 import * as fs from "fs";
 import * as Path from "path";
@@ -62,19 +62,34 @@ export function saveFreezesSync(req: Request, res: Response, next: NextFunction)
         if(!fs.existsSync(savePath)) {
             fs.mkdirSync(savePath);
         }
+        const newFreezes: FreezeDoc[] = [];
         freezes.map((freeze: string) => {
             const freezeStats = fs.statSync(Path.join(IMAGE_DIR, req.body.directory, freeze));
-            const freezeDB = new Freeze({
+            Freeze.find({
                 sessionID: sessionID,
                 directory: req.body.directory,
                 filename: freeze,
                 timestamp: Math.round(+freezeStats.mtime/1000)
-            });
-            freezeDB.save().then(() => {
-                fs.copyFileSync(Path.join(IMAGE_DIR, req.body.directory, freeze), Path.join(savePath, freeze));
-            });
-        })
+            }).then(res => {
+                if (res.length === 0) {
+                    const freezeDB = new Freeze({
+                        sessionID: sessionID,
+                        directory: req.body.directory,
+                        filename: freeze,
+                        timestamp: Math.round(+freezeStats.mtime / 1000)
+                    });
 
+                    freezeDB.save().then((newFreeze) => {
+                        newFreezes.push(newFreeze);
+                        fs.copyFileSync(Path.join(IMAGE_DIR, req.body.directory, freeze), Path.join(savePath, freeze));
+                    });
+                } else {
+                    console.log("Already exists");
+                }
+            }
+        )
+        })
+        req.body.freezes = newFreezes;
         next();
     }
 }

@@ -9,7 +9,7 @@ import {getFreezesAndRecords, onlyGetFreezesAndRecords} from "../controllers/fre
 export const router = express.Router();
 
 router.post("/add", FreezeController.addFreeze);
-router.post("update/:id", FreezeController.updateFreeze);
+router.post("/update", FreezeController.updateFreeze);
 router.post("/getAll", [
     getRecordsByIDMiddleware,
     findDirectory,

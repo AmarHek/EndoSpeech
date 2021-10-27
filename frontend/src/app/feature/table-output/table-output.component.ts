@@ -18,12 +18,11 @@ export class TableOutputComponent implements OnInit {
   reports: string[];
   freetext: string[];
   date: string;
-  timestamps: string[];
 
   files: File[];
 
-  freezes: FreezeModel[];
-  records: RecordModel[];
+  freezes: FreezeModel[] = [];
+  records: RecordModel[] = [];
 
   constructor(private tableOutputService: TableOutputService,
               private dialog: MatDialog,
@@ -31,21 +30,16 @@ export class TableOutputComponent implements OnInit {
 
   ngOnInit(): void {
     this.date = this.tableOutputService.date;
-    this.freetext = this.tableOutputService.getFreetext();
-
-    this.reports = this.tableOutputService.getReports();
-
-    console.log(this.date, this.freetext, this.timestamps, this.reports);
   }
 
   getImages() {
     this.recordManager.getRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
-      console.log(res.message, res.records, res.freezes);
       if (res.records === undefined || res.freezes === undefined) {
         window.alert(res.message);
       }
       this.records = res.records;
       this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
+      window.alert("Freezes können jetzt angezeigt werden.");
     })
   }
 

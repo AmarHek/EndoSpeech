@@ -67,12 +67,12 @@ exports.createExcelDict =  (req, res, next) => {
 }*/
 
 export function createDict(req: Request, res: Response): void {
-  const endo = new Dict({
+  const dict = new Dict({
     parts: req.body.parts,
     name: req.body.name,
     timestamp: req.body.timestamp
   });
-  endo.save().then(result => {
+  dict.save().then(result => {
     res.status(201).send({
       message: 'Dictionary updated successfully',
       postId: result._id

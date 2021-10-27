@@ -17,7 +17,7 @@ export function addFreeze(req: Request, res: Response): void {
 
 export function updateFreeze(req: Request, res: Response): void {
     Freeze.updateOne({
-        _id: req.params.id
+        _id: req.body.freezeID
     }, {$set: {textID: req.body.textID}}).exec((err) => {
         if (err) {
             res.status(500).send({message: err})
@@ -31,22 +31,17 @@ export function updateFreeze(req: Request, res: Response): void {
 
 export function getFreezesAndRecords(req: Request, res: Response): void {
     const records = req.body.records;
-    Freeze.find({
-        sessionID: req.body.sessionID
-    }).exec((err, freezes) => {
-        if (err) {
-            res.status(500).send({message: "Etwas ist hier schief gelaufen"});
-        }
-        if (freezes.length > 0 && records.length > 0) {
+    const freezes = req.body.freezes;
+    console.log(records, freezes);
+    if (freezes.length > 0 && records.length > 0) {
             res.status(201).send({
                 freezes: freezes,
                 records: records,
                 message: "All done"
             });
-        } else {
-            res.status(500).send({message: "Etwas ist schief gelaufen"});
-        }
-    });
+    } else {
+            res.status(200).send({message: "Fertig geladen"});
+    }
 }
 
 export function onlyGetFreezesAndRecords(req: Request, res: Response): void {

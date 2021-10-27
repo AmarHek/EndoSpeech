@@ -1,8 +1,8 @@
 <div class="header">
   <h1>Befundbericht vom {{date}}</h1>
-  <button class="btn btn-outline-primary float-right" (click)="getImages()">Bilder automatisch laden</button>
-  <button class="btn btn-outline-primary float-right" (click)="getAll()">Alles laden</button>
-  <button class="btn btn-outline-primary float-right" (click)="loadImages()">Bilder manuell laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="getImages()">Freezes laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="getAll()">Bilder anzeigen</button>
+  <button class="btn btn-outline-primary float-right" disabled (click)="loadImages()">Bilder manuell laden</button>
 </div>
 <div class="output">
 <table class="table">
