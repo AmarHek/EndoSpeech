@@ -10,14 +10,12 @@
     <tr>
       <th>Bild</th>
       <th>Freitext</th>
-      <th>Textbefund</th>
     </tr>
     <ng-container *ngIf="freezes.length > 0">
       <ng-container *ngFor="let freeze of freezes; let i=index">
         <tr>
           <td><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>
           <td class="text">{{getProperRecord(freeze.textID)}}</td>
-          <td class="text"></td>
         </tr>
       </ng-container>
     </ng-container>

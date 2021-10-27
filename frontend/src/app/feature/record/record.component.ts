@@ -25,8 +25,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   recording = false;
 
   toReplace: RegExp[];
-  // sessionID: string;
-  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
+  sessionID: string;
+  // sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   finishKeyword = "speichern";
 
@@ -42,6 +42,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   keyUpEvent(event: KeyboardEvent) {
     if (event.key === RECORDING_KEY) {
       this.recording = false;
+      this.inputField.nativeElement.blur();
     }
   }
 

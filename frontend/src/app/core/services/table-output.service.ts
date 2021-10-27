@@ -3,6 +3,7 @@ import {InputParserService, DictRequestsService, RecordRequestsService} from "@a
 import {getDateFormatted} from "@app/helpers";
 import {RecordModel, Dict, FreezeModel} from "@app/models";
 import * as M from "@app/models/dictModel";
+// import cond2 from "../../helpers/cond2.json";
 
 @Injectable({
   providedIn: "root"
@@ -12,8 +13,8 @@ export class TableOutputService {
   public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
-  // sessionID: string;
-  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
+  sessionID: string;
+  // sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   private dict: Dict;
 
@@ -21,7 +22,6 @@ export class TableOutputService {
               private dictManager: DictRequestsService,
               private recordManager: RecordRequestsService) {
     this.date = getDateFormatted(new Date(), true);
-    this.initInputparser();
   }
 
   reset(): void {
@@ -34,8 +34,9 @@ export class TableOutputService {
       let minDiff: number = 100000;
       let textID: string = "";
       for (const record of records) {
-        if (Math.abs(record.timestamp - freeze.timestamp) < minDiff) {
-          minDiff = Math.abs(record.timestamp - freeze.timestamp);
+        const diff = record.timestamp - freeze.timestamp;
+        if (diff < minDiff && diff > 0) {
+          minDiff = diff;
           textID = record._id;
         }
       }
@@ -45,7 +46,7 @@ export class TableOutputService {
     return freezes;
   }
 
-
+/*
   initInputparser(): void {
     this.dictManager.getList()
       .subscribe((list: M.Dict[]) => {
@@ -78,23 +79,6 @@ export class TableOutputService {
       console.log("No text files available.");
       return [];
     }
-  }
-
-  getFreetext(): string[] {
-    const freetext = [];
-    for (const record of this.records) {
-      freetext.push(record.content);
-    }
-    return freetext;
-  }
-
-  getTimestamps(): string[] {
-    const timestamps = [];
-    for (const record of this.records) {
-      const date = new Date(record.timestamp * 1000);
-      timestamps.push(date.getHours() + ":" + date.getMinutes());
-    }
-    return timestamps;
-  }
+  }*/
 
 }
