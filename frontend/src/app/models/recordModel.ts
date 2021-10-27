@@ -1,5 +1,6 @@
 export interface RecordModel {
+  _id?: string;
   sessionID: string;
   content: string;
-  timestamp: Date;
+  timestamp: number; // unix timestamp
 }

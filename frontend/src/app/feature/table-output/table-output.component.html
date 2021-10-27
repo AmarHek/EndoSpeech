@@ -1,23 +1,25 @@
 <div class="header">
   <h1>Befundbericht vom {{date}}</h1>
-  <button class="btn btn-outline-primary float-right" (click)="loadImages()">Bilder laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="getImages()">Bilder automatisch laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="getAll()">Alles laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="loadImages()">Bilder manuell laden</button>
 </div>
 <div class="output">
 <table class="table">
   <tbody>
     <tr>
       <th>Bild</th>
-      <th>Aufnahmezeit</th>
       <th>Freitext</th>
       <th>Textbefund</th>
     </tr>
-    <ng-container *ngFor="let text of freetext; let i=index">
-      <tr>
-        <td><img [src]="imgUrls[i]" height="200" alt="Kein Bild gefunden"></td>
-        <td class="text">{{timestamps[i]}}</td>
-        <td class="text">{{text}}</td>
-        <td class="text">{{reports[i]}}</td>
-      </tr>
+    <ng-container *ngIf="freezes.length > 0">
+      <ng-container *ngFor="let freeze of freezes; let i=index">
+        <tr>
+          <td><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>
+          <td class="text">{{getProperRecord(freeze.textID)}}</td>
+          <td class="text"></td>
+        </tr>
+      </ng-container>
     </ng-container>
   </tbody>
 </table>

@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   backend: "http://localhost:8000/",
   dictDatabase: "endo/dict/",
-  recordDatabase: "endo/record/"
+  recordDatabase: "endo/record/",
+  freezeDatabase: "endo/freeze/"
 };
 
 /*

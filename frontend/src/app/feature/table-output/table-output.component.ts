@@ -2,6 +2,9 @@ import {Component, OnInit} from "@angular/core";
 import {TableOutputService} from "@app/core/services/table-output.service";
 import {DialogComponent} from "@app/shared/dialog/dialog.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {RecordRequestsService} from "@app/core";
+import {FreezeModel, RecordModel} from "@app/models";
+import {environment} from "@env/environment.prod";
 
 @Component({
   selector: "app-output-display",
@@ -10,44 +13,54 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 })
 export class TableOutputComponent implements OnInit {
 
-  imgUrls: string[];
+  baseUrl = environment.backend + "freezes/";
+
   reports: string[];
   freetext: string[];
   date: string;
   timestamps: string[];
 
+  files: File[];
+
+  freezes: FreezeModel[];
+  records: RecordModel[];
+
   constructor(private tableOutputService: TableOutputService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private recordManager: RecordRequestsService) { }
 
   ngOnInit(): void {
-    this.imgUrls = [];
     this.date = this.tableOutputService.date;
     this.freetext = this.tableOutputService.getFreetext();
-    this.timestamps = this.tableOutputService.getTimestamps();
 
     this.reports = this.tableOutputService.getReports();
 
     console.log(this.date, this.freetext, this.timestamps, this.reports);
-    this.alignArrays();
   }
 
-  alignArrays() {
-    if (this.reports.length > this.imgUrls.length) {
-      const diff = this.reports.length - this.imgUrls.length;
-      for (let i = 0; i < diff; i++) {
-        this.imgUrls.push(null);
+  getImages() {
+    this.recordManager.getRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
+      console.log(res.message, res.records, res.freezes);
+      if (res.records === undefined || res.freezes === undefined) {
+        window.alert(res.message);
       }
-    } else if (this.imgUrls.length > this.reports.length) {
-      const diff = this.imgUrls.length - this.reports.length;
-      for (let i = 0; i < diff; i++) {
-        this.reports.push("Kein Bericht vorhanden");
-        this.freetext.push("Kein Text vorhanden");
-      }
-    }
+      this.records = res.records;
+      this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
+    })
+  }
 
-    for (let i=0; i<this.reports.length; i++) {
-      if (this.reports[i] === undefined) {
-        this.reports[i] = "Kein Bericht vorhanden";
+  getAll() {
+    this.recordManager.onlyGetRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
+      console.log(res.message);
+      this.records = res.records;
+      this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
+    })
+  }
+
+  getProperRecord(recID: string) {
+    for (const rec of this.records) {
+      if (rec._id === recID) {
+        return rec.content;
       }
     }
   }
@@ -61,11 +74,11 @@ export class TableOutputComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("Hat geklappt?");
         if (result !== null) {
-          this.imgUrls = result;
+          this.files = result;
         }
       });
-
     }
+
+
 }

@@ -25,7 +25,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   recording = false;
 
   toReplace: RegExp[];
-  sessionID: string;
+  // sessionID: string;
+  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   finishKeyword = "speichern";
 
@@ -63,6 +64,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.sessionID !== undefined) {
       localStorage.setItem(SESSION_ID_STORAGE, this.sessionID);
+      this.tableOutputService.sessionID = this.sessionID;
     }
   }
 
@@ -94,15 +96,15 @@ export class RecordComponent implements OnInit, OnDestroy {
     const newRec: RecordModel = {
       sessionID: this.sessionID,
       content: this.recordedText,
-      timestamp: new Date()
+      timestamp: Math.round(+new Date()/1000) // UNIX timestamp
     };
     this.records.push(newRec);
-    this.recordManager.addRecord(newRec);
+    this.recordManager.addRecord(newRec).subscribe((res) => console.log(res.message));
     this.recordedText = "";
   }
 
-  formatDate(date: Date) {
-    return getDateFormatted(date, true);
+  formatDate(unixTime: number) {
+    return getDateFormatted(new Date(unixTime * 1000), true);
   }
 
   fetchRecords() {
@@ -111,7 +113,7 @@ export class RecordComponent implements OnInit, OnDestroy {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden beim Laden überschrieben.");
     }
     if (res === true) {
-      if (this.sessionID === undefined) {
+      if (this.sessionID === "7Pqj3AMIHQg5jrHYMJ8c9") {
         const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
         this.recordManager.getRecordsBySessionID(idTemp).subscribe((res) => {
           this.records = res.records;

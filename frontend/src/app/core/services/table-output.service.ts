@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import {InputParserService, DictRequestsService} from "@app/core";
+import {InputParserService, DictRequestsService, RecordRequestsService} from "@app/core";
 import {getDateFormatted} from "@app/helpers";
-import {RecordModel, Dict} from "@app/models";
+import {RecordModel, Dict, FreezeModel} from "@app/models";
 import * as M from "@app/models/dictModel";
 
 @Injectable({
@@ -9,23 +9,40 @@ import * as M from "@app/models/dictModel";
 })
 export class TableOutputService {
 
-  public images: string[] = [];
   public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
+  // sessionID: string;
+  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   private dict: Dict;
 
   constructor(private inputParser: InputParserService,
-              private dictManager: DictRequestsService) {
+              private dictManager: DictRequestsService,
+              private recordManager: RecordRequestsService) {
     this.date = getDateFormatted(new Date(), true);
     this.initInputparser();
   }
 
   reset(): void {
-    this.images = [];
     this.records = [];
     this.reports = [];
+  }
+
+  matchFreezesAndRecords(freezes: FreezeModel[], records: RecordModel[]) {
+    for (const freeze of freezes) {
+      let minDiff: number = 100000;
+      let textID: string = "";
+      for (const record of records) {
+        if (Math.abs(record.timestamp - freeze.timestamp) < minDiff) {
+          minDiff = Math.abs(record.timestamp - freeze.timestamp);
+          textID = record._id;
+        }
+      }
+      freeze.textID = textID;
+      this.recordManager.updateFreeze(freeze._id, freeze.textID).subscribe(res => console.log(res.message));
+    }
+    return freezes;
   }
 
 
@@ -44,30 +61,6 @@ export class TableOutputService {
         }
       });
   }
-
-  /*
-  async readText(textfiles: Array<File>) {
-    this.texts = [];
-    for (const file of textfiles) {
-      const text = await file.text();
-      this.texts.push(text);
-    }
-    this.splitDiseases();
-  }*/
-
-  /*
-  splitDiseases() {
-    let splitTexts: string[] = [];
-    const diseases = ["polyp", "divertikulose"];
-    for (const record of this.records) {
-      let indexes: number[] = [];
-      for (const disease of diseases) {
-        indexes = indexes.concat(getAllIndexOf(disease, text, false));
-      }
-      splitTexts = splitTexts.concat(splitStringFromIndexes(text, indexes));
-    }
-    this.texts = splitTexts;
-  } */
 
   getReports(): string[] {
     if (this.records.length > 0) {
@@ -98,19 +91,10 @@ export class TableOutputService {
   getTimestamps(): string[] {
     const timestamps = [];
     for (const record of this.records) {
-      timestamps.push(record.timestamp.getHours() + ":" + record.timestamp.getMinutes());
+      const date = new Date(record.timestamp * 1000);
+      timestamps.push(date.getHours() + ":" + date.getMinutes());
     }
     return timestamps;
   }
-
-  /*
-  extractDate() {
-    if (this.reports.length > 0) {
-      this.date = this.reports[0].substring(0, 16);
-      for (let i = 0; i < this.reports.length; i++) {
-        // this.reports[i] = this.reports[i].substring(18, this.reports.length);
-      }
-    }
-  }*/
 
 }
