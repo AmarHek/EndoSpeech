@@ -4,11 +4,11 @@ import * as fs from "fs";
 import * as Path from "path";
 
 let IMAGE_DIR: string;
-if (process.env.NODE_ENV === "production") {
-    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-} else {
-    IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
-}
+//if (process.env.NODE_ENV === "production") {
+IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
+//} else {
+//    IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
+//}
 
 // what is the patience for
 const DIR_PATIENCE = 7200; // 2 hours

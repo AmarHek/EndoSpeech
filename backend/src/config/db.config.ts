@@ -1,5 +1,5 @@
 export const dbConfig = {
-    HOST: "localhost",
+    HOST: "10.235.14.33",
     PORT: 27017,
-    DB: "endo"
+    DB: "colonoscopyRoom"
 };
