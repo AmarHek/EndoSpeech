@@ -3,3 +3,9 @@ export const dbConfig = {
     PORT: 27017,
     DB: "colonoscopyRoom"
 };
+
+export const dbConfigDev = {
+    HOST: "localhost",
+    PORT: 27017,
+    DB: "endo"
+}

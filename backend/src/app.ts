@@ -11,7 +11,12 @@ import cors from "cors";
 
 export const app = express();
 
-const url = "mongodb://" + C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
+let url: string;
+if (process.env.NODE_ENV === "production") {
+    url = "mongodb://" + C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
+} else {
+    url = "mongodb://" + C.dbConfigDev.HOST + ":" + C.dbConfigDev.PORT + "/" + C.dbConfigDev.DB;
+}
 
 mongoose.connect(url,
     {useNewUrlParser: true,
