@@ -21,8 +21,6 @@ export class RecordRequestsService {
   }
 
   getRecordsBySessionID(sessionID: string) {
-    // TODO: Add query options
-    // TODO: test
     const query = {
       sessionID
     };

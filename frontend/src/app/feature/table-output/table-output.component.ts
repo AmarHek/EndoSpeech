@@ -33,22 +33,28 @@ export class TableOutputComponent implements OnInit {
   }
 
   getImages() {
-    this.recordManager.getRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
-      if (res.records === undefined || res.freezes === undefined) {
-        window.alert(res.message);
-      }
-      this.records = res.records;
-      this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
-      window.alert("Freezes können jetzt angezeigt werden.");
-    })
+    if (this.tableOutputService.sessionID !== undefined) {
+      this.recordManager.getRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
+        this.records = res.records;
+        this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
+        window.alert("Freezes können jetzt angezeigt werden.");
+      },
+        err => {
+        window.alert(err.error.message);
+        });
+    } else {
+      window.alert("Keine Session gestartet!");
+    }
   }
 
   getAll() {
     this.recordManager.onlyGetRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
-      console.log(res.message);
       this.records = res.records;
       this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
-    })
+    },
+      err => {
+      window.alert(err.error.message);
+      });
   }
 
   getProperRecord(recID: string) {

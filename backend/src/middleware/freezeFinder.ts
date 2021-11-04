@@ -4,11 +4,11 @@ import * as fs from "fs";
 import * as Path from "path";
 
 let IMAGE_DIR: string;
-//if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
 IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-//} else {
-//    IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
-//}
+} else {
+    IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
+}
 
 // what is the patience for
 const DIR_PATIENCE = 7200; // 2 hours
@@ -28,7 +28,6 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
     for (const dir of possibleDirectories) {
         const matches = countMatches(records, dir);
         if (matches > bestMatches) {
-            console.log(dir, " matches: ", matches);
             rightDirectory = dir;
             bestMatches = matches;
             sameCounter = 0;
@@ -38,8 +37,7 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
     }
     if (sameCounter > 0) {
         res.status(500).send({message: "Mehrere mögliche Ordner gefunden. Bitte manuell auswählen."});
-    }
-    if (rightDirectory.length > 0) {
+    } else if (rightDirectory.length > 0) {
         freezes = fs.readdirSync(Path.join(IMAGE_DIR, rightDirectory));
         req.body.freezes = freezes;
         req.body.directory = rightDirectory;
