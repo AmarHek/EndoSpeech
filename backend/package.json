@@ -5,8 +5,13 @@
 	"start": "node -r ts-node/register ./src/server.ts",
     "start:dev": "cross-env NODE_ENV=development nodemon --delay 500ms",
     "start:prod": "cross-env NODE_ENV=production nodemon --delay 500ms",
-    "build": "tsc",
+    "build": "cross-env NODE_ENV=production && tsc && pkg .",
     "eslint": "eslint src/**"
+  },
+  "bin": "dist/server.js",
+  "pkg": {
+	  "assets": ["node_modules/**/*", "dist/**/*", "data/**/*"],
+	  "targets": ["node14-win-x64", "node12-win-x64"]
   },
   "private": true,
   "dependencies": {
