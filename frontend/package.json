@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "build:prod": "ng build --configuration=production && cp -r dist ../backend",
     "build:dev": "ng build --configuration=development && xcopy /E /Y .\\dist ..\\backend\\dist",
     "test": "ng test",

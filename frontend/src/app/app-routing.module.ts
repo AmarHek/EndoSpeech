@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { ListComponent, AdvancedComponent, HierarchischComponent,
           RecordComponent, EditStructureComponent, TableOutputComponent} from "@app/feature";
-import { UploadComponent } from "@app/shared";
 
 const routes: Routes = [
   {
@@ -19,10 +18,6 @@ const routes: Routes = [
     component: HierarchischComponent
   },
   {
-    path: "upload",
-    component: UploadComponent
-  },
-  {
     path: "record",
     component: RecordComponent
   },
@@ -34,7 +29,7 @@ const routes: Routes = [
     path: "output",
     component: TableOutputComponent
   },
-  {path: "**", redirectTo: "/list"}
+  {path: "**", redirectTo: "/record"}
 ];
 
 @NgModule({
