@@ -5,5 +5,5 @@ export * from "./services/input-parser-hierarchisch.service";
 export * from "./services/parser-basis.service";
 export * from "./services/record-requests.service";
 export * from "./services/text-output.service";
-export * from "./services/table-output.service";
+export * from "./services/record-generator.service";
 export * from "./services/mat-dialog.service";

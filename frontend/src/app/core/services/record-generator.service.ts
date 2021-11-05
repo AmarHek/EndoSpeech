@@ -8,15 +8,13 @@ import * as M from "@app/models/dictModel";
 @Injectable({
   providedIn: "root"
 })
-export class TableOutputService {
+export class RecordGeneratorService {
 
   public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
   // sessionID: string;
   sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
-
-  private dict: Dict;
 
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,

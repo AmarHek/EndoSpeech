@@ -4,5 +4,5 @@ export const environment = {
   dictDatabase: "endo/dict/",
   recordDatabase: "endo/record/",
   freezeDatabase: "endo/freeze/",
-  api: "10.235.14.33:8080"
+  api: "http://10.235.14.33:8080/"
 };

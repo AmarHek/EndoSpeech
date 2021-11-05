@@ -8,7 +8,7 @@ import {
   ParserBasisService,
   RecordRequestsService,
   TextOutputService,
-  TableOutputService,
+  RecordGeneratorService,
   MatDialogService
 } from "@app/core";
 
@@ -25,7 +25,7 @@ import {
     ParserBasisService,
     RecordRequestsService,
     TextOutputService,
-    TableOutputService,
+    RecordGeneratorService,
     MatDialogService
   ]
 })

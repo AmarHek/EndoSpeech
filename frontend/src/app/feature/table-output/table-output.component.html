@@ -1,17 +1,17 @@
 <div class="header">
   <h1>Befundbericht vom {{date}}</h1>
-  <button class="btn btn-outline-primary float-right" (click)="getImages()">Freezes laden</button>
-  <button class="btn btn-outline-primary float-right" (click)="getAll()">Bilder anzeigen</button>
-  <button class="btn btn-outline-primary float-right" disabled (click)="loadImages()">Bilder manuell laden</button>
+  <button class="btn btn-outline-primary float-right" (click)="showImages()">Bilder anzeigen</button>
+  <button class="btn btn-outline-primary float-right" (click)="loadImages()">Bilder manuell laden</button>
+  <button class="btn btn-outline-success float-right"  (click)="submitRecords()">Speichern</button>
 </div>
 <div class="output">
 <table class="table">
   <tbody>
     <tr>
-      <th>Bild</th>
-      <th>Freitext</th>
+      <th>Freeze</th>
+      <th>Report</th>
     </tr>
-    <ng-container *ngIf="freezes.length > 0">
+    <ng-container *ngIf="loaded">
       <ng-container *ngFor="let freeze of freezes; let i=index">
         <tr>
           <td><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>

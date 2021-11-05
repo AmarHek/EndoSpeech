@@ -53,50 +53,6 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
 
 }
 
-export function saveFreezesSync(req: Request, res: Response, next: NextFunction) {
-    const freezes = req.body.freezes;
-    const sessionID = req.body.sessionID;
-    console.log(req.body.directory);
-    const savePath = Path.join(__dirname, "../../data/freezes", req.body.directory);
-
-    if (req.body.freezes.length === 0) {
-        res.status(500).send({message: "Keine Dateien im Ordner gefunden. Bitte manuell auswählen."});
-    } else {
-        if(!fs.existsSync(savePath)) {
-            fs.mkdirSync(savePath);
-        }
-        const newFreezes: FreezeDoc[] = [];
-        freezes.map((freeze: string) => {
-            const freezeStats = fs.statSync(Path.join(IMAGE_DIR, req.body.directory, freeze));
-            Freeze.find({
-                sessionID: sessionID,
-                directory: req.body.directory,
-                filename: freeze,
-                timestamp: Math.round(+freezeStats.mtime/1000)
-            }).then(res => {
-                if (res.length === 0) {
-                    const freezeDB = new Freeze({
-                        sessionID: sessionID,
-                        directory: req.body.directory,
-                        filename: freeze,
-                        timestamp: Math.round(+freezeStats.mtime / 1000)
-                    });
-
-                    freezeDB.save().then((newFreeze) => {
-                        newFreezes.push(newFreeze);
-                        fs.copyFileSync(Path.join(IMAGE_DIR, req.body.directory, freeze), Path.join(savePath, freeze));
-                    });
-                } else {
-                    console.log("Already exists");
-                }
-            }
-        )
-        })
-        req.body.freezes = newFreezes;
-        next();
-    }
-}
-
 function countMatches(records: any, directory: string): number {
     let nMatches = 0;
     // get last Modified time of directory and check time difference in UNIX units

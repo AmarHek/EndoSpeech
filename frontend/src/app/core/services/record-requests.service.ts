@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {RecordModel, FreezeModel} from "@app/models";
 import { environment } from "@env/environment";
 
@@ -11,7 +11,21 @@ export class RecordRequestsService {
   recordUrl = environment.backend + environment.recordDatabase;
   freezeUrl = environment.backend + environment.freezeDatabase;
 
-  constructor(private http: HttpClient) { }
+  username = "endo";
+  password = "ukw$1ukw$1ukw$1";
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.username + ":" + this.password)
+    })
+  }
+
+  constructor(private http: HttpClient) {
+    this.testapi().subscribe(res => {
+      console.log(res);
+    })
+  }
 
   addRecord(newRecord: RecordModel) {
     if (newRecord.timestamp === undefined) {
@@ -28,9 +42,9 @@ export class RecordRequestsService {
     return this.http.post<{message: string; records: any }>(this.recordUrl + "getRecords", query);
   }
 
-  getRecordsAndFreezes(sessionID: string) {
+  fetchFreezesFromFolderToBackend(sessionID: string) {
     return this.http.post<{freezes: FreezeModel[], records: RecordModel[], message: string}>(
-      this.freezeUrl + "getAll", {sessionID}
+      this.freezeUrl + "fetch", {sessionID}
     );
   }
 
@@ -42,9 +56,13 @@ export class RecordRequestsService {
       });
   }
 
-  onlyGetRecordsAndFreezes(sessionID: string) {
+  getRecordsAndFreezes(sessionID: string) {
     return this.http.post<{freezes: FreezeModel[], records: RecordModel[], message: string}>(
-      this.freezeUrl + "onlyGetAll", {sessionID}
+      this.freezeUrl + "getAll", {sessionID}
     );
+  }
+
+  testapi() {
+    return this.http.post(environment.api + "PostNewLiveExamination", {}, this.httpOptions);
   }
 }

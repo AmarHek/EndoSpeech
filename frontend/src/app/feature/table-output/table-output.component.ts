@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {TableOutputService} from "@app/core/services/table-output.service";
+import {RecordGeneratorService} from "@app/core/services/record-generator.service";
 import {DialogComponent} from "@app/shared/dialog/dialog.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {RecordRequestsService} from "@app/core";
@@ -23,38 +23,41 @@ export class TableOutputComponent implements OnInit {
 
   freezes: FreezeModel[] = [];
   records: RecordModel[] = [];
+  loaded = false;
+  fetched = false;
 
-  constructor(private tableOutputService: TableOutputService,
+  constructor(private recordGenerator: RecordGeneratorService,
               private dialog: MatDialog,
               private recordManager: RecordRequestsService) { }
 
   ngOnInit(): void {
-    this.date = this.tableOutputService.date;
+    this.date = this.recordGenerator.date;
+    this.loadFreezes();
   }
 
-  getImages() {
-    if (this.tableOutputService.sessionID !== undefined) {
-      this.recordManager.getRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
-        this.records = res.records;
-        this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
-        window.alert("Freezes können jetzt angezeigt werden.");
+  loadFreezes() {
+    if (this.recordGenerator.sessionID !== undefined) {
+      this.recordManager.fetchFreezesFromFolderToBackend(this.recordGenerator.sessionID).subscribe(res => {
+        console.log(res.message);
+        this.fetched = true;
       },
         err => {
-        window.alert(err.error.message);
+        console.log(err.error.message);
+        this.fetched = false;
         });
-    } else {
-      window.alert("Keine Session gestartet!");
     }
   }
 
-  getAll() {
-    this.recordManager.onlyGetRecordsAndFreezes(this.tableOutputService.sessionID).subscribe(res => {
-      this.records = res.records;
-      this.freezes = this.tableOutputService.matchFreezesAndRecords(res.freezes, res.records);
-    },
-      err => {
-      window.alert(err.error.message);
+  showImages() {
+    if (this.fetched) {
+      this.recordManager.getRecordsAndFreezes(this.recordGenerator.sessionID).subscribe(res => {
+        this.records = res.records;
+        this.freezes = this.recordGenerator.matchFreezesAndRecords(res.freezes, res.records);
+        this.loaded = true;
       });
+    } else {
+      window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
+    }
   }
 
   getProperRecord(recID: string) {
@@ -80,5 +83,8 @@ export class TableOutputComponent implements OnInit {
       });
     }
 
+    submitRecords() {
+
+    }
 
 }

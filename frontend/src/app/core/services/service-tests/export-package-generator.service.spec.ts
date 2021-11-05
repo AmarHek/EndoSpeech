@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TableOutputService } from '../table-output.service';
+import { RecordGeneratorService } from '../record-generator.service';
 
 describe('ExportPackageGeneratorService', () => {
-  let service: TableOutputService;
+  let service: RecordGeneratorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TableOutputService);
+    service = TestBed.inject(RecordGeneratorService);
   });
 
   it('should be created', () => {
