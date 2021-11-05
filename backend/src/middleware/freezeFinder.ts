@@ -43,7 +43,7 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
     } else if (sameCounter > 0) {
         res.status(500).send({message: (sameCounter + 1) + " mögliche Ordner gefunden. Bitte manuell auswählen."});
     } else if (rightDirectory.length > 0) {
-        freezes = fs.readdirSync(Path.join(IMAGE_DIR, rightDirectory));
+        freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, rightDirectory)));
         req.body.freezes = freezes;
         req.body.directory = rightDirectory;
         next();
@@ -61,7 +61,7 @@ function countMatches(records: any, directory: string): number {
     if (Math.abs(currentTime - testTime) > DIR_PATIENCE) {
         return 0;
     } else {
-        const freezes = fs.readdirSync(Path.join(IMAGE_DIR, directory));
+        const freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, directory)));
         for (const record of records) {
             for (const freeze of freezes) {
                 testTime = Math.round(+fs.statSync(Path.join(IMAGE_DIR, directory, freeze)).mtime / 1000);
@@ -78,4 +78,15 @@ function countMatches(records: any, directory: string): number {
     }
 }
 
+function fileFilter(files: string[]): string[] {
+    // TODO: An erster Stelle O raushauen
+    // TODO: nur jpg erlauben
+    const result: string[] = []
+    for (const file of files) {
+        if (file[0] === "O" && file.split(".")[1] === "jpg") {
+            result.push(file);
+        }
+    }
+    return result;
+}
 
