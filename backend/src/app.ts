@@ -12,11 +12,12 @@ import cors from "cors";
 export const app = express();
 
 let url: string;
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
+    console.log("dev");
+    url = "mongodb://" + C.dbConfigDev.HOST + ":" + C.dbConfigDev.PORT + "/" + C.dbConfigDev.DB;
+} else {
     url = "mongodb://" + C.dbConfig.user + ":" + C.dbConfig.password + "@" +
         C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
-} else {
-    url = "mongodb://" + C.dbConfigDev.HOST + ":" + C.dbConfigDev.PORT + "/" + C.dbConfigDev.DB;
 }
 
 mongoose.connect(url,

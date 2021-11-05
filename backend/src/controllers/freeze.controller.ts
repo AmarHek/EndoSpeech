@@ -4,10 +4,10 @@ import Path from "path";
 import fs from "fs";
 
 let IMAGE_DIR: string;
-if (process.env.NODE_ENV === "production") {
-    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-} else {
+if (process.env.NODE_ENV === "development") {
     IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
+} else {
+    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
 }
 
 export function addFreeze(req: Request, res: Response): void {

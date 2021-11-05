@@ -5,12 +5,12 @@ import * as Path from "path";
 
 let IMAGE_DIR: string;
 let DIR_PATIENCE: number;
-if (process.env.NODE_ENV === "production") {
-    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-    DIR_PATIENCE = 7200; // 2 hours
-} else {
+if (process.env.NODE_ENV === "development") {
     IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
     DIR_PATIENCE = 10000000; // very high number
+} else {
+    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
+    DIR_PATIENCE = 7200; // 2 hours
 }
 const IMAGE_PATIENCE = 120 // 2 minutes
 // DIR_PATIENCE makes sure that only directories from the past two hours are chosen
