@@ -3,6 +3,7 @@ import {InputParserService, DictRequestsService, RecordRequestsService} from "@a
 import {getDateFormatted} from "@app/helpers";
 import {RecordModel, Dict, FreezeModel} from "@app/models";
 import * as M from "@app/models/dictModel";
+import {HttpClient} from "@angular/common/http";
 // import cond2 from "../../helpers/cond2.json";
 
 @Injectable({
@@ -17,7 +18,8 @@ export class RecordGeneratorService {
 
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,
-              private recordManager: RecordRequestsService) {
+              private recordManager: RecordRequestsService,
+              private http: HttpClient) {
     this.date = getDateFormatted(new Date(), true);
   }
 
@@ -41,6 +43,10 @@ export class RecordGeneratorService {
       this.recordManager.updateFreeze(freeze._id, freeze.textID).subscribe(res => console.log(res.message));
     }
     return freezes;
+  }
+
+  getFreezeAsFile(imageUrl: string) {
+    return this.http.get(imageUrl, {responseType: "blob"});
   }
 
 /*

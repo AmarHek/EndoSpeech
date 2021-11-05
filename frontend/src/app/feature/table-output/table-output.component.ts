@@ -89,11 +89,16 @@ export class TableOutputComponent implements OnInit {
         const recID = res.id;
         for (const freeze of this.freezes) {
           // TODO: Get freeze as File object
-          const file: File = undefined;
-          const text = this.getProperRecord(freeze.textID);
-          this.recordManager.saveToApi(file, text, recID).subscribe(res => {
-            console.log("Success", res);
-          });
+          const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
+          this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
+            let imageFile = new File([data], freeze.filename);
+            const text = this.getProperRecord(freeze.textID);
+            console.log(imageFile, text);
+            /*
+            this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
+              console.log("Success", res);
+            });*/
+          })
         }
       })
     }
@@ -101,7 +106,7 @@ export class TableOutputComponent implements OnInit {
     testApi() {
     this.recordManager.getApiRecordID().subscribe(res => {
       console.log(res.id);
-    })
+      })
     }
 
 }
