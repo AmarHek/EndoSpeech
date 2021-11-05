@@ -13,8 +13,8 @@ export class TableOutputService {
   public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
-  sessionID: string;
-  // sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
+  // sessionID: string;
+  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   private dict: Dict;
 

@@ -25,8 +25,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   recording = false;
 
   toReplace: RegExp[];
-  sessionID: string;
-  // sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
+  // sessionID: string;
+  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
 
   finishKeyword = "speichern";
 
@@ -115,7 +115,8 @@ export class RecordComponent implements OnInit, OnDestroy {
     }
     if (res === true) {
       if (this.sessionID === "7Pqj3AMIHQg5jrHYMJ8c9") {
-        const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
+        // const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
+        const idTemp = this.sessionID;
         this.recordManager.getRecordsBySessionID(idTemp).subscribe((res) => {
           this.records = res.records;
           this.tableOutputService.records = res.records;
