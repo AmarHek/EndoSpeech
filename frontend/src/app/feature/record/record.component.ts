@@ -61,6 +61,10 @@ export class RecordComponent implements OnInit, OnDestroy {
       new RegExp("[Ss]peichern")];
     this.records = this.tableOutputService.records;
   }
+   /*
+  loginOnApi() {
+    this.http.
+  }*/
 
   ngOnDestroy() {
     if (this.sessionID !== undefined) {
