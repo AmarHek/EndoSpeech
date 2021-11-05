@@ -22,9 +22,6 @@ export class RecordRequestsService {
   }
 
   constructor(private http: HttpClient) {
-    this.testapi().subscribe(res => {
-      console.log(res);
-    })
   }
 
   addRecord(newRecord: RecordModel) {
@@ -62,7 +59,22 @@ export class RecordRequestsService {
     );
   }
 
-  testapi() {
-    return this.http.post(environment.api + "PostNewLiveExamination", {}, this.httpOptions);
+  getApiRecordID() {
+    return this.http.post<{id: string, resourceUrl: string}>(
+      environment.api + "PostNewLiveExamination",
+      {},
+      this.httpOptions
+    );
+  }
+
+  saveToApi(imageFile: File, description: string, recordId: string) {
+    const formData = new FormData();
+    formData.append('description', description);
+    formData.append('file', imageFile);
+    formData.append('recordId', recordId);
+    return this.http.post<{imageUrl: string, reportUrl: string}>(
+      environment.api + "PostLiveReportData",
+      formData,
+      this.httpOptions);
   }
 }

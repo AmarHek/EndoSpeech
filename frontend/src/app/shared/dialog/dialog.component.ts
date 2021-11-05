@@ -16,7 +16,7 @@ export class DialogComponent implements OnInit {
   public message: string;
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public datar) { }
+              @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
   }

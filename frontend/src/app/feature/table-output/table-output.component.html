@@ -1,8 +1,8 @@
 <div class="header">
   <h1>Befundbericht vom {{date}}</h1>
   <button class="btn btn-outline-primary float-right" (click)="showImages()">Bilder anzeigen</button>
-  <button class="btn btn-outline-primary float-right" (click)="loadImages()">Bilder manuell laden</button>
-  <button class="btn btn-outline-success float-right"  (click)="submitRecords()">Speichern</button>
+  <button class="btn btn-outline-primary float-right" disabled (click)="loadImages()">Bilder manuell laden</button>
+  <button class="btn btn-outline-success float-right" [disabled]="!loaded" (click)="submitRecords()">Speichern</button>
 </div>
 <div class="output">
 <table class="table">

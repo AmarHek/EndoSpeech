@@ -84,7 +84,24 @@ export class TableOutputComponent implements OnInit {
     }
 
     submitRecords() {
+      // TODO: Add modal dialog that asks for username and password
+      this.recordManager.getApiRecordID().subscribe(res => {
+        const recID = res.id;
+        for (const freeze of this.freezes) {
+          // TODO: Get freeze as File object
+          const file: File = undefined;
+          const text = this.getProperRecord(freeze.textID);
+          this.recordManager.saveToApi(file, text, recID).subscribe(res => {
+            console.log("Success", res);
+          });
+        }
+      })
+    }
 
+    testApi() {
+    this.recordManager.getApiRecordID().subscribe(res => {
+      console.log(res.id);
+    })
     }
 
 }

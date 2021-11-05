@@ -13,8 +13,7 @@ export class RecordGeneratorService {
   public records: RecordModel[] = [];
   public reports: string[] = [];
   public date = "";
-  // sessionID: string;
-  sessionID = "7Pqj3AMIHQg5jrHYMJ8c9";
+  sessionID: string;
 
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,
