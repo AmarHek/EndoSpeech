@@ -13,7 +13,8 @@ export const app = express();
 
 let url: string;
 if (process.env.NODE_ENV === "production") {
-    url = "mongodb://" + C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
+    url = "mongodb://" + C.dbConfig.user + ":" + C.dbConfig.password + "@" +
+        C.dbConfig.HOST + ":" + C.dbConfig.PORT + "/" + C.dbConfig.DB;
 } else {
     url = "mongodb://" + C.dbConfigDev.HOST + ":" + C.dbConfigDev.PORT + "/" + C.dbConfigDev.DB;
 }

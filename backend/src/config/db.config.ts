@@ -1,7 +1,9 @@
 export const dbConfig = {
     HOST: "10.235.14.33",
     PORT: 27017,
-    DB: "colonoscopyRoom"
+    DB: "EndoSpeech",
+    user: "coloRoom",
+    password: "sicheresPw1"
 };
 
 export const dbConfigDev = {
