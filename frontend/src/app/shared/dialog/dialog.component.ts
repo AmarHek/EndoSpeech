@@ -21,20 +21,6 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onFilesAdded(files, type: string) {
-    if (type === "image") {
-      this.imagefiles = files;
-      this.readImages(this.imagefiles);
-      this.preview(this.imagefiles);
-    } /*else if (type === "text") {
-      this.textfiles = files;
-      this.htmlOutputService.readText(this.textfiles).then(() => {
-        console.log("Text reading successful!");
-      });
-      this.textsUploaded = true;
-    } */
-  }
-
   close() {
     return this.dialogRef.close(null);
   }

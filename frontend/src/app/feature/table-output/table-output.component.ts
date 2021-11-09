@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {RecordGeneratorService} from "@app/core/services/record-generator.service";
-import {DialogComponent} from "@app/shared/dialog/dialog.component";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {RecordRequestsService} from "@app/core";
 import {FreezeModel, RecordModel} from "@app/models";
 import {environment} from "@env/environment.prod";
@@ -68,45 +67,41 @@ export class TableOutputComponent implements OnInit {
     }
   }
 
-  loadImages() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.hasBackdrop = true;
+  submitRecords() {
+    // TODO: Add modal dialog that asks for username and password
+    this.recordManager.getApiRecordID().subscribe(res => {
+      const recID = res.id;
+      for (const freeze of this.freezes) {
+        // TODO: Get freeze as File object
+        const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
+        this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
+          let imageFile = new File([data], freeze.filename);
+          const text = this.getProperRecord(freeze.textID);
+          console.log(imageFile, text);
+          this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
+            console.log("Success", res);
+          });
+        })
+      }
+    })
+  }
 
-    const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe((result) => {
-        if (result !== null) {
-          this.files = result;
-        }
+  testGetImagesAsFiles() {
+    const directory: string = "";
+    const images: string[] = [] // TODO ADD IMAGE URLS
+    for (const image of images) {
+      const imageUrl = this.baseUrl + directory + "/" + image;
+      this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
+        let imageFile = new File([data], image);
+        console.log(imageFile);
       });
     }
+  }
 
-    submitRecords() {
-      // TODO: Add modal dialog that asks for username and password
-      this.recordManager.getApiRecordID().subscribe(res => {
-        const recID = res.id;
-        for (const freeze of this.freezes) {
-          // TODO: Get freeze as File object
-          const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
-          this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
-            let imageFile = new File([data], freeze.filename);
-            const text = this.getProperRecord(freeze.textID);
-            console.log(imageFile, text);
-            /*
-            this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
-              console.log("Success", res);
-            });*/
-          })
-        }
-      })
-    }
-
-    testApi() {
+  testApi() {
     this.recordManager.getApiRecordID().subscribe(res => {
       console.log(res.id);
-      })
-    }
+    });
+  }
 
 }

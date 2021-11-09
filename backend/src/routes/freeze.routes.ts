@@ -1,6 +1,4 @@
 import * as express from "express";
-import * as fs from 'fs';
-import * as multer from 'multer';
 import * as FreezeController from "../controllers/freeze.controller";
 import { findDirectory } from "../middleware";
 import { getRecordsByIDMiddleware } from "../controllers/record.controller";
