@@ -87,8 +87,8 @@ export class TableOutputComponent implements OnInit {
   }
 
   testGetImagesAsFiles() {
-    const directory: string = "";
-    const images: string[] = [] // TODO ADD IMAGE URLS
+    const directory: string = "test2";
+    const images: string[] = ["00000002_000.png", ] // TODO ADD IMAGE URLS
     for (const image of images) {
       const imageUrl = this.baseUrl + directory + "/" + image;
       this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
