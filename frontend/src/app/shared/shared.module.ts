@@ -8,7 +8,6 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {
   ConfirmDialogComponent,
-  DialogComponent,
   ReportComponent,
   SortCategoriesPipe,
   UploadComponent
@@ -22,7 +21,6 @@ import {AttributeComponent} from "@app/shared/attribute/attribute.component";
   declarations: [
     ReportComponent,
     UploadComponent,
-    DialogComponent,
     ConfirmDialogComponent,
     SortCategoriesPipe,
     VariableComponent,
@@ -41,7 +39,6 @@ import {AttributeComponent} from "@app/shared/attribute/attribute.component";
   exports: [
     ReportComponent,
     UploadComponent,
-    DialogComponent,
     ConfirmDialogComponent,
     SortCategoriesPipe,
     VariableComponent,
