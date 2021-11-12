@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {RecordGeneratorService} from "@app/core/services/record-generator.service";
 import {MatDialog} from "@angular/material/dialog";
-import {RecordRequestsService} from "@app/core";
+import {MatDialogService, RecordRequestsService} from "@app/core";
 import {FreezeModel, RecordModel} from "@app/models";
 import {environment} from "@env/environment.prod";
+import {UploadComponent} from "@app/shared";
 
 @Component({
   selector: "app-output-display",
@@ -27,7 +28,8 @@ export class TableOutputComponent implements OnInit {
 
   constructor(private recordGenerator: RecordGeneratorService,
               private dialog: MatDialog,
-              private recordManager: RecordRequestsService) { }
+              private recordManager: RecordRequestsService,
+              private dialogService: MatDialogService) { }
 
   ngOnInit(): void {
     this.date = this.recordGenerator.date;
@@ -67,8 +69,19 @@ export class TableOutputComponent implements OnInit {
     }
   }
 
+  openUploadDialog() {
+    const dialogConfig = this.dialogService.defaultConfig("470px");
+    const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.update();
+    });
+  }
+
   submitRecords() {
-    // TODO: Add modal dialog that asks for username and password
+
+
+
     this.recordManager.getApiRecordID().subscribe(res => {
       const recID = res.id;
       for (const freeze of this.freezes) {
@@ -84,18 +97,6 @@ export class TableOutputComponent implements OnInit {
         })
       }
     })
-  }
-
-  testGetImagesAsFiles() {
-    const directory: string = "test2";
-    const images: string[] = ["00000002_000.png", ] // TODO ADD IMAGE URLS
-    for (const image of images) {
-      const imageUrl = this.baseUrl + directory + "/" + image;
-      this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
-        let imageFile = new File([data], image);
-        console.log(imageFile);
-      });
-    }
   }
 
   testApi() {
