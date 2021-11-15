@@ -7,7 +7,7 @@ describe('ui-base-project App', () => {
     page = new AppPage();
   });
 
-  it('should table-output welcome message', () => {
+  it('should record-output welcome message', () => {
     page.navigateTo();
     expect(page.getParagraphText()).toEqual('Welcome to befundungstest!');
   });
