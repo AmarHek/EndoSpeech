@@ -46,7 +46,8 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   @HostListener("window:beforeunload")
   saveSession() {
-    if (this.recordGenerator.sessionID !== undefined) {
+    // if recordings have been made, save session ID to localstorage before unloading
+    if (this.recordGenerator.sessionID !== undefined && this.records.length > 0) {
       localStorage.setItem(SESSION_ID_STORAGE, this.recordGenerator.sessionID);
     }
   }
@@ -59,14 +60,17 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // initiate strings that need to be removed before saving a recording
     this.toReplace = [
       new RegExp("[Ss]peichern")];
+    // get records from recordGenerator (for component switching)
     this.records = this.recordGenerator.records;
   }
 
 
   ngOnDestroy() {
-    if (this.recordGenerator.sessionID !== undefined) {
+    // if recordings have been made, save session ID to localstorage before destroying this component
+    if (this.recordGenerator.sessionID !== undefined && this.records.length > 0) {
       localStorage.setItem(SESSION_ID_STORAGE, this.recordGenerator.sessionID);
     }
   }

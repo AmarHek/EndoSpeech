@@ -1,4 +1,4 @@
-import {Freeze, FreezeDoc} from "../models";
+import {RecordDoc} from "../models";
 import {NextFunction, Request, Response} from "express";
 import * as fs from "fs";
 import * as Path from "path";
@@ -21,66 +21,87 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
     const records = req.body.records;
     let freezes: string[] = [];
     let bestMatches = 0;
-    let sameCounter = 0;
-    let rightDirectory = "";
-    const possibleDirectories: string[] = fs.readdirSync(IMAGE_DIR);
-    if (possibleDirectories.length === 0) {
-        res.status(500).send({message: "Keinen passenden Ordner gefunden. Bitte manuell auswählen."});
+    let bestAvgTimeDiff = 1000; // average time difference between record and (matching) freeze
+    let bestDirectory = "";
+    const directories: string[] = fs.readdirSync(IMAGE_DIR);
+    if (directories.length === 0) {
+        const message = "Keinen Ordner gefunden, der innerhalb der letzten zwei Stunden erstellt wurde!";
+        console.log(message);
+        res.status(500).send({message: message});
     }
-    for (const dir of possibleDirectories) {
-        const matches = countMatches(records, dir);
-        console.log(dir, matches)
+    for (const dir of directories) {
+        const [matches, avgTimeDiff] = matchDirectory(records, dir);
+        console.log("Ordner: ", dir, " | Matches: ", matches, " | Zeit: ", avgTimeDiff);
         if (matches > bestMatches) {
-            rightDirectory = dir;
             bestMatches = matches;
-            sameCounter = 0;
+            bestAvgTimeDiff = avgTimeDiff;
+            bestDirectory = dir;
+            console.log("Update bester Ordner: ", bestDirectory)
         } else if (matches === bestMatches && bestMatches !== 0) {
-            sameCounter += 1;
+            // if another dir has same number of matches, check average time as second criterion
+            if (avgTimeDiff < bestAvgTimeDiff) {
+                bestMatches = matches;
+                bestAvgTimeDiff = avgTimeDiff;
+                bestDirectory = dir;
+                console.log("Update bester Ordner: ", bestDirectory)
+            }
         }
     }
     if (bestMatches === 0) {
-        res.status(500).send({message: "Keinen passenden Ordner gefunden. Bitte manuell auswählen."});
-    } else if (sameCounter > 0) {
-        res.status(500).send({message: (sameCounter + 1) + " mögliche Ordner gefunden. Bitte manuell auswählen."});
-    } else if (rightDirectory.length > 0) {
-        freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, rightDirectory)));
-        req.body.freezes = freezes;
-        req.body.directory = rightDirectory;
-        next();
+        // no folder with matching freezes found
+        const message = "Keinen Ordner gefunden, der zu den Bildern passt.";
+        console.log(message);
+        res.status(500).send({message: message});
     } else {
-        res.status(500).send({message: "Keinen passenden Ordner gefunden. Bitte manuell auswählen."});
+        freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, bestDirectory)));
+        req.body.freezes = freezes;
+        req.body.directory = bestDirectory;
+        next();
     }
-
 }
 
-function countMatches(records: any, directory: string): number {
+function matchDirectory(records: RecordDoc[], directory: string): [number, number] {
+    // takes directory and first checks for time of creation with DIR_PATIENCE
+    // then checks all images (filtered by fileFilter) for match by IMAGE_PATIENCE
+    // also finds freeze with minimum time difference to a record to compute avgTimeDiff as second criterion
     let nMatches = 0;
     // get last Modified time of directory and check time difference in UNIX units
     let testTime = Math.round(+fs.statSync(Path.join(IMAGE_DIR, directory)).mtime / 1000);
     const currentTime = Math.round(+new Date() / 1000);
     if (Math.abs(currentTime - testTime) > DIR_PATIENCE) {
-        return 0;
+        return [0, 1000];
     } else {
         const freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, directory)));
+        let minDiffSum = 0; // variable for storing best times
         for (const record of records) {
+            let matched = false; // tracker to only count one match within freezes
+            let minDiff = 1000; // minimum time difference for this record
             for (const freeze of freezes) {
                 testTime = Math.round(+fs.statSync(Path.join(IMAGE_DIR, directory, freeze)).mtime / 1000);
                 const diff = record.timestamp - testTime;
-                // diff > 0: testTime must be before record.timestamp
-                // diff <= IMAGE_PATIENCE: record must be created within IMAGE_PATIENCE after freeze timestamp
-                if (diff <= IMAGE_PATIENCE && diff > 0) {
-                    nMatches += 1;
-                    break;
+                // diff > 0: just bother if testTime is actually before record.timestamp (our criterion)
+                if (diff > 0) {
+                    // diff <= IMAGE_PATIENCE: record must be created within IMAGE_PATIENCE after freeze timestamp
+                    // matched: only count image_patience match once per record
+                    if (diff <= IMAGE_PATIENCE && !matched) {
+                        nMatches += 1;
+                        matched = true;
+                    }
+                    // check for smallest time difference
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                    }
                 }
             }
+            minDiffSum += minDiff;
         }
-        return nMatches;
+        const avgTimeDiff = minDiffSum / records.length; // get average time difference for matched records
+        return [nMatches, avgTimeDiff];
     }
 }
 
 function fileFilter(files: string[]): string[] {
-    // TODO: An erster Stelle O raushauen
-    // TODO: nur jpg erlauben
+    // File Filter: Nur jpgs erlaubt und erster character des Strings muss ein 'O' sein
     const result: string[] = []
     for (const file of files) {
         if (file[0] === "O" && file.split(".")[1] === "jpg") {
