@@ -140,6 +140,7 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   editRecord(record: Record) {
     const dialogConfig = this.dialogService.defaultConfig();
+    dialogConfig.minWidth = "500px";
     dialogConfig.data = {
       content: record.content
     };

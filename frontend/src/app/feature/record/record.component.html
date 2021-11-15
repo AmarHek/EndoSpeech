@@ -7,13 +7,12 @@
        style="margin-right: 15px">Aufnahme {{recording ? "An" : "Aus"}}
   </div>
   <button (click)="initSession()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Neue Session starten</button>
+          style="margin-right: 15px">Neue Session</button>
   <button (click)="fetchRecords()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Aufnahmen von vorheriger Session laden</button>
+          style="margin-right: 15px">Vorherige Session laden</button>
   <label for="input">Input:
     <input #inputField style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="recordedText"
            [disabled]="!recording" (input)="onInput()" placeholder="Aufnahme...">
-    <!-- <input [(ngModel)]="myInput.twInput" _id="input" name="Befund" type="text" (click)="inputClick()" (input)="onInput($event)" placeholder="Befund eingeben..." size="80"> -->
   </label>
   <span style="margin-left:10px;">Session ID: {{sessionID}}</span>
 </div>
@@ -35,8 +34,8 @@
       <ng-container *ngIf="records.length > 0">
         <ul *ngFor="let record of records">
           <li>"{{record.content.substr(0, 100)}}..." vom {{formatDate(record.timestamp)}}
-            <button class="btn btn-outline-secondary" (click)="editRecord(record)">Edit</button>
-            <button class="btn-danger" (click)="deleteRecord(record)">X</button>
+            <button class="btn btn-outline-secondary small-button" (click)="editRecord(record)">Edit</button>
+            <button class="btn btn-danger small-button" (click)="deleteRecord(record)">X</button>
           </li>
         </ul>
       </ng-container>
