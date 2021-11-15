@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {RecordFreezeManager} from "@app/core/services/record-freeze-manager.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatDialogService, RecordFreezeApiService} from "@app/core";
-import {Freeze, Record} from "@app/models";
 import {environment} from "@env/environment.prod";
 import {LoginComponent} from "@app/shared";
 
@@ -14,9 +13,6 @@ import {LoginComponent} from "@app/shared";
 export class RecordOutputComponent implements OnInit {
 
   baseUrl = environment.backend + "freezes/";
-
-  reports: string[];
-  freetext: string[];
   date: string;
 
   files: File[];
@@ -57,16 +53,15 @@ export class RecordOutputComponent implements OnInit {
 
   showImages() {
     if (this.fetched) {
-      this.dataApi.getRecordsAndFreezes(this.dataManager.sessionID).subscribe(res => {
-        this.records = res.records;
-        this.freezes =
+      this.dataApi.getFreezesBySessionID(this.dataManager.sessionID).subscribe(res => {
+        this.dataManager.freezes = res.freezes;
+        this.dataManager.matchFreezesAndRecords();
         this.loaded = true;
       });
-
-    } else if (this.records.length === 0) {
-      window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
-    } else if (this.freezes.length === 0) {
+    } else if (this.dataManager.freezes.length === 0) {
       window.alert("Keine Freezes gefunden.");
+    } else if (this.dataManager.records.length === 0) {
+      window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
     }
   }
 

@@ -68,7 +68,7 @@ export class RecordFreezeApiService {
       });
   }
 
-  getFreezes(sessionID: string) {
+  getFreezesBySessionID(sessionID: string) {
     return this.http.post<{freezes: Freeze[], message: string}>(
       this.freezeUrl + "getFreezes", {sessionID}
     );

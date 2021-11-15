@@ -73,7 +73,6 @@ export class RecordComponent implements OnInit, OnDestroy {
       new RegExp("[Ss]peichern")];
   }
 
-
   ngOnDestroy() {
     // if recordings have been made, save session ID to localstorage before destroying this component
     if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
@@ -87,9 +86,7 @@ export class RecordComponent implements OnInit, OnDestroy {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden überschrieben.");
     }
     if (res === true) {
-      this.recordManager.sessionID = nanoid();
-      this.recordManager.records = [];
-      this.recordManager.reset();
+      this.recordManager.init();
     }
   }
 

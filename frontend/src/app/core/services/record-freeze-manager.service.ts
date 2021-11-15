@@ -3,6 +3,7 @@ import {InputParserService, DictRequestsService, RecordFreezeApiService} from "@
 import {getDateFormatted} from "@app/helpers";
 import {Record, Freeze} from "@app/models";
 import {HttpClient} from "@angular/common/http";
+import {nanoid} from "nanoid";
 
 @Injectable({
   providedIn: "root"
@@ -19,12 +20,14 @@ export class RecordFreezeManager {
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,
               private dataApi: RecordFreezeApiService) {
-    this.date = getDateFormatted(new Date(), true);
   }
 
-  reset(): void {
+  init(): void {
     this.records = [];
     this.reports = [];
+    this.freezes = [];
+    this.sessionID = nanoid();
+    this.date = this.date = getDateFormatted(new Date(), true);
   }
 
   matchFreezesAndRecords() {

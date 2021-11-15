@@ -27,7 +27,7 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
     if (directories.length === 0) {
         const message = "Keinen Ordner gefunden, der innerhalb der letzten zwei Stunden erstellt wurde!";
         console.log(message);
-        res.status(500).send({message: message});
+        res.status(404).send({message: message});
     }
     for (const dir of directories) {
         const [matches, avgTimeDiff] = matchDirectory(records, dir);
@@ -51,7 +51,7 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
         // no folder with matching freezes found
         const message = "Keinen Ordner gefunden, der zu den Bildern passt.";
         console.log(message);
-        res.status(500).send({message: message});
+        res.status(404).send({message: message});
     } else {
         freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, bestDirectory)));
         req.body.freezes = freezes;

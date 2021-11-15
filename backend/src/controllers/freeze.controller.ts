@@ -96,27 +96,3 @@ export function getFreezesBySessionID(req: Request, res: Response): void {
         }
     });
 }
-
-export function getFreezesAndRecords(req: Request, res: Response): void {
-    Freeze.find({
-        sessionID: req.body.sessionID
-    }).exec((err, freezes) => {
-        if (err) {
-            res.status(500).send({message: "Etwas ist bei Freezes schief gelaufen"});
-        }
-        Record.find({
-            sessionID: req.body.sessionID
-        }).exec((err, records) => {
-            if(err) {
-                res.status(500).send({message: "Etwas ist bei Records schief gelaufen"});
-            }
-            if (freezes.length > 0 && records.length > 0) {
-                res.status(201).send({
-                    freezes: freezes,
-                    records: records,
-                    message: "All done"
-                });
-            }
-        })
-    });
-}
