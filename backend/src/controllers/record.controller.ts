@@ -41,8 +41,19 @@ export function updateRecordByID(req: Request, res: Response): void {
             } else {
                 res.status(200).send({message: "Update successful"});
             }
+        });
+}
+
+export function deleteRecordByID(req: Request, res: Response): void {
+    Record.deleteOne({
+        _id: req.body.recordID
+    }).exec((err) => {
+        if (err) {
+            res.status(500).send({message: err});
+        } else {
+            res.status(200).send({message: "Successfully deleted record"});
         }
-    );
+    });
 }
 
 export function getRecordsByIDMiddleware(req: Request, res: Response, next: NextFunction) {

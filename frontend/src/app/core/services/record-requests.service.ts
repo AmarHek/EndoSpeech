@@ -39,6 +39,13 @@ export class RecordRequestsService {
       });
   }
 
+  deleteRecord(recordID: string) {
+    return this.http.post<{message: string}>(this.recordUrl + "deleteRecord",
+      {
+        recordID
+      });
+  }
+
   getRecordsBySessionID(sessionID: string) {
     const query = {
       sessionID

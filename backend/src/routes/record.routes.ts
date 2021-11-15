@@ -7,4 +7,4 @@ export const router = express.Router();
 router.post("/addRecord", RecordController.addRecord);
 router.post('/getRecords', RecordController.getRecordsByID);
 router.post('/updateRecord', RecordController.updateRecordByID);
-
+router.post('/deleteRecord', RecordController.deleteRecordByID);
