@@ -6,3 +6,4 @@ export * from "./variable/variable.component";
 export * from "./attribute/attribute.component";
 export * from "./disease/disease.component";
 export * from "./login/login.component";
+export * from "./edit-record-dialog/edit-record-dialog.component";

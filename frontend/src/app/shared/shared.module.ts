@@ -17,6 +17,7 @@ import {VariableComponent} from "@app/shared/variable/variable.component";
 import {DiseaseComponent} from "@app/shared/disease/disease.component";
 import {AttributeComponent} from "@app/shared/attribute/attribute.component";
 import { LoginComponent } from './login/login.component';
+import { EditRecordDialogComponent } from './edit-record-dialog/edit-record-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LoginComponent } from './login/login.component';
     VariableComponent,
     DiseaseComponent,
     AttributeComponent,
-    LoginComponent
+    LoginComponent,
+    EditRecordDialogComponent
   ],
   imports: [
     CommonModule,
