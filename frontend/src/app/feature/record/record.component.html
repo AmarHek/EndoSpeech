@@ -1,18 +1,11 @@
 <div class="headline">
-  <div class="btn btn-sm"
-       [ngClass]="{
-          'btn-danger' : !recording,
-          'btn-success': recording
-       }"
-       style="margin-right: 15px">Aufnahme {{recording ? "An" : "Aus"}}
-  </div>
   <button (click)="initSession()" class="btn btn-outline-primary"
           style="margin-right: 15px">Neue Session</button>
   <button (click)="fetchRecords()" class="btn btn-outline-primary"
           style="margin-right: 15px">Vorherige Session laden</button>
   <label for="input">Input:
     <input #inputField style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="recordedText"
-           [disabled]="!recording" (input)="onInput()" placeholder="Aufnahme...">
+           (input)="onInput()" (blur)="onBlur($event)" placeholder="Aufnahme...">
   </label>
   <span style="margin-left:10px;">Session ID: {{sessionID}}</span>
 </div>

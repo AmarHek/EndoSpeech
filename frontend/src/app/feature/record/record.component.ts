@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from "@angular/core";
 
 import {getDateFormatted} from "@app/helpers/util";
 import {Record} from "@app/models/record";
@@ -11,40 +11,21 @@ import {EditRecordDialogComponent} from "@app/shared";
 
 const SESSION_ID_STORAGE = "sessionID";
 
-const RECORDING_KEY = "F4";
-
 @Component({
   selector: "app-record",
   templateUrl: "./record.component.html",
   styleUrls: ["./record.component.scss"]
 })
 
-export class RecordComponent implements OnInit, OnDestroy {
+export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('inputField') inputField: ElementRef;
 
   recordedText = "";
-  recording = false;
 
   toReplace: RegExp[];
 
   finishKeyword = "speichern";
-
-  @HostListener("window:keydown", ["$event"])
-  keyDownEvent(event: KeyboardEvent) {
-    if (event.key === RECORDING_KEY) {
-      this.recording = true;
-      this.inputField.nativeElement.focus();
-    }
-  }
-
-  @HostListener("window:keyup", ["$event"])
-  keyUpEvent(event: KeyboardEvent) {
-    if (event.key === RECORDING_KEY) {
-      this.recording = false;
-      this.inputField.nativeElement.blur();
-    }
-  }
 
   @HostListener("window:beforeunload")
   saveSession() {
@@ -73,6 +54,10 @@ export class RecordComponent implements OnInit, OnDestroy {
       new RegExp("[Ss]peichern")];
   }
 
+  ngAfterViewInit(): void {
+    this.inputField.nativeElement.focus();
+  }
+
   ngOnDestroy() {
     // if recordings have been made, save session ID to localstorage before destroying this component
     if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
@@ -91,12 +76,14 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   onInput() {
-    if (this.recording) {
-      if (this.recordedText.toLowerCase().includes(this.finishKeyword)) {
-        this.cleanseRecording();
-        this.generateRecording();
-      }
+    if (this.recordedText.toLowerCase().includes(this.finishKeyword)) {
+      this.cleanseRecording();
+      this.generateRecording();
     }
+  }
+
+  onBlur(event) {
+    this.inputField.nativeElement.focus();
   }
 
   cleanseRecording() {
