@@ -1,10 +1,13 @@
 import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from "@angular/core";
 
 import {getDateFormatted} from "@app/helpers/util";
-import {RecordModel} from "@app/models/recordModel";
+import {Record} from "@app/models/record";
 import {RecordRequestsService} from "@app/core/services/record-requests.service";
 import {nanoid} from "nanoid";
 import {RecordGeneratorService} from "@app/core/services/record-generator.service";
+import {MatDialogService} from "@app/core";
+import {MatDialog} from "@angular/material/dialog";
+import {EditRecordDialogComponent} from "@app/shared";
 
 const SESSION_ID_STORAGE = "sessionID";
 
@@ -21,7 +24,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   @ViewChild('inputField') inputField: ElementRef;
 
   recordedText = "";
-  records: RecordModel[] = [];
+  records: Record[] = [];
   recording = false;
 
   toReplace: RegExp[];
@@ -53,7 +56,9 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   constructor(private recordCaller: RecordRequestsService,
-              private recordGenerator: RecordGeneratorService) { }
+              private recordGenerator: RecordGeneratorService,
+              private dialogService: MatDialogService,
+              private dialog: MatDialog) { }
 
   get sessionID() {
     return this.recordGenerator.sessionID;
@@ -100,14 +105,13 @@ export class RecordComponent implements OnInit, OnDestroy {
     if (this.recordGenerator.sessionID === undefined) {
       this.recordGenerator.sessionID = nanoid();
     }
-    const newRec: RecordModel = {
+    const newRec: Record = {
       sessionID: this.recordGenerator.sessionID,
       content: this.recordedText,
       timestamp: Math.round(+new Date()/1000) // UNIX timestamp
     };
     this.recordCaller.addRecord(newRec).subscribe((res) => {
-      console.log(res.message);
-      newRec._id = res.recordId;
+      newRec._id = res.recordID;
       this.records.push(newRec);
     });
     this.recordedText = "";
@@ -132,6 +136,35 @@ export class RecordComponent implements OnInit, OnDestroy {
           }
         });
       }
+  }
+
+  editRecord(record: Record) {
+    const dialogConfig = this.dialogService.defaultConfig();
+    dialogConfig.data = {
+      content: record.content
+    };
+    const dialogRef = this.dialog.open(EditRecordDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(newContent => {
+      if (newContent !== null) {
+        this.recordCaller.updateRecord(record._id, newContent).subscribe(res => {
+          console.log(res.message);
+          record.content = newContent;
+        });
+      }
+    });
+  }
+
+  deleteRecord(record: Record) {
+    this.recordCaller.deleteRecord(record._id).subscribe(res => {
+      console.log(res.message);
+      const index = this.recordGenerator.records.indexOf(record);
+      // remove element from list
+      if (index > -1) {
+        this.recordGenerator.records.splice(index, 1);
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
 }

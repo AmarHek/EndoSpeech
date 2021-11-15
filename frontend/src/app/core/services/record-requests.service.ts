@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {RecordModel, FreezeModel} from "@app/models";
+import {Record, FreezeModel} from "@app/models";
 import { environment } from "@env/environment";
 
 @Injectable({
@@ -24,18 +24,18 @@ export class RecordRequestsService {
   constructor(private http: HttpClient) {
   }
 
-  addRecord(newRecord: RecordModel) {
+  addRecord(newRecord: Record) {
     if (newRecord.timestamp === undefined) {
       newRecord.timestamp = Math.round(+new Date()/1000);
     }
-    return this.http.post<{message: string; recordId: string}>(this.recordUrl + "addRecord", newRecord);
+    return this.http.post<{message: string; recordID: string}>(this.recordUrl + "addRecord", newRecord);
   }
 
   updateRecord(recordID: string, newContent: string) {
     return this.http.post<{message: string}>(this.recordUrl + "updateRecord",
       {
-        recordID,
-        newContent
+        recordID: recordID,
+        content: newContent
       });
   }
 
@@ -55,7 +55,7 @@ export class RecordRequestsService {
   }
 
   fetchFreezesFromFolderToBackend(sessionID: string) {
-    return this.http.post<{freezes: FreezeModel[], records: RecordModel[], message: string}>(
+    return this.http.post<{freezes: FreezeModel[], records: Record[], message: string}>(
       this.freezeUrl + "fetch", {sessionID}
     );
   }
@@ -69,7 +69,7 @@ export class RecordRequestsService {
   }
 
   getRecordsAndFreezes(sessionID: string) {
-    return this.http.post<{freezes: FreezeModel[], records: RecordModel[], message: string}>(
+    return this.http.post<{freezes: FreezeModel[], records: Record[], message: string}>(
       this.freezeUrl + "getAll", {sessionID}
     );
   }

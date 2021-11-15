@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {InputParserService, DictRequestsService, RecordRequestsService} from "@app/core";
 import {getDateFormatted} from "@app/helpers";
-import {RecordModel, Dict, FreezeModel} from "@app/models";
+import {Record, Dict, FreezeModel} from "@app/models";
 import * as M from "@app/models/dictModel";
 import {HttpClient} from "@angular/common/http";
 // import cond2 from "../../helpers/cond2.json";
@@ -11,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class RecordGeneratorService {
 
-  public records: RecordModel[] = [];
+  public records: Record[] = [];
   public reports: string[] = [];
   public date = "";
   sessionID: string;
@@ -28,7 +28,7 @@ export class RecordGeneratorService {
     this.reports = [];
   }
 
-  matchFreezesAndRecords(freezes: FreezeModel[], records: RecordModel[]) {
+  matchFreezesAndRecords(freezes: FreezeModel[], records: Record[]) {
     for (const freeze of freezes) {
       let minDiff: number = 100000;
       let textID: string = "";

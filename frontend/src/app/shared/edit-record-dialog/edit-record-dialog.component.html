@@ -1,1 +1,13 @@
-<p>edit-record-dialog works!</p>
+<div mat-dialog-title>
+  <h5>Aufnahme bearbeiten</h5>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <textarea matInput [(ngModel)]="content"></textarea>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+
+<mat-dialog-actions style="float: right">
+  <button style="margin-right: 5px;" class="btn btn-outline-secondary" (click)="close()">Abbrechen</button>
+  <button class="btn btn-primary" (click)="submit()">Speichern</button>
+</mat-dialog-actions>

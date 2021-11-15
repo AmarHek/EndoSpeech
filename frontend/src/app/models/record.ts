@@ -1,4 +1,4 @@
-export interface RecordModel {
+export interface Record {
   _id?: string;
   sessionID: string;
   content: string;

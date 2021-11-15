@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {RecordGeneratorService} from "@app/core/services/record-generator.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatDialogService, RecordRequestsService} from "@app/core";
-import {FreezeModel, RecordModel} from "@app/models";
+import {FreezeModel, Record} from "@app/models";
 import {environment} from "@env/environment.prod";
 import {LoginComponent} from "@app/shared";
 
@@ -22,7 +22,7 @@ export class RecordOutputComponent implements OnInit {
   files: File[];
 
   freezes: FreezeModel[] = [];
-  records: RecordModel[] = [];
+  records: Record[] = [];
   loaded = false;
   fetched = false;
 

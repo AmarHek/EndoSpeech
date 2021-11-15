@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-edit-record-dialog',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditRecordDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<EditRecordDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data) { }
+
+  content: string;
 
   ngOnInit(): void {
+    this.content = this.data.content;
+  }
+
+  close() {
+    this.dialogRef.close(null);
+  }
+
+  submit() {
+    this.dialogRef.close(this.content);
   }
 
 }

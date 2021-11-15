@@ -35,8 +35,8 @@
       <ng-container *ngIf="records.length > 0">
         <ul *ngFor="let record of records">
           <li>"{{record.content.substr(0, 100)}}..." vom {{formatDate(record.timestamp)}}
-            <button class="btn btn-outline-secondary">Bearbeiten</button>
-            <button class="btn-danger" (click)="delete(record)">X</button>
+            <button class="btn btn-outline-secondary" (click)="editRecord(record)">Edit</button>
+            <button class="btn-danger" (click)="deleteRecord(record)">X</button>
           </li>
         </ul>
       </ng-container>

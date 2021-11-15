@@ -11,7 +11,7 @@ export function addRecord(req: Request, res: Response): void {
     record.save().then(result => {
         res.status(201).send({
             message: "Records file saved successfully",
-            postId: result._id
+            recordID: result._id
         });
     });
 }
@@ -30,10 +30,11 @@ export function getRecordsByID(req: Request, res: Response): void {
 }
 
 export function updateRecordByID(req: Request, res: Response): void {
+    console.log(req.body);
     Record.updateOne({
             _id: req.body.recordID
         }, {
-        content: req.body.newContent
+        content: req.body.content
     }).exec(
         (err) => {
             if (err) {
