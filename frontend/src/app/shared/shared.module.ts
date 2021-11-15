@@ -48,7 +48,8 @@ import { EditRecordDialogComponent } from './edit-record-dialog/edit-record-dial
     VariableComponent,
     DiseaseComponent,
     AttributeComponent,
-    LoginComponent
+    LoginComponent,
+    EditRecordDialogComponent
   ]
 })
 export class SharedModule { }

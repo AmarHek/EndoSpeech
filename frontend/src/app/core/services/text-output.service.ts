@@ -23,7 +23,6 @@ export class TextOutputService {
   // url for report file download
   downJson2: SafeUrl;
   // final live text, contains all the text from rep Array
-  // TODO: Separate report, date and codes
   finalText = "";
 
   // generates downloadable files from arrays

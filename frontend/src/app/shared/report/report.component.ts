@@ -14,9 +14,6 @@ export class ReportComponent implements OnInit {
 
   constructor() { }
 
-  // TODO: make download button
-  // TODO: Send change event to layout so changes in report are reflected in data structure
-
   ngOnInit() {
     this.disclaimer = "Dieser Bericht wurde mit Hilfe eines sprachgesteuerten Browsertools aus Textbausteinen erstellt.";
   }

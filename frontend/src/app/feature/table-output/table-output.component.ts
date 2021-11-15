@@ -83,7 +83,6 @@ export class TableOutputComponent implements OnInit {
         this.recordManager.getApiRecordID().subscribe(res => {
             const recID = res.id;
             for (const freeze of this.freezes) {
-              // TODO: Get freeze as File object
               const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
               this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
                 let imageFile = new File([data], freeze.filename);

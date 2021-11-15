@@ -9,12 +9,9 @@ const LAST_UI_STORED = "last_ui_stored";
 })
 export class DisplayService {
 
-  // TODO: Do something with layouts so all possible layouts are contained in a list, perhaps dropdown menu
-
   public displayHeader: boolean;
   public ui: BehaviorSubject<string>;
 
-  // TODO: Read from config instead of hard coded
   private possibleUIs = ["Fortgeschritten", "Hierarchisch"];
 
   constructor(private router: Router) {
