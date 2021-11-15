@@ -29,6 +29,22 @@ export function getRecordsByID(req: Request, res: Response): void {
     });
 }
 
+export function updateRecordByID(req: Request, res: Response): void {
+    Record.updateOne({
+            _id: req.body.recordID
+        }, {
+        content: req.body.newContent
+    }).exec(
+        (err) => {
+            if (err) {
+                res.status(500).send({message: err});
+            } else {
+                res.status(200).send({message: "Update successful"});
+            }
+        }
+    );
+}
+
 export function getRecordsByIDMiddleware(req: Request, res: Response, next: NextFunction) {
     Record.find({sessionID: req.body.sessionID}).exec(
         (err, records) => {

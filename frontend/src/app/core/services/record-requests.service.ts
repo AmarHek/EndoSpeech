@@ -31,6 +31,14 @@ export class RecordRequestsService {
     return this.http.post<{message: string; recordId: string}>(this.recordUrl + "addRecord", newRecord);
   }
 
+  updateRecord(recordID: string, newContent: string) {
+    return this.http.post<{message: string}>(this.recordUrl + "updateRecord",
+      {
+        recordID,
+        newContent
+      });
+  }
+
   getRecordsBySessionID(sessionID: string) {
     const query = {
       sessionID

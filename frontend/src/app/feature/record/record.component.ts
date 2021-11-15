@@ -105,8 +105,11 @@ export class RecordComponent implements OnInit, OnDestroy {
       content: this.recordedText,
       timestamp: Math.round(+new Date()/1000) // UNIX timestamp
     };
-    this.records.push(newRec);
-    this.recordCaller.addRecord(newRec).subscribe((res) => console.log(res.message));
+    this.recordCaller.addRecord(newRec).subscribe((res) => {
+      console.log(res.message);
+      newRec._id = res.recordId;
+      this.records.push(newRec);
+    });
     this.recordedText = "";
   }
 
