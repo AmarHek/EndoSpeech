@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  close() {
+  close(event) {
+    event.preventDefault();
     this.dialogRef.close(null);
   }
 
