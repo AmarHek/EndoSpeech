@@ -16,6 +16,7 @@ import {
 import {VariableComponent} from "@app/shared/variable/variable.component";
 import {DiseaseComponent} from "@app/shared/disease/disease.component";
 import {AttributeComponent} from "@app/shared/attribute/attribute.component";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {AttributeComponent} from "@app/shared/attribute/attribute.component";
     SortCategoriesPipe,
     VariableComponent,
     DiseaseComponent,
-    AttributeComponent
+    AttributeComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import {AttributeComponent} from "@app/shared/attribute/attribute.component";
     SortCategoriesPipe,
     VariableComponent,
     DiseaseComponent,
-    AttributeComponent
+    AttributeComponent,
+    LoginComponent
   ]
 })
 export class SharedModule { }

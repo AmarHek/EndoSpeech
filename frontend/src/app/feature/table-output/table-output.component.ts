@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatDialogService, RecordRequestsService} from "@app/core";
 import {FreezeModel, RecordModel} from "@app/models";
 import {environment} from "@env/environment.prod";
-import {UploadComponent} from "@app/shared";
+import {LoginComponent, UploadComponent} from "@app/shared";
 
 @Component({
   selector: "app-output-display",
@@ -69,34 +69,42 @@ export class TableOutputComponent implements OnInit {
     }
   }
 
-  openUploadDialog() {
-    const dialogConfig = this.dialogService.defaultConfig("470px");
-    const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
+  getLoginCredentials() {
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.update();
-    });
   }
 
   submitRecords() {
+    const dialogConfig = this.dialogService.defaultConfig("470px");
+    const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
 
-
-
-    this.recordManager.getApiRecordID().subscribe(res => {
-      const recID = res.id;
-      for (const freeze of this.freezes) {
-        // TODO: Get freeze as File object
-        const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
-        this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
-          let imageFile = new File([data], freeze.filename);
-          const text = this.getProperRecord(freeze.textID);
-          console.log(imageFile, text);
-          this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
-            console.log("Success", res);
+    dialogRef.afterClosed().subscribe(response => {
+      if (response !== null) {
+        this.recordManager.setHttpHeaders(response.username, response.password);
+        this.recordManager.getApiRecordID().subscribe(res => {
+            const recID = res.id;
+            for (const freeze of this.freezes) {
+              // TODO: Get freeze as File object
+              const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
+              this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
+                let imageFile = new File([data], freeze.filename);
+                const text = this.getProperRecord(freeze.textID);
+                console.log(imageFile, text);
+                this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
+                    console.log("Success", res);
+                  },
+                  err => {
+                    window.alert("Fehler: " + err.message);
+                    console.log(err);
+                  });
+              });
+            }
+          },
+          err => {
+            window.alert("Fehler: " + err.message);
+            console.log(err);
           });
-        })
       }
-    })
+    });
   }
 
   testApi() {

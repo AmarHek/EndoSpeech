@@ -77,4 +77,13 @@ export class RecordRequestsService {
       formData,
       this.httpOptions);
   }
+
+  setHttpHeaders(username: string, password: string) {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(username + ":" + password)
+      })
+    }
+  }
 }
