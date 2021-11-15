@@ -4,14 +4,14 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatDialogService, RecordRequestsService} from "@app/core";
 import {FreezeModel, RecordModel} from "@app/models";
 import {environment} from "@env/environment.prod";
-import {LoginComponent, UploadComponent} from "@app/shared";
+import {LoginComponent} from "@app/shared";
 
 @Component({
   selector: "app-output-display",
-  templateUrl: "./table-output.component.html",
-  styleUrls: ["./table-output.component.scss"]
+  templateUrl: "./record-output.component.html",
+  styleUrls: ["./record-output.component.scss"]
 })
-export class TableOutputComponent implements OnInit {
+export class RecordOutputComponent implements OnInit {
 
   baseUrl = environment.backend + "freezes/";
 

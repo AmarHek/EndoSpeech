@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { ListComponent, AdvancedComponent, HierarchischComponent,
-          RecordComponent, EditStructureComponent, TableOutputComponent} from "@app/feature";
+          RecordComponent, EditStructureComponent, RecordOutputComponent} from "@app/feature";
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: "output",
-    component: TableOutputComponent
+    component: RecordOutputComponent
   },
   {path: "**", redirectTo: "/record"}
 ];

@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { EditStructureComponent } from "@app/feature";
 
 import {AdvancedComponent, ListComponent, HierarchischComponent,
-  RecordComponent, TableOutputComponent} from "@app/feature";
+  RecordComponent, RecordOutputComponent} from "@app/feature";
 import {SharedModule} from "@app/shared/shared.module";
 
 
@@ -15,7 +15,7 @@ import {SharedModule} from "@app/shared/shared.module";
     ListComponent,
     HierarchischComponent,
     RecordComponent,
-    TableOutputComponent,
+    RecordOutputComponent,
     EditStructureComponent
   ],
   imports: [
@@ -29,7 +29,7 @@ import {SharedModule} from "@app/shared/shared.module";
     ListComponent,
     HierarchischComponent,
     RecordComponent,
-    TableOutputComponent,
+    RecordOutputComponent,
     EditStructureComponent
   ]
 })

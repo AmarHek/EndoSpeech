@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TableOutputComponent } from "./table-output.component";
+import { RecordOutputComponent } from "./record-output.component";
 
 describe("DisplayComponent", () => {
-  let component: TableOutputComponent;
-  let fixture: ComponentFixture<TableOutputComponent>;
+  let component: RecordOutputComponent;
+  let fixture: ComponentFixture<RecordOutputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableOutputComponent ]
+      declarations: [ RecordOutputComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableOutputComponent);
+    fixture = TestBed.createComponent(RecordOutputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
