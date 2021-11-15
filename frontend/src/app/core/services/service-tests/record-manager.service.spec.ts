@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RecordRequestsService } from '../record-requests.service';
+import { RecordFreezeApiService } from '../record-freeze-api.service';
 
 describe('RecordManagerService', () => {
-  let service: RecordRequestsService;
+  let service: RecordFreezeApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RecordRequestsService);
+    service = TestBed.inject(RecordFreezeApiService);
   });
 
   it('should be created', () => {

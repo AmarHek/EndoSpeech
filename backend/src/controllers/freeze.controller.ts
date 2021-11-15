@@ -1,5 +1,5 @@
 import {Freeze, FreezeDoc, Record} from "../models";
-import {NextFunction, Request, Response} from 'express';
+import {Request, Response} from 'express';
 import Path from "path";
 import fs from "fs";
 
@@ -80,6 +80,21 @@ export function saveFreezesSync(req: Request, res: Response) {
         req.body.freezes = newFreezes;
         res.status(200).send({message: "Freezes erfolgreich geladen."});
     }
+}
+
+export function getFreezesBySessionID(req: Request, res: Response): void {
+    Freeze.find({
+        sessionID: req.body.sessionID
+    }).exec((err, freezes) => {
+        if (err) {
+            res.status(500).send({message: err});
+        } else {
+            res.status(201).send({
+                freezes: freezes,
+                message: "Finished"
+            });
+        }
+    });
 }
 
 export function getFreezesAndRecords(req: Request, res: Response): void {

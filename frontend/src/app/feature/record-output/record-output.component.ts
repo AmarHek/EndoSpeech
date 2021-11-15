@@ -1,8 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {RecordGeneratorService} from "@app/core/services/record-generator.service";
+import {RecordFreezeManager} from "@app/core/services/record-freeze-manager.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatDialogService, RecordRequestsService} from "@app/core";
-import {FreezeModel, Record} from "@app/models";
+import {MatDialogService, RecordFreezeApiService} from "@app/core";
+import {Freeze, Record} from "@app/models";
 import {environment} from "@env/environment.prod";
 import {LoginComponent} from "@app/shared";
 
@@ -21,43 +21,52 @@ export class RecordOutputComponent implements OnInit {
 
   files: File[];
 
-  freezes: FreezeModel[] = [];
-  records: Record[] = [];
   loaded = false;
   fetched = false;
 
-  constructor(private recordGenerator: RecordGeneratorService,
+  constructor(private dataManager: RecordFreezeManager,
               private dialog: MatDialog,
-              private recordManager: RecordRequestsService,
+              private dataApi: RecordFreezeApiService,
               private dialogService: MatDialogService) { }
 
   ngOnInit(): void {
-    this.date = this.recordGenerator.date;
+    this.date = this.dataManager.date;
     this.loadFreezes();
   }
 
+  get freezes() {
+    return this.dataManager.freezes;
+  }
+
+  get records() {
+    return this.dataManager.records;
+  }
+
   loadFreezes() {
-    if (this.recordGenerator.sessionID !== undefined) {
-      this.recordManager.fetchFreezesFromFolderToBackend(this.recordGenerator.sessionID).subscribe(res => {
-        console.log(res.message);
-        this.fetched = true;
-      },
+    if (this.dataManager.sessionID !== undefined) {
+      this.dataApi.fetchFreezesToBackend(this.dataManager.sessionID).subscribe(res => {
+          console.log(res.message);
+          this.fetched = true;
+        },
         err => {
-        console.log(err.error.message);
-        this.fetched = false;
+          console.log(err.message);
+          this.fetched = false;
         });
     }
   }
 
   showImages() {
     if (this.fetched) {
-      this.recordManager.getRecordsAndFreezes(this.recordGenerator.sessionID).subscribe(res => {
+      this.dataApi.getRecordsAndFreezes(this.dataManager.sessionID).subscribe(res => {
         this.records = res.records;
-        this.freezes = this.recordGenerator.matchFreezesAndRecords(res.freezes, res.records);
+        this.freezes =
         this.loaded = true;
       });
-    } else {
+
+    } else if (this.records.length === 0) {
       window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
+    } else if (this.freezes.length === 0) {
+      window.alert("Keine Freezes gefunden.");
     }
   }
 
@@ -69,26 +78,22 @@ export class RecordOutputComponent implements OnInit {
     }
   }
 
-  getLoginCredentials() {
-
-  }
-
   submitRecords() {
     const dialogConfig = this.dialogService.defaultConfig("470px");
     const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(response => {
       if (response !== null) {
-        this.recordManager.setHttpHeaders(response.username, response.password);
-        this.recordManager.getApiRecordID().subscribe(res => {
+        this.dataApi.setHttpHeaders(response.username, response.password);
+        this.dataApi.getApiRecordID().subscribe(res => {
             const recID = res.id;
             for (const freeze of this.freezes) {
               const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
-              this.recordGenerator.getFreezeAsFile(imageUrl).subscribe(data => {
+              this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
                 let imageFile = new File([data], freeze.filename);
                 const text = this.getProperRecord(freeze.textID);
                 console.log(imageFile, text);
-                this.recordManager.saveToApi(imageFile, text, recID).subscribe(res => {
+                this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
                     console.log("Success", res);
                   },
                   err => {
@@ -107,7 +112,7 @@ export class RecordOutputComponent implements OnInit {
   }
 
   testApi() {
-    this.recordManager.getApiRecordID().subscribe(res => {
+    this.dataApi.getApiRecordID().subscribe(res => {
       console.log(res.id);
     });
   }

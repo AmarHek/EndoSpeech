@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Record, FreezeModel} from "@app/models";
+import {Record, Freeze} from "@app/models";
 import { environment } from "@env/environment";
 
 @Injectable({
   providedIn: "root"
 })
-export class RecordRequestsService {
+export class RecordFreezeApiService {
 
   recordUrl = environment.backend + environment.recordDatabase;
   freezeUrl = environment.backend + environment.freezeDatabase;
@@ -54,8 +54,8 @@ export class RecordRequestsService {
     return this.http.post<{message: string; records: any }>(this.recordUrl + "getRecords", query);
   }
 
-  fetchFreezesFromFolderToBackend(sessionID: string) {
-    return this.http.post<{freezes: FreezeModel[], records: Record[], message: string}>(
+  fetchFreezesToBackend(sessionID: string) {
+    return this.http.post<{freezes: Freeze[], records: Record[], message: string}>(
       this.freezeUrl + "fetch", {sessionID}
     );
   }
@@ -68,9 +68,9 @@ export class RecordRequestsService {
       });
   }
 
-  getRecordsAndFreezes(sessionID: string) {
-    return this.http.post<{freezes: FreezeModel[], records: Record[], message: string}>(
-      this.freezeUrl + "getAll", {sessionID}
+  getFreezes(sessionID: string) {
+    return this.http.post<{freezes: Freeze[], message: string}>(
+      this.freezeUrl + "getFreezes", {sessionID}
     );
   }
 
@@ -100,5 +100,9 @@ export class RecordRequestsService {
         'Authorization': 'Basic ' + btoa(username + ":" + password)
       })
     }
+  }
+
+  getFreezeAsFile(imageUrl: string) {
+    return this.http.get(imageUrl, {responseType: "blob"});
   }
 }

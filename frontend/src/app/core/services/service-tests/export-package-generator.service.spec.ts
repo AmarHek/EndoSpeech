@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RecordGeneratorService } from '../record-generator.service';
+import { RecordFreezeManager } from '../record-freeze-manager.service';
 
 describe('ExportPackageGeneratorService', () => {
-  let service: RecordGeneratorService;
+  let service: RecordFreezeManager;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RecordGeneratorService);
+    service = TestBed.inject(RecordFreezeManager);
   });
 
   it('should be created', () => {

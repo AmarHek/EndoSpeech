@@ -1,25 +1,24 @@
 import { Injectable } from "@angular/core";
-import {InputParserService, DictRequestsService, RecordRequestsService} from "@app/core";
+import {InputParserService, DictRequestsService, RecordFreezeApiService} from "@app/core";
 import {getDateFormatted} from "@app/helpers";
-import {Record, Dict, FreezeModel} from "@app/models";
-import * as M from "@app/models/dictModel";
+import {Record, Freeze} from "@app/models";
 import {HttpClient} from "@angular/common/http";
-// import cond2 from "../../helpers/cond2.json";
 
 @Injectable({
   providedIn: "root"
 })
-export class RecordGeneratorService {
+export class RecordFreezeManager {
 
   public records: Record[] = [];
   public reports: string[] = [];
+  public freezes: Freeze[] = [];
   public date = "";
   sessionID: string;
+  fetched = false;
 
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,
-              private recordManager: RecordRequestsService,
-              private http: HttpClient) {
+              private dataApi: RecordFreezeApiService) {
     this.date = getDateFormatted(new Date(), true);
   }
 
@@ -28,11 +27,11 @@ export class RecordGeneratorService {
     this.reports = [];
   }
 
-  matchFreezesAndRecords(freezes: FreezeModel[], records: Record[]) {
-    for (const freeze of freezes) {
+  matchFreezesAndRecords() {
+    for (const freeze of this.freezes) {
       let minDiff: number = 100000;
       let textID: string = "";
-      for (const record of records) {
+      for (const record of this.records) {
         const diff = record.timestamp - freeze.timestamp;
         if (diff < minDiff && diff > 0) {
           minDiff = diff;
@@ -40,13 +39,8 @@ export class RecordGeneratorService {
         }
       }
       freeze.textID = textID;
-      this.recordManager.updateFreeze(freeze._id, freeze.textID).subscribe(res => console.log(res.message));
+      this.dataApi.updateFreeze(freeze._id, freeze.textID).subscribe(res => console.log(res.message));
     }
-    return freezes;
-  }
-
-  getFreezeAsFile(imageUrl: string) {
-    return this.http.get(imageUrl, {responseType: "blob"});
   }
 
 /*

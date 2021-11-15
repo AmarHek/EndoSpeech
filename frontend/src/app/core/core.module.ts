@@ -6,9 +6,9 @@ import {
   InputParserService,
   InputParserHierarchischService,
   ParserBasisService,
-  RecordRequestsService,
+  RecordFreezeApiService,
   TextOutputService,
-  RecordGeneratorService,
+  RecordFreezeManager,
   MatDialogService
 } from "@app/core";
 
@@ -23,9 +23,9 @@ import {
     InputParserHierarchischService,
     InputParserService,
     ParserBasisService,
-    RecordRequestsService,
+    RecordFreezeApiService,
     TextOutputService,
-    RecordGeneratorService,
+    RecordFreezeManager,
     MatDialogService
   ]
 })

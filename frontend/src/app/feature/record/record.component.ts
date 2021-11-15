@@ -2,9 +2,9 @@ import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from 
 
 import {getDateFormatted} from "@app/helpers/util";
 import {Record} from "@app/models/record";
-import {RecordRequestsService} from "@app/core/services/record-requests.service";
+import {RecordFreezeApiService} from "@app/core/services/record-freeze-api.service";
 import {nanoid} from "nanoid";
-import {RecordGeneratorService} from "@app/core/services/record-generator.service";
+import {RecordFreezeManager} from "@app/core/services/record-freeze-manager.service";
 import {MatDialogService} from "@app/core";
 import {MatDialog} from "@angular/material/dialog";
 import {EditRecordDialogComponent} from "@app/shared";
@@ -24,7 +24,6 @@ export class RecordComponent implements OnInit, OnDestroy {
   @ViewChild('inputField') inputField: ElementRef;
 
   recordedText = "";
-  records: Record[] = [];
   recording = false;
 
   toReplace: RegExp[];
@@ -50,40 +49,48 @@ export class RecordComponent implements OnInit, OnDestroy {
   @HostListener("window:beforeunload")
   saveSession() {
     // if recordings have been made, save session ID to localstorage before unloading
-    if (this.recordGenerator.sessionID !== undefined && this.records.length > 0) {
-      localStorage.setItem(SESSION_ID_STORAGE, this.recordGenerator.sessionID);
+    if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
+      localStorage.setItem(SESSION_ID_STORAGE, this.recordManager.sessionID);
     }
   }
 
-  constructor(private recordCaller: RecordRequestsService,
-              private recordGenerator: RecordGeneratorService,
+  constructor(private recordApi: RecordFreezeApiService,
+              private recordManager: RecordFreezeManager,
               private dialogService: MatDialogService,
               private dialog: MatDialog) { }
 
   get sessionID() {
-    return this.recordGenerator.sessionID;
+    return this.recordManager.sessionID;
+  }
+
+  get records() {
+    return this.recordManager.records;
   }
 
   ngOnInit(): void {
     // initiate strings that need to be removed before saving a recording
     this.toReplace = [
       new RegExp("[Ss]peichern")];
-    // get records from recordGenerator (for component switching)
-    this.records = this.recordGenerator.records;
   }
 
 
   ngOnDestroy() {
     // if recordings have been made, save session ID to localstorage before destroying this component
-    if (this.recordGenerator.sessionID !== undefined && this.records.length > 0) {
-      localStorage.setItem(SESSION_ID_STORAGE, this.recordGenerator.sessionID);
+    if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
+      localStorage.setItem(SESSION_ID_STORAGE, this.recordManager.sessionID);
     }
   }
 
   initSession(): void {
-    this.recordGenerator.sessionID = nanoid();
-    this.records = [];
-    this.recordGenerator.reset();
+    let res = true;
+    if (this.recordManager.records.length > 0) {
+      res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden überschrieben.");
+    }
+    if (res === true) {
+      this.recordManager.sessionID = nanoid();
+      this.recordManager.records = [];
+      this.recordManager.reset();
+    }
   }
 
   onInput() {
@@ -102,17 +109,17 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   generateRecording() {
-    if (this.recordGenerator.sessionID === undefined) {
-      this.recordGenerator.sessionID = nanoid();
+    if (this.recordManager.sessionID === undefined) {
+      this.recordManager.sessionID = nanoid();
     }
     const newRec: Record = {
-      sessionID: this.recordGenerator.sessionID,
+      sessionID: this.recordManager.sessionID,
       content: this.recordedText,
       timestamp: Math.round(+new Date()/1000) // UNIX timestamp
     };
-    this.recordCaller.addRecord(newRec).subscribe((res) => {
+    this.recordApi.addRecord(newRec).subscribe((res) => {
       newRec._id = res.recordID;
-      this.records.push(newRec);
+      this.recordManager.records.push(newRec);
     });
     this.recordedText = "";
   }
@@ -123,16 +130,15 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   fetchRecords() {
     let res = true;
-    if (this.records.length > 0) {
+    if (this.recordManager.records.length > 0) {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden beim Laden überschrieben.");
     }
     if (res === true) {
         const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
-        this.recordCaller.getRecordsBySessionID(idTemp).subscribe((res) => {
-          this.records = res.records;
-          this.recordGenerator.records = res.records;
+        this.recordApi.getRecordsBySessionID(idTemp).subscribe((res) => {
+          this.recordManager.records = res.records;
           if (res.records.length > 0) {
-            this.recordGenerator.sessionID = idTemp;
+            this.recordManager.sessionID = idTemp;
           }
         });
       }
@@ -147,7 +153,7 @@ export class RecordComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EditRecordDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(newContent => {
       if (newContent !== null) {
-        this.recordCaller.updateRecord(record._id, newContent).subscribe(res => {
+        this.recordApi.updateRecord(record._id, newContent).subscribe(res => {
           console.log(res.message);
           record.content = newContent;
         });
@@ -156,12 +162,12 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   deleteRecord(record: Record) {
-    this.recordCaller.deleteRecord(record._id).subscribe(res => {
+    this.recordApi.deleteRecord(record._id).subscribe(res => {
       console.log(res.message);
-      const index = this.recordGenerator.records.indexOf(record);
+      const index = this.recordManager.records.indexOf(record);
       // remove element from list
       if (index > -1) {
-        this.recordGenerator.records.splice(index, 1);
+        this.recordManager.records.splice(index, 1);
       }
     }, err => {
       console.log(err);

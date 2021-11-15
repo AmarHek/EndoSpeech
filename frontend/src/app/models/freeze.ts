@@ -1,4 +1,4 @@
-export interface FreezeModel {
+export interface Freeze {
   _id?: string;
   sessionID: string;
   directory: string;
