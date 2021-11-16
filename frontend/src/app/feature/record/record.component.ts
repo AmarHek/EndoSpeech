@@ -105,7 +105,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
       newRec._id = res.recordID;
       this.recordManager.records.push(newRec);
     });
-    this.recordedText = "";
+    setTimeout(() => this.recordedText = "", 50);
   }
 
   formatDate(unixTime: number) {
