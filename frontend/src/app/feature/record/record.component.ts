@@ -129,6 +129,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editRecord(record: Record) {
+    this.inputField.nativeElement.disabled = true;
     const dialogConfig = this.dialogService.defaultConfig();
     dialogConfig.minWidth = "500px";
     dialogConfig.data = {
@@ -136,6 +137,8 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const dialogRef = this.dialog.open(EditRecordDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(newContent => {
+      this.inputField.nativeElement.disabled = false;
+      this.inputField.nativeElement.focus();
       if (newContent !== null) {
         this.recordApi.updateRecord(record._id, newContent).subscribe(res => {
           console.log(res.message);

@@ -2,7 +2,7 @@ $border-color: hsl(200, 70%, 80%);
 $background-color: hsl(202, 73%, 96%);
 
 .headline {
-  height: 5%;
+  height: 46px;
   padding-top: 3px;
   padding-left: 20px;
   font-size: 50%;
@@ -13,7 +13,8 @@ $background-color: hsl(202, 73%, 96%);
 
 
 .main {
-  height: 90%;
+  height: auto;
+  min-height: 50%;
   width: 100%;
   display: inline-grid;
   grid-gap: 1px;
