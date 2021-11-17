@@ -14,7 +14,7 @@ $background-color: hsl(202, 73%, 96%);
 
 .main {
   height: auto;
-  min-height: 50%;
+  min-height: 85%;
   width: 100%;
   display: inline-grid;
   grid-gap: 1px;
@@ -25,18 +25,18 @@ $background-color: hsl(202, 73%, 96%);
     "recording files";
 
   grid-template-rows: auto 1fr;
-  overflow-y: scroll;
+  overflow-y: hidden;
   background-color: $background-color;
 }
 
 .recording {
-  height: 100%;
+  height: auto;
   grid-area: recording;
   padding: 5px 20px 5px;
 }
 
 .files {
-  height: 100%;
+  height: auto;
   grid-area: files;
   padding: 5px 20px 5px;
 }
@@ -44,7 +44,7 @@ $background-color: hsl(202, 73%, 96%);
 .output {
   padding: 5px;
   background-color: white;
-  height: 100%;
+  height: auto;
   border: 1px solid $border-color;
   border-radius: 5px;
 }
