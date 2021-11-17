@@ -58,10 +58,10 @@ export class RecordOutputComponent implements OnInit {
         this.dataManager.matchFreezesAndRecords();
         this.loaded = true;
       });
-    } else if (this.dataManager.freezes.length === 0) {
-      window.alert("Keine Freezes gefunden.");
     } else if (this.dataManager.records.length === 0) {
       window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
+    } else if (this.dataManager.freezes.length === 0) {
+      window.alert("Keine Freezes gefunden.");
     }
   }
 
