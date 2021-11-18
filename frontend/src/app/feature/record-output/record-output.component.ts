@@ -84,36 +84,28 @@ export class RecordOutputComponent implements OnInit {
   }
 
   submitRecords() {
-    const dialogConfig = this.dialogService.defaultConfig("470px");
-    const dialogRef = this.dialog.open(LoginComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(response => {
-      if (response !== null) {
-        this.dataApi.setHttpHeaders(response.username, response.password);
-        this.dataApi.getApiRecordID().subscribe(res => {
-            const recID = res.id;
-            for (const freeze of this.freezes) {
-              const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
-              this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
-                let imageFile = new File([data], freeze.filename);
-                const text = this.getRecordContent(freeze.textIDs);
-                console.log(imageFile, text);
-                this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
-                    console.log("Success", res);
-                  },
-                  err => {
-                    window.alert("Fehler: " + err.message);
-                    console.log(err);
-                  });
-              });
-            }
-          },
-          err => {
-            window.alert("Fehler: " + err.message);
-            console.log(err);
+    this.dataApi.getApiRecordID().subscribe(res => {
+      const recID = res.id;
+      for (const freeze of this.freezes) {
+        const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
+        this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
+          let imageFile = new File([data], freeze.filename);
+          const text = this.getRecordContent(freeze.textIDs);
+          console.log(imageFile, text);
+          this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
+            console.log("Success", res);
+            },
+            err => {
+              window.alert("Fehler: " + err.message);
+              console.log(err);
+            });
           });
-      }
-    });
+        }
+      },
+      err => {
+        window.alert("Fehler: " + err.message);
+        console.log(err);
+      });
   }
 
   testApi() {
