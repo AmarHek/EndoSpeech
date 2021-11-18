@@ -1,7 +1,15 @@
 <div class="headline">
-  <button (click)="initSession()" class="btn btn-outline-primary"
+  <div class="btn noHover"
+       [ngClass]="{
+          'btn-danger' : !active,
+          'btn-success': active
+       }"
+       style="margin-right: 15px">{{active ? "Eingabe bereit" : "Bitte ins Fenster klicken"}}
+  </div>
+
+  <button (click)="resetSession()" class="btn btn-outline-primary"
           style="margin-right: 15px">Neue Session</button>
-  <button (click)="fetchRecords()" class="btn btn-outline-primary"
+  <button (click)="loadRecords()" class="btn btn-outline-primary"
           style="margin-right: 15px">Vorherige Session laden</button>
   <label for="input">Input:
     <input #inputField style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="recordedText"

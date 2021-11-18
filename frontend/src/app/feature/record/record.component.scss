@@ -53,3 +53,7 @@ $background-color: hsl(202, 73%, 96%);
   padding: 3px 10px;
   margin-left: 5px;
 }
+
+.noHover {
+  pointer-events: none;
+}

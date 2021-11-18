@@ -22,7 +22,7 @@ export class RecordFreezeManager {
               private dataApi: RecordFreezeApiService) {
   }
 
-  init(): void {
+  resetSession(): void {
     this.records = [];
     this.reports = [];
     this.freezes = [];
@@ -31,18 +31,26 @@ export class RecordFreezeManager {
   }
 
   matchFreezesAndRecords() {
-    for (const freeze of this.freezes) {
+    for (const record of this.records) {
+      // go through all records and find freeze with minimum time difference
+      // each record will be assigned to a freeze
+      // diff must be positive, i.e. record comes after the freeze
       let minDiff: number = 100000;
-      let textID: string = "";
-      for (const record of this.records) {
+      let freezeIdx: number;
+      for (const freeze of this.freezes) {
+        // loop through freezes and find freeze with minimum time difference at earlier time than record
         const diff = record.timestamp - freeze.timestamp;
         if (diff < minDiff && diff > 0) {
           minDiff = diff;
-          textID = record._id;
+          freezeIdx = this.freezes.indexOf(freeze);
         }
+        // push textID to proper freeze
+        this.freezes[freezeIdx].textIDs.push(record._id);
       }
-      freeze.textID = textID;
-      this.dataApi.updateFreeze(freeze._id, freeze.textID).subscribe(res => console.log(res.message));
+    }
+    // afterwards, update freezes in database
+    for (const freeze of this.freezes) {
+      this.dataApi.updateFreeze(freeze._id, freeze.textIDs).subscribe(res => console.log(res.message));
     }
   }
 

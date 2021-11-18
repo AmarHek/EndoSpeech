@@ -20,6 +20,8 @@ export class RecordOutputComponent implements OnInit {
   loaded = false;
   fetched = false;
 
+  recordSplitToken = "___x___";
+
   constructor(private dataManager: RecordFreezeManager,
               private dialog: MatDialog,
               private dataApi: RecordFreezeApiService,
@@ -65,11 +67,19 @@ export class RecordOutputComponent implements OnInit {
     }
   }
 
-  getProperRecord(recID: string) {
-    for (const rec of this.records) {
-      if (rec._id === recID) {
-        return rec.content;
+  getRecordContent(recIDs: string[]): string {
+    if(recIDs.length === 0) {
+      return "";
+    } else {
+      const result = [];
+      for (const recID of recIDs) {
+        for (const rec of this.records) {
+          if (rec._id === recID) {
+            result.push(rec.content);
+          }
+        }
       }
+      return result.join(this.recordSplitToken);
     }
   }
 
@@ -86,7 +96,7 @@ export class RecordOutputComponent implements OnInit {
               const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
               this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
                 let imageFile = new File([data], freeze.filename);
-                const text = this.getProperRecord(freeze.textID);
+                const text = this.getRecordContent(freeze.textIDs);
                 console.log(imageFile, text);
                 this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
                     console.log("Success", res);

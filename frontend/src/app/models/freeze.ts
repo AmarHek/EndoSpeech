@@ -4,5 +4,5 @@ export interface Freeze {
   directory: string;
   filename: string;
   timestamp: number; // unix timestamp
-  textID?: string;
+  textIDs: string[];
 }

@@ -5,7 +5,7 @@ export interface FreezeDoc extends mongoose.Document {
     directory:  string;
     filename:   string;
     timestamp:  number;
-    textID?:    string;
+    textIDs:    string[];
 }
 
 export const Freeze = mongoose.model<FreezeDoc>('Freeze',
@@ -14,6 +14,6 @@ export const Freeze = mongoose.model<FreezeDoc>('Freeze',
         directory: { type: String },
         filename:  { type: String },
         timestamp: { type: Number },
-        textID: { type: String }
+        textIDs:   { type: Array }
     }),
     'freezes');

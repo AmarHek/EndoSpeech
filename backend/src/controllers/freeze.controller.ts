@@ -1,4 +1,4 @@
-import {Freeze, FreezeDoc, Record} from "../models";
+import {Freeze, FreezeDoc} from "../models";
 import {Request, Response} from 'express';
 import Path from "path";
 import fs from "fs";
@@ -16,7 +16,7 @@ export function addFreeze(req: Request, res: Response): void {
         directory: req.body.directory,
         filename: req.body.filename,
         timestamp: req.body.timestamp,
-        textID: req.body.textID
+        textIDs: req.body.textIDs
     });
 
     freeze.save().then(() => {
@@ -27,7 +27,7 @@ export function addFreeze(req: Request, res: Response): void {
 export function updateFreeze(req: Request, res: Response): void {
     Freeze.updateOne({
         _id: req.body.freezeID
-    }, {$set: {textID: req.body.textID}}).exec((err) => {
+    }, {$set: {textIDs: req.body.textIDs}}).exec((err) => {
         if (err) {
             res.status(500).send({message: err})
         } else {
@@ -64,12 +64,14 @@ export function saveFreezesSync(req: Request, res: Response) {
                             sessionID: sessionID,
                             directory: req.body.directory,
                             filename: freeze,
-                            timestamp: Math.round(+freezeStats.mtime / 1000)
+                            timestamp: Math.round(+freezeStats.mtime / 1000),
+                            textIDs: []
                         });
 
                         freezeDB.save().then((newFreeze) => {
                             newFreezes.push(newFreeze);
-                            fs.copyFileSync(Path.join(IMAGE_DIR, req.body.directory, freeze), Path.join(savePath, freeze));
+                            fs.copyFileSync(Path.join(IMAGE_DIR, req.body.directory, freeze),
+                                Path.join(savePath, freeze));
                         });
                     } else {
                         console.log("Already exists");

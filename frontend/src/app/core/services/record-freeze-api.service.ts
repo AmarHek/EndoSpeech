@@ -60,11 +60,11 @@ export class RecordFreezeApiService {
     );
   }
 
-  updateFreeze(freezeID: string, textID: string) {
+  updateFreeze(freezeID: string, textIDs: string[]) {
     return this.http.post<{message: string}>(this.freezeUrl + "update/",
       {
         freezeID,
-        textID
+        textIDs
       });
   }
 

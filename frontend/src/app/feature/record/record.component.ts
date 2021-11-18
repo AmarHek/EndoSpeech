@@ -27,6 +27,8 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   finishKeyword = "speichern";
 
+  active = true;
+
   @HostListener("window:beforeunload")
   saveSession() {
     // if recordings have been made, save session ID to localstorage before unloading
@@ -50,6 +52,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     // initiate strings that need to be removed before saving a recording
+    this.addWindowListeners();
     this.toReplace = [
       new RegExp("[Ss]peichern")];
   }
@@ -65,13 +68,23 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  initSession(): void {
+  private addWindowListeners() {
+    const parent = this;
+    window.addEventListener('focus', function (event) {
+      parent.active = true;
+    });
+    window.addEventListener('blur', function (event) {
+      parent.active = false;
+    });
+  }
+
+  resetSession(): void {
     let res = true;
     if (this.recordManager.records.length > 0) {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden überschrieben.");
     }
     if (res === true) {
-      this.recordManager.init();
+      this.recordManager.resetSession();
     }
   }
 
@@ -112,7 +125,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
     return getDateFormatted(new Date(unixTime * 1000), true);
   }
 
-  fetchRecords() {
+  loadRecords() {
     let res = true;
     if (this.recordManager.records.length > 0) {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden beim Laden überschrieben.");
