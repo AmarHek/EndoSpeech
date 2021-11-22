@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === "development") {
     IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
     DIR_PATIENCE = 10000000; // very high number
 } else {
-    IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-    // IMAGE_DIR = Path.join(__dirname, "../../data/examples/")
+    // IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
+    IMAGE_DIR = Path.join(__dirname, "./data/examples/")
     DIR_PATIENCE = 7200; // 2 hours
 }
 const IMAGE_PATIENCE = 120 // 2 minutes
