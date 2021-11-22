@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "development") {
     IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
 } else {
     // IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-    IMAGE_DIR = Path.join(__dirname, "./data/examples/")
+    IMAGE_DIR = Path.join("./data/examples/")
 }
 
 export function addFreeze(req: Request, res: Response): void {
