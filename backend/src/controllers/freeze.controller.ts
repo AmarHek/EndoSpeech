@@ -1,7 +1,7 @@
 import {Freeze, FreezeDoc} from "../models";
 import {Request, Response} from 'express';
 import Path from "path";
-import fs from "fs";
+import * as fs from "fs";
 
 let IMAGE_DIR: string;
 if (process.env.NODE_ENV === "development") {
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "development") {
     IMAGE_DIR = Path.join(__dirname, "../../data/examples/");
 } else {
     // IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-    IMAGE_DIR = Path.join("./data/examples/")
+    IMAGE_DIR = Path.join(process.cwd(), "data/examples/");
 }
 
 export function addFreeze(req: Request, res: Response): void {
@@ -43,8 +43,8 @@ export function updateFreeze(req: Request, res: Response): void {
 export function saveFreezesSync(req: Request, res: Response) {
     const freezes = req.body.freezes;
     const sessionID = req.body.sessionID;
-    console.log(req.body.directory);
-    const savePath = Path.join(__dirname, "../../data/freezes", req.body.directory);
+    // const savePath = Path.join(__dirname, "../../data/freezes", req.body.directory);
+    const savePath = Path.join(process.cwd(), "./data/freezes/", req.body.directory);
 
     if (req.body.freezes.length === 0) {
         res.status(500).send({message: "Keine Dateien im Ordner gefunden. Bitte manuell auswählen."});

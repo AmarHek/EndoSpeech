@@ -8,6 +8,8 @@ import * as recordRoutes from "./routes/record.routes"
 import * as freezeRoutes from "./routes/freeze.routes";
 import path from "path";
 import cors from "cors";
+import * as Path from "path";
+import * as fs from "fs";
 
 export const app = express();
 
@@ -58,7 +60,7 @@ app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
 app.use("/endo/freeze", freezeRoutes.router);
 
-
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
 });
+

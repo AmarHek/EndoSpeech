@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "development") {
     DIR_PATIENCE = 10000000; // very high number
 } else {
     // IMAGE_DIR = "\\\\Vcwdapp\\storage$\\SHORTTERM\\0\\0\\";
-    IMAGE_DIR = Path.join("./data/examples/")
+    IMAGE_DIR = Path.join(process.cwd(), "data/examples/");
     DIR_PATIENCE = 7200; // 2 hours
 }
 const IMAGE_PATIENCE = 120 // 2 minutes
@@ -52,7 +52,7 @@ export function findDirectory(req: Request, res: Response, next: NextFunction) {
         // no folder with matching freezes found
         const message = "Keinen Ordner gefunden, der zu den Bildern passt.";
         console.log(message);
-        res.status(404).send({message: message});
+        res.status(500).send({message: message});
     } else {
         freezes = fileFilter(fs.readdirSync(Path.join(IMAGE_DIR, bestDirectory)));
         req.body.freezes = freezes;
