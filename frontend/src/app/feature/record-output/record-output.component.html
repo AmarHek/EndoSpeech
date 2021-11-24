@@ -1,5 +1,6 @@
 <div class="header">
-  <h1>Befundbericht vom {{date}}</h1>
+  <h1>Aufnahmeergebnis vom {{date}}</h1>
+  <button (click)="loadPreviousSession()" class="btn btn-outline-primary float-right">Vorherige Session laden</button>
   <button class="btn btn-outline-primary float-right" (click)="showImages()">Bilder anzeigen</button>
   <button class="btn btn-outline-success float-right" [disabled]="!loaded" (click)="submitRecords()">Speichern</button>
 </div>
@@ -13,8 +14,8 @@
     <ng-container *ngIf="loaded">
       <ng-container *ngFor="let freeze of freezes; let i=index">
         <tr>
-          <td><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>
-          <td class="text">{{getRecordContent(freeze.textIDs)}}</td>
+          <td class="image"><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>
+          <td class="text">{{getRecordContent(freeze.textIDs, "\n\n")}}</td>
         </tr>
       </ng-container>
     </ng-container>

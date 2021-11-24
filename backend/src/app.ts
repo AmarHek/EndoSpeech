@@ -1,15 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import path from "path";
+import cors from "cors";
 
 import * as C from "./config/db.config";
 import * as dictRoutes from "./routes/dict.routes"
 import * as recordRoutes from "./routes/record.routes"
 import * as freezeRoutes from "./routes/freeze.routes";
-import path from "path";
-import cors from "cors";
-import * as Path from "path";
-import * as fs from "fs";
+import { initDirectories } from "./middleware";
+
 
 export const app = express();
 
@@ -43,7 +43,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use("/freezes", express.static(path.join(__dirname, "../data/freezes")));
+if (process.env.NODE_ENV === "development") {
+    app.use("/freezes", express.static(path.join(__dirname, "../data/freezes/")));
+} else {
+    app.use("/freezes", express.static(path.join(process.cwd(), "data/freezes/")));
+}
 app.use("/", express.static(path.join(__dirname, "../dist/endoassist")));
 app.set("view engine", "ejs");
 
@@ -63,4 +67,6 @@ app.use("/endo/freeze", freezeRoutes.router);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
 });
+
+initDirectories();
 

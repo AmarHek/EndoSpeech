@@ -1,9 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {RecordFreezeManager} from "@app/core/services/record-freeze-manager.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatDialogService, RecordFreezeApiService} from "@app/core";
+import {RecordFreezeApiService} from "@app/core";
 import {environment} from "@env/environment.prod";
-import {LoginComponent} from "@app/shared";
+import {getDateFormatted} from "@app/helpers";
+
+const SESSION_ID_STORAGE = "sessionID";
 
 @Component({
   selector: "app-output-display",
@@ -13,22 +15,16 @@ import {LoginComponent} from "@app/shared";
 export class RecordOutputComponent implements OnInit {
 
   baseUrl = environment.backend + "freezes/";
-  date: string;
-
   files: File[];
 
   loaded = false;
   fetched = false;
 
-  recordSplitToken = "___x___";
-
   constructor(private dataManager: RecordFreezeManager,
               private dialog: MatDialog,
-              private dataApi: RecordFreezeApiService,
-              private dialogService: MatDialogService) { }
+              private dataApi: RecordFreezeApiService) { }
 
   ngOnInit(): void {
-    this.date = this.dataManager.date;
     this.loadFreezes();
   }
 
@@ -38,6 +34,10 @@ export class RecordOutputComponent implements OnInit {
 
   get records() {
     return this.dataManager.records;
+  }
+
+  get date() {
+    return getDateFormatted(this.dataManager.date, true);
   }
 
   loadFreezes() {
@@ -67,20 +67,17 @@ export class RecordOutputComponent implements OnInit {
     }
   }
 
-  getRecordContent(recIDs: string[]): string {
-    if(recIDs.length === 0) {
-      return "";
-    } else {
-      const result = [];
-      for (const recID of recIDs) {
-        for (const rec of this.records) {
-          if (rec._id === recID) {
-            result.push(rec.content);
-          }
-        }
-      }
-      return result.join(this.recordSplitToken);
-    }
+  async loadPreviousSession() {
+    const oldID = localStorage.getItem(SESSION_ID_STORAGE);
+    this.dataManager.sessionID = oldID;
+    await this.dataApi.getRecordsBySessionID(oldID).subscribe((res) => {
+      this.dataManager.records = res.records;
+    });
+    await this.dataApi.getFreezesBySessionID(oldID).subscribe( (res) => {
+      this.dataManager.freezes = res.freezes;
+    });
+    this.dataManager.matchFreezesAndRecords();
+    this.loaded = true;
   }
 
   submitRecords() {
@@ -90,7 +87,7 @@ export class RecordOutputComponent implements OnInit {
         const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
         this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
           let imageFile = new File([data], freeze.filename);
-          const text = this.getRecordContent(freeze.textIDs);
+          const text = this.getRecordContent(freeze.textIDs, "__x__");
           console.log(imageFile, text);
           this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
             console.log("Success", res);
@@ -106,6 +103,10 @@ export class RecordOutputComponent implements OnInit {
         window.alert("Fehler: " + err.message);
         console.log(err);
       });
+  }
+
+  getRecordContent(recIDs: string[], splitter: string) {
+    return this.dataManager.getRecordContent(recIDs, splitter);
   }
 
   testApi() {

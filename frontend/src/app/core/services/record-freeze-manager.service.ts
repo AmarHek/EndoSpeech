@@ -1,8 +1,6 @@
-import { Injectable } from "@angular/core";
-import {InputParserService, DictRequestsService, RecordFreezeApiService} from "@app/core";
-import {getDateFormatted} from "@app/helpers";
-import {Record, Freeze} from "@app/models";
-import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {DictRequestsService, InputParserService, RecordFreezeApiService} from "@app/core";
+import {Freeze, Record} from "@app/models";
 import {nanoid} from "nanoid";
 
 @Injectable({
@@ -10,10 +8,10 @@ import {nanoid} from "nanoid";
 })
 export class RecordFreezeManager {
 
-  public records: Record[] = [];
-  public reports: string[] = [];
-  public freezes: Freeze[] = [];
-  public date = "";
+  records: Record[] = [];
+  reports: string[] = [];
+  freezes: Freeze[] = [];
+  date: Date;
   sessionID: string;
   fetched = false;
 
@@ -27,16 +25,21 @@ export class RecordFreezeManager {
     this.reports = [];
     this.freezes = [];
     this.sessionID = nanoid();
-    this.date = this.date = getDateFormatted(new Date(), true);
+    this.date = new Date();
   }
 
   matchFreezesAndRecords() {
+    // empty all freezes first
+    for (const freeze of this.freezes) {
+      console.log(freeze);
+      freeze.textIDs = [];
+    }
     for (const record of this.records) {
       // go through all records and find freeze with minimum time difference
       // each record will be assigned to a freeze
       // diff must be positive, i.e. record comes after the freeze
-      let minDiff: number = 100000;
-      let freezeIdx: number;
+      let minDiff: number = 10000000;
+      let freezeIdx: number = -1;
       for (const freeze of this.freezes) {
         // loop through freezes and find freeze with minimum time difference at earlier time than record
         const diff = record.timestamp - freeze.timestamp;
@@ -44,13 +47,39 @@ export class RecordFreezeManager {
           minDiff = diff;
           freezeIdx = this.freezes.indexOf(freeze);
         }
-        // push textID to proper freeze
+      }
+      // push textID to proper freeze
+      if (!this.freezes[freezeIdx].textIDs.includes(record._id)) {
         this.freezes[freezeIdx].textIDs.push(record._id);
       }
     }
     // afterwards, update freezes in database
     for (const freeze of this.freezes) {
       this.dataApi.updateFreeze(freeze._id, freeze.textIDs).subscribe(res => console.log(res.message));
+    }
+
+    this.updateDate();
+  }
+
+  updateDate() {
+    if (this.freezes.length > 0) {
+      this.date = new Date(this.freezes[0].timestamp * 1000);
+    }
+  }
+
+  getRecordContent(recIDs: string[], splitter: string): string {
+    if(recIDs.length === 0) {
+      return "";
+    } else {
+      const result = [];
+      for (const recID of recIDs) {
+        for (const rec of this.records) {
+          if (rec._id === recID) {
+            result.push(rec.content);
+          }
+        }
+      }
+      return result.join(splitter);
     }
   }
 

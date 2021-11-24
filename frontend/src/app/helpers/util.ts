@@ -97,6 +97,9 @@ export function splitStringFromIndexes(input: string, indexes: number[]): string
 }
 
 export function getDateFormatted(date: Date, addTime: boolean): string {
+  if (date === undefined) {
+    return "";
+  }
   let result: string;
   const day: string = ("0" + date.getDate()).slice(-2);
   const month: string = ("0" + (date.getMonth() + 1)).slice(-2);

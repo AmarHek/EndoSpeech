@@ -18,14 +18,21 @@ $background-color: hsl(202, 73%, 96%);
 }
 
 .table {
-  width: 100%;
+  width: auto;
 }
 
 td.text {
   padding: 5px;
+  min-width: 100px;
+  width: auto;
+  white-space: pre;
+  font-size: 150%;
+}
+
+td.image {
+  padding: 5px;
   min-width: 150px;
-  white-space: pre-line;
-  font-size: 15pt;
+  width: auto;
 }
 
 th {
