@@ -25,6 +25,7 @@ export class RecordOutputComponent implements OnInit {
               private dataApi: RecordFreezeApiService) { }
 
   ngOnInit(): void {
+    this.dataManager.date = undefined;
     this.loadFreezes();
   }
 
@@ -67,17 +68,17 @@ export class RecordOutputComponent implements OnInit {
     }
   }
 
-  async loadPreviousSession() {
+  loadPreviousSession() {
     const oldID = localStorage.getItem(SESSION_ID_STORAGE);
     this.dataManager.sessionID = oldID;
-    await this.dataApi.getRecordsBySessionID(oldID).subscribe((res) => {
+    this.dataApi.getRecordsBySessionID(oldID).subscribe((res) => {
       this.dataManager.records = res.records;
+      this.dataApi.getFreezesBySessionID(oldID).subscribe((res) => {
+        this.dataManager.freezes = res.freezes;
+        this.dataManager.matchFreezesAndRecords();
+        this.loaded = true;
+      });
     });
-    await this.dataApi.getFreezesBySessionID(oldID).subscribe( (res) => {
-      this.dataManager.freezes = res.freezes;
-    });
-    this.dataManager.matchFreezesAndRecords();
-    this.loaded = true;
   }
 
   submitRecords() {
