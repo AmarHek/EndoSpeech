@@ -12,7 +12,7 @@
   "bin": "dist/server.js",
   "pkg": {
 	  "assets": ["node_modules/**/*", "dist/**/*", "data/**/*"],
-	  "targets": ["node14-win-x64", "node12-win-x64", "node10-win-x64"]
+	  "targets": ["node14-win-x64", "node12-win-x64"]
   },
   "private": true,
   "dependencies": {
