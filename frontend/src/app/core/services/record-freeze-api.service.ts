@@ -76,7 +76,7 @@ export class RecordFreezeApiService {
 
   getApiRecordID() {
     return this.http.post<{id: string, resourceUrl: string}>(
-      environment.api + "PostNewLiveExamination",
+      environment.api + "PostNewLiveReport",
       {},
       this.httpOptions
     );
