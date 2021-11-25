@@ -8,7 +8,7 @@ export const environment = {
   dictDatabase: "endo/dict/",
   recordDatabase: "endo/record/",
   freezeDatabase: "endo/freeze/",
-  api: "http://10.235.14.33:8080/data/"
+  api: "endo/api/",
 };
 
 /*

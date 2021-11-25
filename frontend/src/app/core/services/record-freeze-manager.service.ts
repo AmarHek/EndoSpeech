@@ -14,6 +14,7 @@ export class RecordFreezeManager {
   date: Date;
   sessionID: string;
   fetched = false;
+  loaded = false;
 
   constructor(private inputParser: InputParserService,
               private dictManager: DictRequestsService,
@@ -26,6 +27,8 @@ export class RecordFreezeManager {
     this.freezes = [];
     this.sessionID = nanoid();
     this.date = new Date();
+    this.fetched = false;
+    this.loaded = false;
   }
 
   matchFreezesAndRecords() {

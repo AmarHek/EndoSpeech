@@ -32,22 +32,22 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener("window:beforeunload")
   saveSession() {
     // if recordings have been made, save session ID to localstorage before unloading
-    if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
-      localStorage.setItem(SESSION_ID_STORAGE, this.recordManager.sessionID);
+    if (this.dataManager.sessionID !== undefined && this.dataManager.records.length > 0) {
+      localStorage.setItem(SESSION_ID_STORAGE, this.dataManager.sessionID);
     }
   }
 
-  constructor(private recordApi: RecordFreezeApiService,
-              private recordManager: RecordFreezeManager,
+  constructor(private dataApi: RecordFreezeApiService,
+              private dataManager: RecordFreezeManager,
               private dialogService: MatDialogService,
               private dialog: MatDialog) { }
 
   get sessionID() {
-    return this.recordManager.sessionID;
+    return this.dataManager.sessionID;
   }
 
   get records() {
-    return this.recordManager.records;
+    return this.dataManager.records;
   }
 
   ngOnInit(): void {
@@ -63,8 +63,8 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     // if recordings have been made, save session ID to localstorage before destroying this component
-    if (this.recordManager.sessionID !== undefined && this.recordManager.records.length > 0) {
-      localStorage.setItem(SESSION_ID_STORAGE, this.recordManager.sessionID);
+    if (this.dataManager.sessionID !== undefined && this.dataManager.records.length > 0) {
+      localStorage.setItem(SESSION_ID_STORAGE, this.dataManager.sessionID);
     }
   }
 
@@ -80,11 +80,11 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   resetSession(): void {
     let res = true;
-    if (this.recordManager.records.length > 0) {
+    if (this.dataManager.records.length > 0) {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden überschrieben.");
     }
     if (res === true) {
-      this.recordManager.resetSession();
+      this.dataManager.resetSession();
     }
   }
 
@@ -106,18 +106,20 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   generateRecording() {
-    if (this.recordManager.sessionID === undefined) {
-      this.recordManager.sessionID = nanoid();
+    if (this.dataManager.sessionID === undefined) {
+      this.dataManager.sessionID = nanoid();
     }
     const newRec: Record = {
-      sessionID: this.recordManager.sessionID,
+      sessionID: this.dataManager.sessionID,
       content: this.recordedText,
       timestamp: Math.round(+new Date()/1000) // UNIX timestamp
     };
-    this.recordApi.addRecord(newRec).subscribe((res) => {
+    this.dataApi.addRecord(newRec).subscribe((res) => {
       newRec._id = res.recordID;
-      this.recordManager.records.push(newRec);
+      this.dataManager.records.push(newRec);
     });
+    this.dataManager.fetched = false;
+    this.dataManager.loaded = false;
     setTimeout(() => this.recordedText = "", 50);
   }
 
@@ -127,15 +129,15 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadRecords() {
     let res = true;
-    if (this.recordManager.records.length > 0) {
+    if (this.dataManager.records.length > 0) {
       res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden beim Laden überschrieben.");
     }
     if (res === true) {
         const idTemp = localStorage.getItem(SESSION_ID_STORAGE);
-        this.recordApi.getRecordsBySessionID(idTemp).subscribe((res) => {
-          this.recordManager.records = res.records;
+        this.dataApi.getRecordsBySessionID(idTemp).subscribe((res) => {
+          this.dataManager.records = res.records;
           if (res.records.length > 0) {
-            this.recordManager.sessionID = idTemp;
+            this.dataManager.sessionID = idTemp;
           }
         });
       }
@@ -153,7 +155,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputField.nativeElement.disabled = false;
       this.inputField.nativeElement.focus();
       if (newContent !== null) {
-        this.recordApi.updateRecord(record._id, newContent).subscribe(res => {
+        this.dataApi.updateRecord(record._id, newContent).subscribe(res => {
           console.log(res.message);
           record.content = newContent;
         });
@@ -162,12 +164,12 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteRecord(record: Record) {
-    this.recordApi.deleteRecord(record._id).subscribe(res => {
+    this.dataApi.deleteRecord(record._id).subscribe(res => {
       console.log(res.message);
-      const index = this.recordManager.records.indexOf(record);
+      const index = this.dataManager.records.indexOf(record);
       // remove element from list
       if (index > -1) {
-        this.recordManager.records.splice(index, 1);
+        this.dataManager.records.splice(index, 1);
       }
     }, err => {
       console.log(err);

@@ -10,15 +10,7 @@ export class RecordFreezeApiService {
 
   recordUrl = environment.backend + environment.recordDatabase;
   freezeUrl = environment.backend + environment.freezeDatabase;
-
-  username = "endo";
-  password = "ukw$1ukw$1ukw$1";
-
-  httpOptions = {
-    headers: new HttpHeaders()
-      .set('Authorization', 'Basic ' + btoa(this.username + ":" + this.password))
-      .set('Content-Type', 'application/json')
-  }
+  apiUrl = environment.backend + environment.api;
 
   constructor(private http: HttpClient) {
   }
@@ -73,27 +65,15 @@ export class RecordFreezeApiService {
     );
   }
 
-  getApiRecordID() {
-    console.log(this.httpOptions);
-    return this.http.post<{id: string, resourceUrl: string}>(
-      environment.api + "PostNewLiveReport",
-      {},
-      this.httpOptions
-    );
+  saveToApi(sessionID: string, records: Record[], freezes: Freeze[]) {
+
+    return this.http.post<{message: string}>(
+      this.apiUrl + "submit",
+      {
+        sessionID,
+        records,
+        freezes
+      });
   }
 
-  saveToApi(imageFile: File, description: string, recordId: string) {
-    const formData = new FormData();
-    formData.append('description', description);
-    formData.append('file', imageFile);
-    formData.append('recordId', recordId);
-    return this.http.post<{imageUrl: string, reportUrl: string}>(
-      environment.api + "PostLiveReportData",
-      formData,
-      this.httpOptions);
-  }
-
-  getFreezeAsFile(imageUrl: string) {
-    return this.http.get(imageUrl, {responseType: "blob"});
-  }
 }

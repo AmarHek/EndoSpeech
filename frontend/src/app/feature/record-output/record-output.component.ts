@@ -17,15 +17,11 @@ export class RecordOutputComponent implements OnInit {
   baseUrl = environment.backend + "freezes/";
   files: File[];
 
-  loaded = false;
-  fetched = false;
-
   constructor(private dataManager: RecordFreezeManager,
               private dialog: MatDialog,
               private dataApi: RecordFreezeApiService) { }
 
   ngOnInit(): void {
-    this.dataManager.date = undefined;
     this.loadFreezes();
   }
 
@@ -41,25 +37,33 @@ export class RecordOutputComponent implements OnInit {
     return getDateFormatted(this.dataManager.date, true);
   }
 
+  get loaded() {
+    return this.dataManager.loaded;
+  }
+
+  get sessionID() {
+    return this.dataManager.sessionID;
+  }
+
   loadFreezes() {
-    if (this.dataManager.sessionID !== undefined) {
+    if (this.dataManager.sessionID !== undefined && !this.dataManager.fetched) {
       this.dataApi.fetchFreezesToBackend(this.dataManager.sessionID).subscribe(res => {
           console.log(res.message);
-          this.fetched = true;
+          this.dataManager.fetched = true;
         },
         err => {
           console.log(err.message);
-          this.fetched = false;
+          this.dataManager.fetched = false;
         });
     }
   }
 
   showImages() {
-    if (this.fetched) {
+    if (this.dataManager.fetched) {
       this.dataApi.getFreezesBySessionID(this.dataManager.sessionID).subscribe(res => {
         this.dataManager.freezes = res.freezes;
         this.dataManager.matchFreezesAndRecords();
-        this.loaded = true;
+        this.dataManager.loaded = true;
       });
     } else if (this.dataManager.records.length === 0) {
       window.alert("Keine Aufnahmen gefunden. Wurde eine Session gestartet?");
@@ -76,34 +80,31 @@ export class RecordOutputComponent implements OnInit {
       this.dataApi.getFreezesBySessionID(oldID).subscribe((res) => {
         this.dataManager.freezes = res.freezes;
         this.dataManager.matchFreezesAndRecords();
-        this.loaded = true;
+        this.dataManager.loaded = true;
       });
     });
   }
 
+  resetSession(): void {
+    let res = true;
+    if (this.dataManager.records.length > 0) {
+      res = window.confirm("Warnung: Aktuell bestehende Aufnahmen werden überschrieben.");
+    }
+    if (res === true) {
+      this.dataManager.resetSession();
+    }
+  }
+
   submitRecords() {
-    this.dataApi.getApiRecordID().subscribe((res) => {
-      const recID = res.id;
-      for (const freeze of this.freezes) {
-        const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
-        this.dataApi.getFreezeAsFile(imageUrl).subscribe(data => {
-          let imageFile = new File([data], freeze.filename);
-          const text = this.getRecordContent(freeze.textIDs, "__x__");
-          console.log(imageFile, text);
-          this.dataApi.saveToApi(imageFile, text, recID).subscribe(res => {
-            console.log("Success", res);
-            },
-            err => {
-              window.alert("Fehler: " + err.message);
-              console.log(err);
-            });
-          });
-        }
-      },
-      err => {
-        window.alert("Fehler: " + err.message);
+    this.dataApi.saveToApi(
+      this.dataManager.sessionID,
+      this.dataManager.records,
+      this.dataManager.freezes).subscribe((res) => {
+      window.alert(res.message);
+    }, err => {
         console.log(err);
-      });
+        window.alert(err.message);
+    });
   }
 
   getRecordContent(recIDs: string[], splitter: string) {

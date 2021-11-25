@@ -1,8 +1,14 @@
 <div class="header">
   <h1>Aufnahmeergebnis vom {{date}}</h1>
-  <button (click)="loadPreviousSession()" class="btn btn-outline-primary float-right">Vorherige Session laden</button>
   <button class="btn btn-outline-primary float-right" (click)="showImages()">Bilder anzeigen</button>
-  <button class="btn btn-outline-success float-right" [disabled]="loaded" (click)="submitRecords()">Speichern</button>
+  <button class="btn btn-outline-success float-right" [disabled]="!loaded" (click)="submitRecords()">Speichern</button>
+
+
+  <button (click)="resetSession()" class="btn btn-outline-primary" style="margin-right: 15px; float: right;">
+    Neue Session</button>
+  <button (click)="loadPreviousSession()" class="btn btn-outline-primary" style="float: right">
+    Vorherige Session laden</button>
+  <!--<span style="margin-right: 10px; float: right; font-size: 50%">Session ID: {{sessionID}}</span>-->
 </div>
 <div class="output">
 <table class="table">

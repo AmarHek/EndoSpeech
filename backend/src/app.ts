@@ -8,6 +8,7 @@ import * as C from "./config/db.config";
 import * as dictRoutes from "./routes/dict.routes"
 import * as recordRoutes from "./routes/record.routes"
 import * as freezeRoutes from "./routes/freeze.routes";
+import * as apiRoutes from "./routes/api.routes";
 import { initDirectories } from "./middleware";
 
 
@@ -63,6 +64,7 @@ app.use((req, res, next) => {
 app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
 app.use("/endo/freeze", freezeRoutes.router);
+app.use("/endo/api", apiRoutes.router);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));
