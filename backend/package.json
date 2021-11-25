@@ -2,17 +2,24 @@
   "name": "endoassist-server",
   "version": "1.0.0",
   "scripts": {
-	"start": "node -r ts-node/register ./src/server.ts",
+    "start": "node -r ts-node/register ./src/server.ts",
     "start:dev": "cross-env NODE_ENV=development nodemon --delay 500ms",
     "start:prod": "cross-env NODE_ENV=production nodemon --delay 500ms",
-	"build": "cross-env NODE_ENV=production && tsc",
+    "build": "cross-env NODE_ENV=production && tsc",
     "build:exe": "tsc && pkg .",
     "eslint": "eslint src/**"
   },
   "bin": "dist/server.js",
   "pkg": {
-	  "assets": ["node_modules/**/*", "dist/**/*", "data/**/*"],
-	  "targets": ["node14-win-x64", "node12-win-x64"]
+    "assets": [
+      "node_modules/**/*",
+      "dist/**/*",
+      "data/**/*"
+    ],
+    "targets": [
+      "node14-win-x64",
+      "node12-win-x64"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -22,6 +29,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.4",
     "multer": "^1.4.3",
+    "request": "^2.88.2",
     "tslib": "^2.3.1",
     "xlsx": "^0.17.3"
   },
@@ -31,6 +39,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/multer": "^1.4.7",
     "@types/node": "^16.10.6",
+    "@types/request": "^2.48.7",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "cross-env": "^7.0.3",

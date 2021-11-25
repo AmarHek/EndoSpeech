@@ -1,15 +1,13 @@
 import * as express from "express";
-import * as FreezeController from "../controllers/freeze.controller";
-import { findDirectory } from "../middleware";
-import { getRecordsByIDMiddleware } from "../controllers/record.controller";
-import {getFreezesBySessionID, saveFreezesSync} from "../controllers/freeze.controller";
+import { findDirectory, getRecordsBySessionIDMiddleware } from "../middleware";
+import {addFreeze, getFreezesBySessionID, saveFreezesSync, updateFreeze} from "../controllers/freeze.controller";
 
 export const router = express.Router();
 
-router.post("/add", FreezeController.addFreeze);
-router.post("/update", FreezeController.updateFreeze);
+router.post("/add", addFreeze);
+router.post("/update", updateFreeze);
 router.post("/fetch", [
-    getRecordsByIDMiddleware,
+    getRecordsBySessionIDMiddleware,
     findDirectory,
 ],
     saveFreezesSync);

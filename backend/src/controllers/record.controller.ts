@@ -57,14 +57,4 @@ export function deleteRecordByID(req: Request, res: Response): void {
     });
 }
 
-export function getRecordsByIDMiddleware(req: Request, res: Response, next: NextFunction) {
-    Record.find({sessionID: req.body.sessionID}).exec(
-        (err, records) => {
-            if (err) {
-                res.status(500).send({message: "Keine Textaufnahmen gefunden. Haben Sie eine Session gestartet?"});
-            } else {
-                req.body.records = records;
-                next();
-            }
-        })
-}
+
