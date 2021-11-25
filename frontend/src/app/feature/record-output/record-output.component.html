@@ -2,7 +2,7 @@
   <h1>Aufnahmeergebnis vom {{date}}</h1>
   <button (click)="loadPreviousSession()" class="btn btn-outline-primary float-right">Vorherige Session laden</button>
   <button class="btn btn-outline-primary float-right" (click)="showImages()">Bilder anzeigen</button>
-  <button class="btn btn-outline-success float-right" [disabled]="!loaded" (click)="submitRecords()">Speichern</button>
+  <button class="btn btn-outline-success float-right" [disabled]="loaded" (click)="submitRecords()">Speichern</button>
 </div>
 <div class="output">
 <table class="table">

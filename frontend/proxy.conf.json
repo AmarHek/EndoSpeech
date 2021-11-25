@@ -1,0 +1,11 @@
+
+{
+    "http://localhost:8000/": {
+      "target": "http://10.235.14.33:8080/data/",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+}

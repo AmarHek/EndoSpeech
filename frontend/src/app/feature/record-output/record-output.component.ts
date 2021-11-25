@@ -82,7 +82,7 @@ export class RecordOutputComponent implements OnInit {
   }
 
   submitRecords() {
-    this.dataApi.getApiRecordID().subscribe(res => {
+    this.dataApi.getApiRecordID().subscribe((res) => {
       const recID = res.id;
       for (const freeze of this.freezes) {
         const imageUrl = this.baseUrl + freeze.directory + "/" + freeze.filename;
@@ -108,12 +108,6 @@ export class RecordOutputComponent implements OnInit {
 
   getRecordContent(recIDs: string[], splitter: string) {
     return this.dataManager.getRecordContent(recIDs, splitter);
-  }
-
-  testApi() {
-    this.dataApi.getApiRecordID().subscribe(res => {
-      console.log(res.id);
-    });
   }
 
 }

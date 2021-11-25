@@ -15,10 +15,9 @@ export class RecordFreezeApiService {
   password = "ukw$1ukw$1ukw$1";
 
   httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(this.username + ":" + this.password)
-    })
+    headers: new HttpHeaders()
+      .set('Authorization', 'Basic ' + btoa(this.username + ":" + this.password))
+      .set('Content-Type', 'application/json')
   }
 
   constructor(private http: HttpClient) {
@@ -75,6 +74,7 @@ export class RecordFreezeApiService {
   }
 
   getApiRecordID() {
+    console.log(this.httpOptions);
     return this.http.post<{id: string, resourceUrl: string}>(
       environment.api + "PostNewLiveReport",
       {},
@@ -91,15 +91,6 @@ export class RecordFreezeApiService {
       environment.api + "PostLiveReportData",
       formData,
       this.httpOptions);
-  }
-
-  setHttpHeaders(username: string, password: string) {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(username + ":" + password)
-      })
-    }
   }
 
   getFreezeAsFile(imageUrl: string) {
