@@ -16,23 +16,27 @@ export function submitRecordsAndFreezesToApi(req: Request, res: Response) {
         const records = req.body.records;
         const recordId = req.body.recordId;
         for (const freeze of freezes) {
-            const file = loadFreezeAsFile(Path.join(process.cwd(), "./data/freezes", freeze.directory), freeze.filename)
+            const freezePath = Path.join(process.cwd(), "./data/freezes", freeze.directory, freeze.filename)
             const description = getRecordContent(records, freeze.textIDs);
-            const formData = {
-                "description": description,
-                "file": file,
-                "recordId": recordId
-            }
-            request.post({url: api.rootUrl + api.postData, formData: formData}, (err, httpResponse, body) => {
+
+            request.post(api.rootUrl + api.postData, (err, httpResponse, body) => {
                 if (err) {
                     console.error('Upload failed:', err);
                     errors++;
                 } else {
                     console.log('Upload successful!  Server responded with:', body);
                 }
-            });
+            })
+                .auth(api.username, api.password)
+                .form({
+                    "description": description,
+                    "file": fs.createReadStream(freezePath),
+                    "recordId": recordId
+                });
+
         }
         if (errors > 0) {
+            console.log("Some errors happened.");
             res.status(500).send({message: errors + " files could not be uploaded. Check server logs."});
         } else {
             res.status(200).send({message: "All files uploaded successfully"});
@@ -54,9 +58,4 @@ function getRecordContent(records: RecordDoc[], recIDs: string[], splitter = "__
         }
         return result.join(splitter);
     }
-}
-
-function loadFreezeAsFile(path: string, filename: string): File {
-    const data = fs.readFileSync(Path.join(path, filename));
-    return new File([data], filename);
 }

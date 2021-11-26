@@ -4,6 +4,7 @@ import {api} from "../config/api";
 
 export function getRecordIdFromApi(req: Request, res: Response, next: NextFunction) {
     // request new live report on api and add ID to request body
+    console.log("fake get api");
     const url = api.rootUrl + api.initReport;
     request.post(url, {}, (err, response, body) => {
         if (err) {
