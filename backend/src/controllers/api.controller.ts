@@ -20,7 +20,7 @@ export async function submitRecordsAndFreezesToApi(req: Request, res: Response) 
             const description = getRecordContent(records, freeze.textIDs);
 
             const freezePath = Path.join(process.cwd(), "./data/freezes", freeze.directory, freeze.filename)
-            const file = fs.readFileSync(freezePath);
+            const file = fs.readFileSync(freezePath, 'binary');
             console.log(file);
 
             await axios.post(api.rootUrl + api.postData,
