@@ -101,9 +101,9 @@ export class RecordOutputComponent implements OnInit {
       this.dataManager.records,
       this.dataManager.freezes).subscribe((res) => {
       window.alert(res.message);
-    }, err => {
+    }, (err) => {
         console.log(err);
-        window.alert(err.message);
+        window.alert(err.error);
     });
   }
 

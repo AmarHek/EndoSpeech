@@ -1,18 +1,21 @@
-import * as request from "request";
+import axios from "axios";
 import {NextFunction, Request, Response} from "express";
-import {api} from "../config/api";
+import {api} from "../config/api.config";
 
 export function getRecordIdFromApi(req: Request, res: Response, next: NextFunction) {
-    // request new live report on api and add ID to request body
-    console.log("fake get api");
     const url = api.rootUrl + api.initReport;
-    request.post(url, {}, (err, response, body) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send({message: err});
-        } else {
-            req.body.recordId = body.recordId;
+    axios.post(url, {}, {
+        auth: {
+            username: api.username,
+            password: api.password
+        }
+    }).then(
+        (response) => {
+            console.log("Successfully initiated new Report");
+            req.body.recordId = response.data.id;
             next();
         }
-    }).auth(api.username, api.password);
+    ).catch(err => {
+        res.status(500).send({err});
+    })
 }
