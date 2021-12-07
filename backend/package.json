@@ -6,7 +6,8 @@
     "start:dev": "cross-env NODE_ENV=development nodemon --delay 500ms",
     "start:prod": "cross-env NODE_ENV=production nodemon --delay 500ms",
     "build": "cross-env NODE_ENV=production && tsc",
-    "build:exe": "tsc && pkg .",
+    "build:prod": "tsc && pkg . && move /Y .\\*.exe ..\\build",
+	"build:test": "tsc && pkg . && move /Y .\\*.exe ..\\test",
     "eslint": "eslint src/**"
   },
   "bin": "dist/server.js",
