@@ -1,5 +1,5 @@
 import { Record } from '../models/';
-import {NextFunction, Request, Response} from 'express';
+import {Request, Response} from 'express';
 
 export function addRecord(req: Request, res: Response): void {
     const record = new Record( {
