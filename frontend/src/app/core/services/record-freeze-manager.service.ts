@@ -51,9 +51,11 @@ export class RecordFreezeManager {
           freezeIdx = this.freezes.indexOf(freeze);
         }
       }
-      // push textID to proper freeze
-      if (!this.freezes[freezeIdx].textIDs.includes(record._id)) {
-        this.freezes[freezeIdx].textIDs.push(record._id);
+      if(freezeIdx < this.freezes.length){
+        // push textID to proper freeze
+        if (!this.freezes[freezeIdx].textIDs.includes(record._id)) {
+          this.freezes[freezeIdx].textIDs.push(record._id);
+        }
       }
     }
     // afterwards, update freezes in database

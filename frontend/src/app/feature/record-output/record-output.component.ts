@@ -111,4 +111,7 @@ export class RecordOutputComponent implements OnInit {
     return this.dataManager.getRecordContent(recIDs, splitter);
   }
 
+  sendTextToSerial(report: string): void {
+    this.dataApi.sendToSerial(report);
+  }
 }
