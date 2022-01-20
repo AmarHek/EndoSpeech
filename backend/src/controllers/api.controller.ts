@@ -4,7 +4,8 @@ import {RecordDoc} from "../models";
 import * as fs from "fs";
 import * as Path from "path";
 import axios from "axios";
-import FormData from 'form-data';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const FormData = require('form-data');
 
 export async function submitRecordsAndFreezesToApi(req: Request, res: Response) {
     if (req.body.records === undefined || req.body.records.length === 0) {
