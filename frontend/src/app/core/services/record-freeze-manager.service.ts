@@ -8,6 +8,9 @@ import {nanoid} from "nanoid";
 })
 export class RecordFreezeManager {
 
+  /** sometimes freezes are done after speech recording, this is the negative offset*/
+  readonly NEGATIVE_OFFSET_IN_SECONDS = -10;
+
   records: Record[] = [];
   reports: string[] = [];
   freezes: Freeze[] = [];
@@ -45,13 +48,14 @@ export class RecordFreezeManager {
       let freezeIdx: number = -1;
       for (const freeze of this.freezes) {
         // loop through freezes and find freeze with minimum time difference at earlier time than record
-        const diff = record.timestamp - freeze.timestamp;
-        if (diff < minDiff && diff > 0) {
+        const diff = Math.abs(record.timestamp - freeze.timestamp);
+
+        if (diff < minDiff && diff > this.NEGATIVE_OFFSET_IN_SECONDS) {
           minDiff = diff;
           freezeIdx = this.freezes.indexOf(freeze);
         }
       }
-      if(freezeIdx < this.freezes.length){
+      if(freezeIdx < this.freezes.length && this.freezes[freezeIdx].hasOwnProperty('textIDs')){
         // push textID to proper freeze
         if (!this.freezes[freezeIdx].textIDs.includes(record._id)) {
           this.freezes[freezeIdx].textIDs.push(record._id);
@@ -60,7 +64,9 @@ export class RecordFreezeManager {
     }
     // afterwards, update freezes in database
     for (const freeze of this.freezes) {
-      this.dataApi.updateFreeze(freeze._id, freeze.textIDs).subscribe(res => console.log(res.message));
+      if(freeze.hasOwnProperty('textIDs')){
+        this.dataApi.updateFreeze(freeze._id, freeze.textIDs).subscribe(res => console.log(res.message));
+      }
     }
 
     this.updateDate();

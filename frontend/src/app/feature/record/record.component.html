@@ -8,9 +8,11 @@
   </div>
 
   <button (click)="resetSession()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Neue Session</button>
+          style="margin-right: 15px">Neue Session
+  </button>
   <button (click)="loadRecords()" class="btn btn-outline-primary"
-          style="margin-right: 15px">Vorherige Session laden</button>
+          style="margin-right: 15px">Vorherige Session laden
+  </button>
   <label for="input">Input:
     <input #inputField style="width: 10em;" id="input" name="Befund" type="text" [(ngModel)]="recordedText"
            (input)="onInput()" (blur)="onBlur($event)" placeholder="Aufnahme...">
@@ -22,10 +24,10 @@
   <div class="recording">
     <h2>Aufnahmetext:</h2>
     <div class="output">
-      <span>
+      <span class="output-text">
         {{recordedText}}
       </span>
-      <span *ngIf="recordedText.length === 0">Es wurde noch nichts aufgenommen.</span>
+      <span class="output-text" *ngIf="recordedText.length === 0">Es wurde noch nichts aufgenommen.</span>
     </div>
   </div>
   <div class="files">
@@ -42,4 +44,7 @@
       </ng-container>
     </div>
   </div>
+</div>
+<div class="unfocused-alert" *ngIf="!active">
+  Bitte ins Fenster klicken
 </div>

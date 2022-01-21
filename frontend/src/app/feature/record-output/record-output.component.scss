@@ -34,6 +34,11 @@ td.image {
   width: 150px;
 }
 
+td.qr {
+  padding: 5px;
+  min-width: 300px;
+}
+
 th {
   font-size: 20pt;
   min-width: 250px;
@@ -47,4 +52,9 @@ button {
   margin: 20px;
   width: 260px;
   text-align: center;
+}
+
+.invisible-input{
+  height: 0;
+  width: 0;
 }

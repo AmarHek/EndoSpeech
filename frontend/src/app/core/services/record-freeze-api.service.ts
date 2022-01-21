@@ -80,7 +80,7 @@ export class RecordFreezeApiService {
   sendToSerial(report: string): void {
     if (report) {
       this.http.post<any>(this.serialUrl + "sendToSerial", {report: report}).subscribe(()=>{
-        console.log("Report has been sent");
+        console.log("Report:" + report + " has been sent");
       });
     }
   }

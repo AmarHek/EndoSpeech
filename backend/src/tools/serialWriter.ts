@@ -27,6 +27,9 @@ export class SerialWriter {
                 this.arduinoSerialPort = new SerialPort(this.arduinoCOMPort, {
                     baudRate: 5000
                 });
+                console.log("Connected with Arduino at port: " + this.arduinoCOMPort);
+            } else {
+                console.log("Arduino not found");
             }
         });
 

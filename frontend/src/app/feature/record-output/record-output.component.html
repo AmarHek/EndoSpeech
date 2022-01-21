@@ -22,18 +22,21 @@
     </tr>
     <ng-container *ngIf="loaded">
       <ng-container *ngFor="let freeze of freezes; let i=index">
+        <input #text type="text" class="invisible invisible-input" [value]="getRecordContent(freeze.textIDs, '\n\n')"/>
         <tr>
           <td class="image"><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200"
                                  alt="Kein Bild gefunden"></td>
-          <td class="text">{{getRecordContent(freeze.textIDs, "\n\n")}}</td>
-          <td>
-            <qrcode [qrdata]="getRecordContent(freeze.textIDs, '\n\n')" [allowEmptyString]="true" [width]="300"
-                    [errorCorrectionLevel]="'L'"
-                    [elementType]="'svg'"></qrcode>
-            <button (mouseup)="sendTextToSerial(getRecordContent(freeze.textIDs, '\n\n'))"
-                    class="serial-button btn btn-outline-primary">
-              Report übertragen
-            </button>
+          <td class="text">{{text.value}}</td>
+          <td class="qr">
+            <div *ngIf="text.value && text.value.length > 0">
+              <qrcode [qrdata]="text.value" [allowEmptyString]="true" [width]="300"
+                      [errorCorrectionLevel]="'L'"
+                      [elementType]="'svg'"></qrcode>
+              <button (mouseup)="sendTextToSerial(text.value)"
+                      class="serial-button btn btn-outline-primary">
+                Report übertragen
+              </button>
+            </div>
           </td>
         </tr>
       </ng-container>

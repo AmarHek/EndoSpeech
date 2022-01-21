@@ -49,6 +49,10 @@ $background-color: hsl(202, 73%, 96%);
   border-radius: 5px;
 }
 
+.output-text {
+  font-size: 24pt;
+}
+
 .small-button {
   padding: 3px 10px;
   margin-left: 5px;
@@ -56,4 +60,17 @@ $background-color: hsl(202, 73%, 96%);
 
 .noHover {
   pointer-events: none;
+}
+
+.unfocused-alert {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(255, 0, 0, 0.85);
+  color: white;
+  text-align: center;
+  line-height: 1500%;
+  font-size: 60pt;
 }
