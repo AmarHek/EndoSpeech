@@ -24,15 +24,19 @@ $background-color: hsl(202, 73%, 96%);
 td.text {
   padding: 5px;
   min-width: 100px;
+  max-width: 600px;
   width: auto;
-  white-space: pre;
-  font-size: 150%;
+  font-size: 100%;
 }
 
 td.image {
   padding: 5px;
-  min-width: 150px;
-  width: auto;
+  width: 150px;
+}
+
+td.qr {
+  padding: 5px;
+  min-width: 300px;
 }
 
 th {
@@ -42,4 +46,15 @@ th {
 
 button {
   margin-left: 10px;
+}
+
+.serial-button {
+  margin: 20px;
+  width: 260px;
+  text-align: center;
+}
+
+.invisible-input{
+  height: 0;
+  width: 0;
 }

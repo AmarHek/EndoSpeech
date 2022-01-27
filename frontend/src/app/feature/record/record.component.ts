@@ -25,7 +25,7 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toReplace: RegExp[];
 
-  finishKeyword = "speichern";
+  finishKeywords = ["speicher"];
 
   active = true;
 
@@ -54,7 +54,8 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
     // initiate strings that need to be removed before saving a recording
     this.addWindowListeners();
     this.toReplace = [
-      new RegExp("[Ss]peichern")];
+      new RegExp("[Ss]peicher[n]?")
+    ];
   }
 
   ngAfterViewInit(): void {
@@ -89,10 +90,12 @@ export class RecordComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onInput() {
-    if (this.recordedText.toLowerCase().includes(this.finishKeyword)) {
-      this.cleanseRecording();
-      this.generateRecording();
-    }
+    this.finishKeywords.forEach((s)=>{
+      if (this.recordedText.toLowerCase().includes(s)) {
+        this.cleanseRecording();
+        this.generateRecording();
+      }
+    });
   }
 
   onBlur(event) {

@@ -4,5 +4,6 @@ export const environment = {
   dictDatabase: "endo/dict/",
   recordDatabase: "endo/record/",
   freezeDatabase: "endo/freeze/",
+  serial: "endo/serial/",
   api: "endo/api/",
 };

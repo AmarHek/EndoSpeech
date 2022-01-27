@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === "development") {
     // IMAGE_DIR = Path.join(process.cwd(), "data/examples/");
     DIR_PATIENCE = 7200; // 2 hours
 }
+const NEGATIVE_OFFSET_IN_SECONDS = -10;
 const IMAGE_PATIENCE = 120 // 2 minutes
 // DIR_PATIENCE makes sure that only directories from the past two hours are chosen
 // IMAGE_PATIENCE makes sure that a match only counts within 2 minutes of image creation
@@ -80,7 +81,11 @@ function matchDirectory(records: RecordDoc[], directory: string): [number, numbe
             let minDiff = 1000; // minimum time difference for this record
             for (const freeze of freezes) {
                 testTime = Math.round(+fs.statSync(Path.join(IMAGE_DIR, directory, freeze)).mtime / 1000);
-                const diff = record.timestamp - testTime;
+                let diff = record.timestamp - testTime;
+                //if image was created shortly after the text, consider it as a potential match
+                if(diff > NEGATIVE_OFFSET_IN_SECONDS){
+                    diff = Math.abs(diff);
+                }
                 // diff > 0: just bother if testTime is actually before record.timestamp (our criterion)
                 if (diff > 0) {
                     // diff <= IMAGE_PATIENCE: record must be created within IMAGE_PATIENCE after freeze timestamp

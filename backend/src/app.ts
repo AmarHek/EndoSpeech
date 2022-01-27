@@ -9,8 +9,8 @@ import * as dictRoutes from "./routes/dict.routes"
 import * as recordRoutes from "./routes/record.routes"
 import * as freezeRoutes from "./routes/freeze.routes";
 import * as apiRoutes from "./routes/api.routes";
+import * as serialRoutes from "./routes/serial.routes";
 import { initDirectories } from "./middleware";
-
 
 export const app = express();
 
@@ -65,6 +65,7 @@ app.use("/endo/dict", dictRoutes.router);
 app.use("/endo/record", recordRoutes.router);
 app.use("/endo/freeze", freezeRoutes.router);
 app.use("/endo/api", apiRoutes.router);
+app.use("/endo/serial", serialRoutes.router);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../dist/endoassist/index.html"));

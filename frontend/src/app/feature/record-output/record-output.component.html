@@ -5,26 +5,42 @@
 
 
   <button (click)="resetSession()" class="btn btn-outline-primary" style="margin-right: 15px; float: right;">
-    Neue Session</button>
+    Neue Session
+  </button>
   <button (click)="loadPreviousSession()" class="btn btn-outline-primary" style="float: right">
-    Vorherige Session laden</button>
+    Vorherige Session laden
+  </button>
   <!--<span style="margin-right: 10px; float: right; font-size: 50%">Session ID: {{sessionID}}</span>-->
 </div>
 <div class="output">
-<table class="table">
-  <tbody>
+  <table class="table">
+    <tbody>
     <tr>
       <th>Freeze</th>
       <th>Report</th>
+      <th>Aktion</th>
     </tr>
     <ng-container *ngIf="loaded">
       <ng-container *ngFor="let freeze of freezes; let i=index">
+        <input #text type="text" class="invisible invisible-input" [value]="getRecordContent(freeze.textIDs, '\n\n')"/>
         <tr>
-          <td class="image"><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200" alt="Kein Bild gefunden"></td>
-          <td class="text">{{getRecordContent(freeze.textIDs, "\n\n")}}</td>
+          <td class="image"><img src="{{baseUrl}}{{freeze.directory}}/{{freeze.filename}}" height="200"
+                                 alt="Kein Bild gefunden"></td>
+          <td class="text">{{text.value}}</td>
+          <td class="qr">
+            <div *ngIf="text.value && text.value.length > 0">
+              <qrcode [qrdata]="text.value" [allowEmptyString]="true" [width]="300"
+                      [errorCorrectionLevel]="'L'"
+                      [elementType]="'svg'"></qrcode>
+              <button (mouseup)="sendTextToSerial(text.value)"
+                      class="serial-button btn btn-outline-primary">
+                Report übertragen
+              </button>
+            </div>
+          </td>
         </tr>
       </ng-container>
     </ng-container>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </div>
